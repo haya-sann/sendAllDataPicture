@@ -390,7 +390,7 @@ if __name__ == '__main__':
 			#send date to ambient
 			ambi = ambient.Ambient(999,"ce9add17aefe75f8") # チャネルID、ライトキー
 			r = ambi.send({"d1": temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": voltage_ch1, "d7": voltage_ch2})
-			#send date to さくらレンタルサーバー
+			#send date to さくらレンタルサーバー via INTER-Mediator
 			params_IM = urllib.urlencode({'c': "TsaJt1fR%5SyN",	'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2 })
 
 			conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
@@ -405,8 +405,8 @@ if __name__ == '__main__':
 		except:
 				print "connection failed"
 		#Programスイッチがオンになっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
-		if (GPIO.input(PORT1) == 0):
-			time.sleep(0.5)
+		# if (GPIO.input(PORT1) == 0): #デバッグ中はコメントアウト
+		# 	time.sleep(0.5)
 			#10分後に起動。本番システムではここを11（55分後）などとする
 			#os.system(powerMonagementModule_controlCommand)#シャットダウンコマンドはログをとってから
 			# time.sleep(5)
