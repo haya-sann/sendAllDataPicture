@@ -405,14 +405,17 @@ if __name__ == '__main__':
 		except:
 				print "connection failed"
 		#Programスイッチがオンになっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
-		# if (GPIO.input(PORT1) == 0): #デバッグ中はコメントアウト
-		# 	time.sleep(0.5)
+		 #if (GPIO.input(PORT1) == 0): #デバッグ中はコメントアウト
+		 #	time.sleep(0.5)
 			#10分後に起動。本番システムではここを11（55分後）などとする
 			#os.system(powerMonagementModule_controlCommand)#シャットダウンコマンドはログをとってから
 			# time.sleep(5)
 			# os.system('poweroff')
 
 		GPIO.cleanup() # <- GPIOポートを開放
+		os.system(powerMonagementModule_controlCommand)#シャットダウンコマンドはログをとってから
+		time.sleep(5)
+		os.system('poweroff')
 	except KeyboardInterrupt:
 		pass
 
