@@ -415,7 +415,7 @@ if __name__ == '__main__':
 		GPIO.cleanup() # <- GPIOポートを開放
 		os.system(powerMonagementModule_controlCommand)#シャットダウンコマンドはログをとってから
 		time.sleep(5)
-		os.system('poweroff')
+		os.system('sudo poweroff')
 	except KeyboardInterrupt:
 		pass
 
