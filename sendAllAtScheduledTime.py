@@ -330,7 +330,7 @@ if __name__ == '__main__':
 		hour = now.hour
 
 		if hour >= hourToBegin and hour < hourToStop : #動作は止める時刻になる前まで
-			capture_send()
+			capture_send() #撮影した写真をサーバーに送信
 
 		now = datetime.datetime.now()
 		hour = now.hour
@@ -339,6 +339,7 @@ if __name__ == '__main__':
 				x = 60 * hourToBegin - (hour*60 + min)
 		elif hour >= hourToStop: #停止設定時刻になったら深夜24時までストップさせる
 								#ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
+								#運用時に注意： hourToBegin を深夜0時以降にセットすること
 			x = 1440 - (hour*60 + min)
 		else:
 			x = everyMinutes -5 -(min % everyMinutes)	#毎撮影時刻の5分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く必要がある
@@ -351,7 +352,6 @@ if __name__ == '__main__':
 		print('電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':10秒後にシャットダウン、最後のパラメーター×5分後に起動')
 		logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log',level=logging.DEBUG,format='%(asctime)s %(message)s')
 		logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
-		send_ftps('mochimugi.log')
 
 		temperature, pressure, humid = readData()
 		print 'This is return value of temperature: %-6.2f ℃' % (temperature)
@@ -412,6 +412,7 @@ if __name__ == '__main__':
 			os.system('sudo poweroff')
 
 		GPIO.cleanup() # <- GPIOポートを開放
+		send_ftps('mochimugi.log') #ログを送信
 	except KeyboardInterrupt:
 		pass
 
