@@ -28,6 +28,7 @@ import picamera
 from ftplib import FTP_TLS
 import logging
 import ConfigParser
+import socket
 
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
@@ -42,6 +43,12 @@ userID = configfile.get("settings", "id")        #サーバーログインUser i
 
 put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
 dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
+
+host_name = socket.gethostname()
+ip_address = ip_address = socket.gethostbyname(host_name)
+print "IP address : %s" % ip_address
+
+
 
 def send_ftps(file_name):
     print "accessing"+ archive_server
@@ -352,6 +359,7 @@ if __name__ == '__main__':
         powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 10 ' + str(x) + ' i' #10秒後にシャットダウン、最後のパラメーター×5分後に起動
         print('電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':10秒後にシャットダウン、最後のパラメーター×5分後に起動')
         logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log',level=logging.DEBUG,format='%(asctime)s %(message)s')
+        logging.warning('client IP Address:%s  %s', ip_address)
         logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
 
         temperature, pressure, humid = readData()
