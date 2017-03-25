@@ -29,8 +29,7 @@ from ftplib import FTP_TLS
 import logging
 import ConfigParser
 import socket
-
-global_ipAddress = ""
+import commands
 
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
@@ -46,7 +45,8 @@ userID = configfile.get("settings", "id")        #サーバーログインUser i
 put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
 dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
 
-global_ipAddress = str(os.system('echo hostname -I')
+
+global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address : %s" % global_ipAddress
 
 
