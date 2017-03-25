@@ -359,7 +359,7 @@ if __name__ == '__main__':
         powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 10 ' + str(x) + ' i' #10秒後にシャットダウン、最後のパラメーター×5分後に起動
         print('電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':10秒後にシャットダウン、最後のパラメーター×5分後に起動')
         logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log',level=logging.DEBUG,format='%(asctime)s %(message)s')
-        logging.warning('client IP Address:%s  %s', ip_address)
+        logging.warning('client IP Address:%s', ip_address)
         logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
 
         temperature, pressure, humid = readData()
