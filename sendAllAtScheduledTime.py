@@ -46,7 +46,7 @@ userID = configfile.get("settings", "id")        #サーバーログインUser i
 put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
 dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
 
-global_ipAddress < os.system('hostname -I')
+global_ipAddress = str(os.system('echo hostname -I')
 print "Global IP Address : %s" % global_ipAddress
 
 
