@@ -31,7 +31,7 @@ import ConfigParser
 
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
-everyMinutes = 10 #何分おきに撮影するのかをセット
+everyMinutes = 30 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
