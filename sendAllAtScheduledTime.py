@@ -44,11 +44,8 @@ userID = configfile.get("settings", "id")        #サーバーログインUser i
 put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
 dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
 
-host_name = socket.gethostname()
-ip_address = socket.gethostbyname(host_name)
-print "IP address : %s" % ip_address
 global_ipAddress = os.system('hostname -I')
-print "global IP Address : %s" % global_ipAddress
+print "Global IP Address : %s" % global_ipAddress
 
 
 
@@ -362,7 +359,6 @@ if __name__ == '__main__':
         powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 10 ' + str(x) + ' i' #10秒後にシャットダウン、最後のパラメーター×5分後に起動
         print('電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':10秒後にシャットダウン、最後のパラメーター×5分後に起動')
         logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log',level=logging.DEBUG,format='%(asctime)s %(message)s')
-        logging.warning('client IP Address:%s', ip_address)
         logging.warning('Global IP Address:%s', global_ipAddress)
         logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
 
