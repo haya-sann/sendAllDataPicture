@@ -45,7 +45,7 @@ put_directory = 'daily_timelapse' #Both Local and Remote Server has same directo
 dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
 
 host_name = socket.gethostname()
-ip_address = ip_address = socket.gethostbyname(host_name)
+ip_address = socket.gethostbyname(host_name)
 print "IP address : %s" % ip_address
 
 
