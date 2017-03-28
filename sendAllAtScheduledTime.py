@@ -356,7 +356,7 @@ if __name__ == '__main__':
             if x <0:
                 x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
                 # x = 5   #テストのために5分のスリープを指定
-                print ("Deepsleep in " + str(x) + "minutes")
+        print ("Deepsleep in " + str(x) + "minutes")
         x = x / 5
         powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 10 ' + str(x) + ' i' #10秒後にシャットダウン、最後のパラメーター×5分後に起動
         print('電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':10秒後にシャットダウン、最後のパラメーター×5分後に起動')
@@ -425,7 +425,7 @@ if __name__ == '__main__':
             os.system('sudo poweroff')
 
         GPIO.cleanup() # <- GPIOポートを開放
-        send_ftps('mochimugi.log') #ログを送信
+        send_ftps('mochimugi.log') #ログを送信、soracom経由だと流れないのはなぜ？
     except KeyboardInterrupt:
         pass
 
