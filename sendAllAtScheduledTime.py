@@ -31,6 +31,9 @@ import ConfigParser
 import socket
 import commands
 
+logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
+logging.warning('Global IP Address:%s', global_ipAddress)
+
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 30 #何分おきに撮影するのかをセット
@@ -338,6 +341,7 @@ if __name__ == '__main__':
 
         now = datetime.datetime.now()
         hour = now.hour
+        print "現在時刻は" + str(now)
 
         if hour >= hourToBegin and hour < hourToStop: #動作は止める時刻になる前まで
             capture_send() #撮影した写真をサーバーに送信
@@ -359,9 +363,7 @@ if __name__ == '__main__':
         print ("Deepsleep in " + str(x) + "minutes")
         x = x / 5
         powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 10 ' + str(x) + ' i' #10秒後にシャットダウン、最後のパラメーター×5分後に起動
-        print('電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':10秒後にシャットダウン、最後のパラメーター×5分後に起動')
-        logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log',level=logging.DEBUG,format='%(asctime)s %(message)s')
-        logging.warning('Global IP Address:%s', global_ipAddress)
+        print '電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':10秒後にシャットダウン、最後のパラメーター×5分後に起動'
         logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
 
         temperature, pressure, humid = readData()
