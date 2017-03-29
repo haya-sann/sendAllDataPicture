@@ -31,9 +31,6 @@ import ConfigParser
 import socket
 import commands
 
-logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
-logging.warning('Global IP Address:%s', global_ipAddress)
-
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 30 #何分おきに撮影するのかをセット
