@@ -52,6 +52,9 @@ dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
 
+logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
+logging.warning('Global IP Address:%s', global_ipAddress)
+
 
 
 
