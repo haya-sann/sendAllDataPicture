@@ -411,11 +411,17 @@ if __name__ == '__main__':
             print dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
             total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
             print total_lines
-            import linecache
+            # import linecache
 
+            # for num_lines in range(total_lines, total_lines -20):
+            #     last20linesLog = linecache.getline(dir_path + '/'+ 'mochimugi.log', int(num_lines))
+            # linecache.clearcache()
+            # print last20linesLog
+
+            fp = open(dir_path + '/'+ 'mochimugi.log', 'r')
             for num_lines in range(total_lines, total_lines -20):
-                last20linesLog = linecache.getline(dir_path + '/'+ 'mochimugi.log', int(num_lines))
-            linecache.clearcache()
+                last20linesLog = fp.readlines()[num_lines]
+            fp.close
             print last20linesLog
             print 'sending data to さくらレンタルサーバー via INTER-Mediator'
 
