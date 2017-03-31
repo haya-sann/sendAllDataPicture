@@ -420,9 +420,10 @@ if __name__ == '__main__':
 
             fp = open(dir_path + '/'+ 'mochimugi.log', 'r')
             print 'Opened log file'
+            last20linesLog = ''#init string
             for num_lines in range(1570, 1590):
             # for num_lines in range(total_lines - 20, total_lines - 1):
-                last20linesLog = fp.readlines()[num_lines]
+                last20linesLog = last20linesLog + fp.readlines()[num_lines] + '\n'
             # last20linesLog = fp.readlines()[total_lines-1]
             fp.close
             print last20linesLog
