@@ -406,7 +406,14 @@ if __name__ == '__main__':
             ambi = ambient.Ambient(999, "ce9add17aefe75f8") # チャネルID、ライトキー
             r = ambi.send({"d1": temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": voltage_ch1, "d7": voltage_ch2})
             #send date to さくらレンタルサーバー via INTER-Mediator
-            params_IM = urllib.urlencode({'c': "TsaJt1fR%5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2})
+            total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
+            import linecache
+
+            for num_lines in range(total_lines, total_lines -20):
+                last20linesLog = linecache.getline(dir_path + '/'+ 'mochimugi.log', int(num_lines))
+            linecache.clearcache() 
+
+            params_IM = urllib.urlencode({'c': "TsaJt1fR%5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'log' : last20linesLog})
 
             conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
@@ -419,16 +426,16 @@ if __name__ == '__main__':
 
         except:
             print "connection failed"
-        #Programスイッチがオンになっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
+
+        logging.shutdown()#ログ動作を終結させる
+        send_ftps('mochimugi.log') #ログを送信、soracom経由だと流れないのはなぜ？
+        #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
         if GPIO.input(PORT1) == 0: #デバッグ中はコメントアウト
-            time.sleep(0.5)
+            GPIO.cleanup() # <- GPIOポートを開放
             os.system(powerMonagementModule_controlCommand)#シャットダウンコマンドはログをとってから
             time.sleep(5)
             os.system('sudo poweroff')
-
         GPIO.cleanup() # <- GPIOポートを開放
-        logging.shutdown()
-        send_ftps('mochimugi.log') #ログを送信、soracom経由だと流れないのはなぜ？
     except KeyboardInterrupt:
         pass
 
