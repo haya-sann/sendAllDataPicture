@@ -420,8 +420,9 @@ if __name__ == '__main__':
 
             fp = open(dir_path + '/'+ 'mochimugi.log', 'r')
             print 'Opened log file'
-            for num_lines in range(total_lines, total_lines - 20):
-                last20linesLog = fp.readlines()[num_lines]
+            # for num_lines in range(total_lines, total_lines - 20):
+            #     last20linesLog = fp.readlines()[num_lines]
+            last20linesLog = fp.readlines()[total_lines]
             fp.close
             print last20linesLog
             print 'sending data to さくらレンタルサーバー via INTER-Mediator'
