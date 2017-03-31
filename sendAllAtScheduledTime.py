@@ -411,7 +411,8 @@ if __name__ == '__main__':
 
             for num_lines in range(total_lines, total_lines -20):
                 last20linesLog = linecache.getline(dir_path + '/'+ 'mochimugi.log', int(num_lines))
-            linecache.clearcache() 
+            linecache.clearcache()
+            print last20linesLog
 
             params_IM = urllib.urlencode({'c': "TsaJt1fR%5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'log' : last20linesLog})
 
