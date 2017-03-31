@@ -410,6 +410,7 @@ if __name__ == '__main__':
             #IMに全データ＋logの最終20行分を送信
             print dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
             total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
+            print total_lines
             import linecache
 
             for num_lines in range(total_lines, total_lines -20):
