@@ -426,7 +426,7 @@ if __name__ == '__main__':
 
             print 'sending data to さくらレンタルサーバー via INTER-Mediator'
 
-            params_IM = urllib.urlencode({'c': "TsaJt1fR%5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'log' : last20linesLog})
+            params_IM = urllib.urlencode({'c': "TsaJt1fR%5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'log' : str(last20linesLog)})
 
             print params_IM
 
