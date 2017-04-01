@@ -416,8 +416,11 @@ if __name__ == '__main__':
             print 'Opened log file'
             readBuffer = fileObject.readlines()
             last20linesLog = '## Last 20 lines from mochimugi.log ##' + '\n'#init string
+            if total_lines-20 < 0:
+                startLine = 0
+            startLine = total_lines-20
 
-            for num_lines in range(total_lines-20, total_lines):
+            for num_lines in range(startLine, total_lines):
                 last20linesLog = last20linesLog + readBuffer[num_lines]
 
             fileObject.close
