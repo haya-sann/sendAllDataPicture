@@ -56,7 +56,7 @@ logging.warning('Global IP Address:%s', global_ipAddress)
 
 
 def send_ftps(file_name):
-    print "accessing"+ archive_server
+    print "ftps accessing"+ archive_server
     _ftps = FTP_TLS(archive_server)
     _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
     _ftps.login(userID, pw)
@@ -411,22 +411,20 @@ if __name__ == '__main__':
             print dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
             total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
             print total_lines
-            # import linecache
-
-            # for num_lines in range(total_lines, total_lines -20):
-            #     last20linesLog = linecache.getline(dir_path + '/'+ 'mochimugi.log', int(num_lines))
-            # linecache.clearcache()
-            # print last20linesLog
-
-            fp = open(dir_path + '/'+ 'mochimugi.log', 'r')
+         
+            fileObject = open(dir_path + '/'+ 'mochimugi.log', 'r')
             print 'Opened log file'
-            last20linesLog = ''#init string
-            for num_lines in range(1570, 1590):
-            # for num_lines in range(total_lines - 20, total_lines - 1):
-                last20linesLog = last20linesLog + fp.readlines()[num_lines] + '\n'
-            # last20linesLog = fp.readlines()[total_lines-1]
-            fp.close
+            readBuffer = fileObject.readlines()
+            last20linesLog = '## Last 20 lines from mochimugi.log ##' + '\n'#init string
+
+            for num_lines in range(total_lines-20, total_lines):
+                last20linesLog = last20linesLog + readBuffer[num_lines]
+
             print last20linesLog
+
+            fileObject.close
+            print 'File is closed safely'
+
             print 'sending data to さくらレンタルサーバー via INTER-Mediator'
 
             params_IM = urllib.urlencode({'c': "TsaJt1fR%5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'log' : last20linesLog})
