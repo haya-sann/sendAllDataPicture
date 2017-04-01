@@ -420,10 +420,9 @@ if __name__ == '__main__':
             for num_lines in range(total_lines-20, total_lines):
                 last20linesLog = last20linesLog + readBuffer[num_lines]
 
-            print last20linesLog
-
             fileObject.close
             print 'File is closed safely'
+            print 'mochimugi.logの最後の20行= ' + '\n' +  last20linesLog
 
             print 'sending data to さくらレンタルサーバー via INTER-Mediator'
 
