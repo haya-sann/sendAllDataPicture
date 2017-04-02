@@ -425,13 +425,10 @@ if __name__ == '__main__':
 
             fileObject.close
             print 'File is closed safely'
-            print 'mochimugi.logの最後の20行= ' + '\n' +  last20linesLog
 
             print 'sending data to さくらレンタルサーバー via INTER-Mediator'
 
             params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : last20linesLog})
-
-            print params_IM
 
             conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
