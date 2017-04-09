@@ -31,7 +31,7 @@ import ConfigParser
 import socket
 import commands
 
-hourToBegin = 5 #カメラを動作開始させる時刻
+hourToBegin = 3 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 30 #何分おきに撮影するのかをセット
 
@@ -43,6 +43,7 @@ pw = configfile.get("settings", "password")      #ログインパスワード
 userID = configfile.get("settings", "id")        #サーバーログインUser id
 ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
+print pw, userID, ambiKey, imKey
 
 put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
 dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
