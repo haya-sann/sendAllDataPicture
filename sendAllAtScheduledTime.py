@@ -41,6 +41,8 @@ configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使�
 archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
 userID = configfile.get("settings", "id")        #サーバーログインUser id
+ambiKey = configfile.get("settings", "ambiKey")
+imKey = configfile.get("settings", "imKey")
 
 put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
 dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
@@ -403,7 +405,7 @@ if __name__ == '__main__':
             data = response.read()
             conn.close()
             print 'sending data to ambient'
-            ambi = ambient.Ambient(999, "ce9add17aefe75f8") # チャネルID、ライトキー
+            ambi = ambient.Ambient(999, ambiKey) # チャネルID、ライトキー
             r = ambi.send({"d1": temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": voltage_ch1, "d7": voltage_ch2})
             print 'successfuly sended data to Ambient'
             #
@@ -428,7 +430,7 @@ if __name__ == '__main__':
 
             print 'sending data to さくらレンタルサーバー via INTER-Mediator'
 
-            params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : last20linesLog})
+            params_IM = urllib.urlencode({'c': imKey, 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : last20linesLog})
 
             conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
