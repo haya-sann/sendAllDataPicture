@@ -31,7 +31,7 @@ spi.open(0, 0)
 
 
 sleep = 180 # how many seconds to sleep between posts to the channel
-key = 'GYZD7GEVRB34DX5D' #Put your Thingspeak Channel Key here'  # Thingspeak channel to update
+key = 'ThingSpeak Key' #Put your Thingspeak Channel Key here'  # Thingspeak channel to update
 
 PORT1=23
 PORT2=24
