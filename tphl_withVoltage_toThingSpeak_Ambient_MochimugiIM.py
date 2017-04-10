@@ -41,6 +41,10 @@ ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
 
 sleep = 180 # how many seconds to sleep between posts to the channel
+<<<<<<< HEAD
+=======
+key = 'ThingSpeak Key' #Put your Thingspeak Channel Key here'  # Thingspeak channel to update
+>>>>>>> a121c2ce669fbc49df150a07fa21c13e6b769731
 
 PORT1=23
 PORT2=24
