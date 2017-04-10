@@ -41,6 +41,7 @@ configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使�
 archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
 userID = configfile.get("settings", "id")        #サーバーログインUser id
+key = configfile.get("settings", "key")#ThingSpeak Channel write key
 ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
 print pw, userID, ambiKey, imKey
@@ -96,7 +97,6 @@ spi.open(0, 0)
 
 
 sleep = 180 # how many seconds to sleep between posts to the channel
-key = 'GYZD7GEVRB34DX5D' #Put your Thingspeak Channel Key here'  # Thingspeak channel to update
 
 PORT1 = 23
 PORT2 = 24

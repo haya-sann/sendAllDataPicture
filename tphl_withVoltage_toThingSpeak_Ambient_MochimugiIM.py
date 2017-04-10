@@ -23,15 +23,24 @@ import RPi.GPIO as GPIO
 import ambient
 import spidev
 import subprocess
+import ConfigParser
 
 spi = spidev.SpiDev()
 spi.open(0, 0)
 # Settings (for example)
 #spi.max_speed_hz = 10000
 
+configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
+configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
+
+archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
+pw = configfile.get("settings", "password")      #ログインパスワード
+userID = configfile.get("settings", "id")        #サーバーログインUser id
+key = configfile.get("settings", "key") #ThingSpeak channel key
+ambiKey = configfile.get("settings", "ambiKey")
+imKey = configfile.get("settings", "imKey")
 
 sleep = 180 # how many seconds to sleep between posts to the channel
-key = 'GYZD7GEVRB34DX5D' #Put your Thingspeak Channel Key here'  # Thingspeak channel to update
 
 PORT1=23
 PORT2=24
@@ -307,10 +316,10 @@ if __name__ == '__main__':
 			data = response.read()
 			conn.close()
 			#send date to ambient
-			ambi = ambient.Ambient(999,"ce9add17aefe75f8") # チャネルID、ライトキー
+			ambi = ambient.Ambient(999, ambiKey) # チャネルID、ライトキー
 			r = ambi.send({"d1": temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": voltage_ch1, "d7": voltage_ch2})
 			#send date to さくらレンタルサーバー
-			params_IM = urllib.urlencode({'c': "TsaJt1fR%5SyN",	'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2 })
+			params_IM = urllib.urlencode({'c': str(imKey),	'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2 })
 
 			conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
 			conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
