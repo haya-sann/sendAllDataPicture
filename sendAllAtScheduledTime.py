@@ -87,6 +87,7 @@ def capture_send():
             file_name = '電源投入時テスト_' + now.strftime('%Y%m%d%H%M') + '.jpg'
             break
     print '保存ファイル名；' + file_name
+    picamera.rotation = 180
     picamera.capture(dir_path+'/'+file_name)
     send_ftps(file_name)
 
