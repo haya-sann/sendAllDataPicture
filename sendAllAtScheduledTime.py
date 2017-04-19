@@ -102,6 +102,7 @@ sleep = 180 # how many seconds to sleep between posts to the channel
 PORT1 = 23
 PORT2 = 24
 
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(PORT1, GPIO.IN)
 GPIO.setup(PORT2, GPIO.OUT)
