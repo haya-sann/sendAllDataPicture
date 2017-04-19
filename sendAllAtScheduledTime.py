@@ -450,7 +450,7 @@ if __name__ == '__main__':
         logging.shutdown()#ログ動作を終結させる
         now = datetime.datetime.now()
         file_name = 'mochimugi' + now.strftime('%Y%m%d%H%M') + '.log'
-        send_ftps(fale_name) #ログを送信、
+        send_ftps(file_name) #ログを送信、
         #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
         if GPIO.input(PORT1) == 0: #デバッグ中はコメントアウト
             GPIO.cleanup() # <- GPIOポートを開放
