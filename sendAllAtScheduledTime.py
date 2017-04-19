@@ -473,6 +473,6 @@ if __name__ == '__main__':
             time.sleep(5)
             os.system('sudo poweroff')
         GPIO.cleanup() # <- GPIOポートを開放
-    except KeyboardInterrupt:
-        pass
+    except:
+        
 
