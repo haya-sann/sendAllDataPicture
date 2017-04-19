@@ -474,5 +474,3 @@ if __name__ == '__main__':
             os.system('sudo poweroff')
         GPIO.cleanup() # <- GPIOポートを開放
     except:
-        
-
