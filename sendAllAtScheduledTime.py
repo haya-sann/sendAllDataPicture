@@ -59,6 +59,23 @@ logging.warning('Global IP Address:%s', global_ipAddress)
 
 
 
+def sendLog_ftps(file_name):
+    _ftps = FTP_TLS(archive_server)
+    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
+    _ftps.login(userID, pw)
+
+    _file = open(dir_path + '/' + file_name, 'rb')
+
+    timeStamp = datetime.datetime.now()
+    logfile_name = 'mochimugi' + timeStamp.strftime('%Y%m%d%H%M') + '.log'
+
+    _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+    _ftps.storbinary('STOR ' + logfile_name, _file)
+    _file.close()
+    _ftps.quit()
+    print "Upload finished"
+
+
 def send_ftps(file_name):
     print "ftps accessing"+ archive_server
     _ftps = FTP_TLS(archive_server)
@@ -448,9 +465,7 @@ if __name__ == '__main__':
             print "connection failed"
 
         logging.shutdown()#ログ動作を終結させる
-        now = datetime.datetime.now()
-        file_name = 'mochimugi' + now.strftime('%Y%m%d%H%M') + '.log'
-        send_ftps(file_name) #ログを送信、
+        send_ftps('mochimugi.log') #ログを送信、
         #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
         if GPIO.input(PORT1) == 0: #デバッグ中はコメントアウト
             GPIO.cleanup() # <- GPIOポートを開放
