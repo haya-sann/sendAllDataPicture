@@ -44,7 +44,6 @@ userID = configfile.get("settings", "id")        #サーバーログインUser i
 key = configfile.get("settings", "key")#ThingSpeak Channel write key
 ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
-print pw, userID, key, ambiKey, imKey
 
 put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
 dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
