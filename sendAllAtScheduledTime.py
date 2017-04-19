@@ -474,3 +474,5 @@ if __name__ == '__main__':
         GPIO.cleanup() # <- GPIOポートを開放
     except:
         print "sendLog failed"
+        pass
+        
