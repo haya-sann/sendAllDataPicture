@@ -49,14 +49,14 @@ key = configfile.get("settings", "key")#ThingSpeak Channel write key
 ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
 
-put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
-put_directorySandbox = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
-
 if deploy == "distribution":
-    dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
+    put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
 elif deploy == "sandBox":
-    dir_path = '/home/pi/Documents/mochimugi/'+ put_directorySandbox
-    print dir_path #just for debugging
+    put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
+
+
+dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
+print dir_path #just for debugging
 
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
@@ -74,7 +74,7 @@ def sendLog_ftps(file_name):
     timeStamp = datetime.datetime.now()
     logfile_name = 'mochimugi' + timeStamp.strftime('%Y%m%d%H%M') + '.log'
 
-    _ftps.cwd('/home/mochimugi/www/seasonShots/' + dir_path) #アップロード先ディレクトリに移動
+    _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
     _ftps.storbinary('STOR ' + logfile_name, _file)
     _file.close()
     _ftps.quit()
