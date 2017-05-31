@@ -428,6 +428,8 @@ if __name__ == '__main__':
 
             for num_lines in range(startLine, total_lines):
                 last20linesLog = last20linesLog + readBuffer[num_lines]
+            
+            print last20linesLog + "this is debugging only"
 
             fileObject.close
             print 'File is closed safely'
