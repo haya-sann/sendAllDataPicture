@@ -411,22 +411,8 @@ if __name__ == '__main__':
         voltage_ch2 = voltage_ch2 / 38.75
 
         time.sleep(5)
-        params = urllib.urlencode({'field1': temp, 'field2': temperature, 'field3': pressure, 'field4': humid, 'field5': lightLevel, 'field6': voltage_ch1, 'field7': voltage_ch2, 'key':key})
-        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
-        conn = httplib.HTTPConnection("api.thingspeak.com:80")
         try:
             d = datetime.datetime.today()
-            conn.request("POST", "/update", params, headers)
-            response = conn.getresponse()
-            print 'CPU Temperature = %7.2f C' % temp
-            print response.status, response.reason
-            print 'please visit https://thingspeak.com/channels/176877/'
-            data = response.read()
-            conn.close()
-            print 'sending data to ambient'
-            ambi = ambient.Ambient(999, ambiKey) # チャネルID、ライトキー
-            r = ambi.send({"d1": temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": voltage_ch1, "d7": voltage_ch2})
-            print 'successfuly sended data to Ambient'
             #
             #IMに全データ＋logの最終20行分を送信
             print dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
@@ -449,10 +435,11 @@ if __name__ == '__main__':
 
             print 'sending data to さくらレンタルサーバー via INTER-Mediator'
 
-            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : last20linesLog})
+            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : last20linesLog, 'deploy' : deploy})
 
             conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
+            #/IM/im_build/webAPI/putDataAPI_withAuth.php にはさくらサーバー内のMySQL Databaseへのアクセス情報が書かれている
             print "connection requested"
             response = conn.getresponse()
             print response.status, response.reason
