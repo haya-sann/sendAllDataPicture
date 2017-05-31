@@ -54,7 +54,7 @@ put_directorySandbox = 'daily_timelapseSandbox' #Both Local and Remote Server ha
 
 if deploy == "distribution":
     dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
-elif deploy == "distribution":
+elif deploy == "sandBox":
     dir_path = '/home/pi/Documents/mochimugi/'+ put_directorySandbox
 
 
