@@ -457,6 +457,7 @@ if __name__ == '__main__':
         if GPIO.input(PORT1) == 0: #デバッグ中はコメントアウト
             GPIO.cleanup() # <- GPIOポートを開放
             os.system(powerMonagementModule_controlCommand)#シャットダウンコマンドはログをとってから
+            print "sended power_controlCommand:" + powerMonagementModule_controlCommand
             time.sleep(5)
             os.system('sudo poweroff')
         GPIO.cleanup() # <- GPIOポートを開放
