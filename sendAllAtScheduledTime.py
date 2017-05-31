@@ -31,6 +31,14 @@ import ConfigParser
 import socket
 import commands
 
+<<<<<<< HEAD
+=======
+deploy = "sandBox"
+#deploy = "distribution"
+
+chanell = 1454
+readKey= ac5dae26e4e9edfa
+>>>>>>> bdc5d8f66c81f69080464ff5cedc2e6b0edcfec6
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
@@ -364,7 +372,11 @@ if __name__ == '__main__':
         hour = now.hour
         print "現在時刻は" + str(now)
 
+<<<<<<< HEAD
         if hour >= hourToBegin and hour < hourToStop: #動作は止める時刻になる前まで
+=======
+        if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
+>>>>>>> bdc5d8f66c81f69080464ff5cedc2e6b0edcfec6
             capture_send() #撮影した写真をサーバーに送信
 
         now = datetime.datetime.now()
@@ -383,6 +395,7 @@ if __name__ == '__main__':
                 # x = 5   #テストのために5分のスリープを指定
         print ("Deepsleep in " + str(x) + "minutes")
         x = x / 5
+<<<<<<< HEAD
         powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 10 ' + str(x) + ' i' #10秒後にシャットダウン、最後のパラメーター×5分後に起動
         print '電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':10秒後にシャットダウン、最後のパラメーター×5分後に起動'
         logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
@@ -395,6 +408,16 @@ if __name__ == '__main__':
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
         lightLevel = measureLight()
         print "Light Level : {:3.2f} lx".format(lightLevel)
+=======
+        powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
+        print '電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動'
+        logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
+
+        temperature, pressure, humid = readData()
+        #Calculate CPU temperature of Raspberry Pi in Degrees C
+        temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
+        lightLevel = measureLight()
+>>>>>>> bdc5d8f66c81f69080464ff5cedc2e6b0edcfec6
         #get voltage data from MCP3002
         # ch0
         resp = spi.xfer2([0x68, 0x00])
@@ -403,9 +426,12 @@ if __name__ == '__main__':
         # ch1
         resp = spi.xfer2([0x78, 0x00])
         voltage_ch2 = ((resp[0] << 8) + resp[1]) & 0x3ff
+<<<<<<< HEAD
         print "Ch1 Voltage=" + str(voltage_ch1) + "/",
         print str(round((voltage_ch1 / 38.75), 3)), "Ch2 Voltage=",
         print str(voltage_ch2) + "/" + str(round((voltage_ch2 / 38.75), 3))
+=======
+>>>>>>> bdc5d8f66c81f69080464ff5cedc2e6b0edcfec6
 
         voltage_ch1 = voltage_ch1 / 38.75
         voltage_ch2 = voltage_ch2 / 38.75
@@ -431,7 +457,11 @@ if __name__ == '__main__':
             #IMに全データ＋logの最終20行分を送信
             print dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
             total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
+<<<<<<< HEAD
             print total_lines
+=======
+            #print total_lines
+>>>>>>> bdc5d8f66c81f69080464ff5cedc2e6b0edcfec6
          
             fileObject = open(dir_path + '/'+ 'mochimugi.log', 'r')
             print 'Opened log file'
