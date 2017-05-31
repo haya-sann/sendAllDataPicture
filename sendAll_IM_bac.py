@@ -34,8 +34,6 @@ import commands
 deploy = "sandBox"
 #deploy = "distribution"
 
-chanell = 1454
-readKey= ac5dae26e4e9edfa
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
