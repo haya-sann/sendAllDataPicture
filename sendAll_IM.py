@@ -74,7 +74,7 @@ def sendLog_ftps(file_name):
     timeStamp = datetime.datetime.now()
     logfile_name = 'mochimugi' + timeStamp.strftime('%Y%m%d%H%M') + '.log'
 
-    _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+    _ftps.cwd('/home/mochimugi/www/seasonShots/' + dir_path) #アップロード先ディレクトリに移動
     _ftps.storbinary('STOR ' + logfile_name, _file)
     _file.close()
     _ftps.quit()
