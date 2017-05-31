@@ -56,7 +56,7 @@ if deploy == "distribution":
     dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
 elif deploy == "sandBox":
     dir_path = '/home/pi/Documents/mochimugi/'+ put_directorySandbox
-
+    print dir_path #just for debugging
 
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
