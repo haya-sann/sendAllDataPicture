@@ -414,29 +414,30 @@ if __name__ == '__main__':
             d = datetime.datetime.today()
             #
             #IMに全データ＋logの最終20行分を送信
-            print dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
-            total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
-            #print total_lines
+            #これは重複になるので削除する
+            # print dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
+            # total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
+            # #print total_lines
          
-            fileObject = open(dir_path + '/'+ 'mochimugi.log', 'r')
-            print 'Opened log file'
-            readBuffer = fileObject.readlines()
-            last20linesLog = '## Last 20 lines from mochimugi.log ##' + '\n'#init string
-            if total_lines-20 < 0:
-                startLine = 0
-            startLine = total_lines-20
+            # fileObject = open(dir_path + '/'+ 'mochimugi.log', 'r')
+            # print 'Opened log file'
+            # readBuffer = fileObject.readlines()
+            # last20linesLog = '## Last 20 lines from mochimugi.log ##' + '\n'#init string
+            # if total_lines-20 < 0:
+            #     startLine = 0
+            # startLine = total_lines-20
 
-            for num_lines in range(startLine, total_lines):
-                last20linesLog = last20linesLog + readBuffer[num_lines]
+            # for num_lines in range(startLine, total_lines):
+            #     last20linesLog = last20linesLog + readBuffer[num_lines]
             
-            print last20linesLog + "this is debugging only"
+            # print last20linesLog + "this is debugging only"
 
-            fileObject.close
-            print 'File is closed safely'
+            # fileObject.close
+            # print 'File is closed safely'
 
             print 'sending data to さくらレンタルサーバー via INTER-Mediator'
 
-            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : last20linesLog, 'deploy' : deploy})
+            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'deploy' : deploy})
 
             conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
