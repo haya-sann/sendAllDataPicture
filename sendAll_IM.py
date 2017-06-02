@@ -61,7 +61,7 @@ print dir_path #just for debugging
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
 
-logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
+logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
 logging.warning('Global IP Address:%s', global_ipAddress)
 
 def sendLog_ftps(file_name):
