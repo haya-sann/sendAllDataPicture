@@ -66,7 +66,8 @@ logging.warning('Global IP Address:%s', global_ipAddress)
 
 def sendLog_ftps(file_name):
     _ftps = FTP_TLS(archive_server)
-    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
+    _ftps.set_debuglevel(2) # デバッグログを全部出力してみよう
+#    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
     _ftps.login(userID, pw)
 
     _file = open(dir_path + '/' + file_name, 'rb')
