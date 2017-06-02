@@ -441,6 +441,7 @@ if __name__ == '__main__':
             conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
             #/IM/im_build/webAPI/putDataAPI_withAuth.php にはさくらサーバー内のMySQL Databaseへのアクセス情報が書かれている
+            #deployに"sandBox"と書いてあれば、putDataAPI_withAuth.phpが自動判別してsandBoxサーバーにデータを送る
             print "connection requested"
             response = conn.getresponse()
             print response.status, response.reason
