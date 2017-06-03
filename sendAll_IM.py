@@ -32,7 +32,7 @@ import socket
 import commands
 
 #deploy = "sandBox"
-#deploy = "distribution"
+deploy = "distribution"
 
 
 hourToBegin = 3 #カメラを動作開始させる時刻
