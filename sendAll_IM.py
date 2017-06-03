@@ -31,11 +31,11 @@ import ConfigParser
 import socket
 import commands
 
-deploy = "sandBox"
+#deploy = "sandBox"
 #deploy = "distribution"
 
 
-hourToBegin = 5 #カメラを動作開始させる時刻
+hourToBegin = 3 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
