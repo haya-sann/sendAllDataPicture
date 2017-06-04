@@ -71,7 +71,7 @@ def sendLog_ftps(file_name):
     _ftps.login(userID, pw)
 
     _file = open(dir_path + '/' + file_name, 'rb')
-
+    print "Opend file : " + dir_path + '/' + file_name
     timeStamp = datetime.datetime.now()
     logfile_name = 'mochimugi' + timeStamp.strftime('%Y%m%d%H%M') + '.log'
 
