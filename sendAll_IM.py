@@ -56,7 +56,7 @@ elif deploy == "sandBox":
 
 
 dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
-print dir_path #just for debugging
+print "dir_path is set to : " + dir_path #just for debugging
 
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
@@ -76,6 +76,7 @@ def sendLog_ftps(file_name):
     logfile_name = 'mochimugi' + timeStamp.strftime('%Y%m%d%H%M') + '.log'
 
     _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+    print 'changed directory to: /home/mochimugi/www/seasonShots/' + put_directory
     _ftps.storbinary('STOR ' + logfile_name, _file)
     _file.close()
     _ftps.quit()
@@ -456,7 +457,7 @@ if __name__ == '__main__':
             print "connection failed"
 
         # logging.shutdown()#ログ動作を終結させる
-        sendLog_ftps(dir_path + '/'+ 'mochimugi.log') #ログを送信、
+        sendLog_ftps('mochimugi.log') #ログを送信、
         #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
         if GPIO.input(PORT1) == 0: #デバッグ中はコメントアウト
             GPIO.cleanup() # <- GPIOポートを開放
