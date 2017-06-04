@@ -61,8 +61,8 @@ print dir_path #just for debugging
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
 
-logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
-logging.warning('Global IP Address:%s', global_ipAddress)
+# logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
+# logging.warning('Global IP Address:%s', global_ipAddress)
 
 def sendLog_ftps(file_name):
     _ftps = FTP_TLS(archive_server)
@@ -393,7 +393,7 @@ if __name__ == '__main__':
         x = x / 5
         powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
         print '電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動'
-        logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
+        # logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
 
         temperature, pressure, humid = readData()
         #Calculate CPU temperature of Raspberry Pi in Degrees C
@@ -455,7 +455,7 @@ if __name__ == '__main__':
         except:
             print "connection failed"
 
-        logging.shutdown()#ログ動作を終結させる
+        # logging.shutdown()#ログ動作を終結させる
         sendLog_ftps('mochimugi.log') #ログを送信、
         #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
         if GPIO.input(PORT1) == 0: #デバッグ中はコメントアウト
