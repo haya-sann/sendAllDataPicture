@@ -82,7 +82,7 @@ def sendLog_ftps(file_name):
     print "Upload finished"
 
 
-def send_ftps(file_name):
+def send_ftps(file_name): #ここにエラー処理を入れること
     print "ftps accessing"+ archive_server
     _ftps = FTP_TLS(archive_server)
     _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
@@ -92,6 +92,7 @@ def send_ftps(file_name):
     #SD Memoryがパンクする恐れがあるので、次のステップでアップロードが成功したらファイルは削除するように、改良するべきか？
 
     _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+    print 'change directory to: /home/mochimugi/www/seasonShots/' + put_directory
     _ftps.storbinary('STOR ' + file_name, _file)
     _file.close()
     _ftps.quit()
