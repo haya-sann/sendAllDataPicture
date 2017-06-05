@@ -78,6 +78,7 @@ def sendLog_ftps(file_name):
         print "File opened : " + dir_path + '/' + file_name
         _timeStamp = datetime.datetime.now()
         logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
+        logging.warning('This is just test for logging. Logging file is : ' + logfile_name)
 
         _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
         print 'changed directory to: /home/mochimugi/www/seasonShots/' + put_directory
