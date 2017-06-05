@@ -69,6 +69,8 @@ def sendLog_ftps(file_name):
     _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
 #    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
     _ftps.login(userID, pw)
+    _ftps.prot_p() #データ接続をセキュアにするには、
+    #ユーザが prot_p() メソッドを呼び出してそれを明示的に要求しなければなりません。
 
     _file = open(dir_path + '/' + file_name, 'r') #'r' means read as text mode
     print "File opened : " + dir_path + '/' + file_name
@@ -92,6 +94,7 @@ def send_ftps(file_name): #ここにエラー処理を入れること
     _ftps = FTP_TLS(archive_server)
     _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
     _ftps.login(userID, pw)
+    _ftps.prot_p() #データ接続をセキュアにする
 
     _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
     # target file. 次のステップでアップロード成功したら削除した方がよい？
