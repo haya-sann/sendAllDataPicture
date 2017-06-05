@@ -66,7 +66,7 @@ logging.warning('Global IP Address:%s', global_ipAddress)
 
 def sendLog_ftps(file_name):
     _ftps = FTP_TLS(archive_server)
-    _ftps.set_debuglevel(2) # デバッグログを全部出力してみよう
+    _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
 #    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
     _ftps.login(userID, pw)
 
@@ -81,7 +81,7 @@ def sendLog_ftps(file_name):
 
     _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
     print 'changed directory to: /home/mochimugi/www/seasonShots/' + put_directory
-    _ftps.storbinary('STOR ' + logfile_name, _file)
+    _ftps.storlines ('STOR ' + logfile_name, _file)
     _file.close()
     _ftps.quit()
     print "Upload finished"
