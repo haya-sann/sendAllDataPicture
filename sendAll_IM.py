@@ -73,18 +73,20 @@ def sendLog_ftps(file_name):
         _ftps.prot_p() #データ接続をセキュアにするには、
         #ユーザが prot_p() メソッドを呼び出してそれを明示的に要求しなければなりません。
 
-        _file = open(dir_path + '/' + file_name, 'r') #'r' means read as text mode
+        _file = open(dir_path + '/' + file_name, 'rb') #'r' means read as text mode
+        #'rb' means binarymode
         print "File opened : " + dir_path + '/' + file_name
 
         total_lines = sum(1 for line in _file)
-        print total_lines
+        print total_lines + "行ありました"
 
         _timeStamp = datetime.datetime.now()
         logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
 
         _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
         print 'changed directory to: /home/mochimugi/www/seasonShots/' + put_directory
-        _ftps.storlines('STOR ' + logfile_name, _file)
+        _ftps.storbinary('STOR ' + logfile_name, _file)
+        #_ftps.storlines('STOR ' + logfile_name, _file)
         _file.close()
         _ftps.quit()
         print "Upload finished"
