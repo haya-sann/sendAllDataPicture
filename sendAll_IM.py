@@ -65,29 +65,31 @@ logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTS
 logging.warning('Global IP Address:%s', global_ipAddress)
 
 def sendLog_ftps(file_name):
-    _ftps = FTP_TLS(archive_server)
-    _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
-#    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
-    _ftps.login(userID, pw)
-    _ftps.prot_p() #データ接続をセキュアにするには、
-    #ユーザが prot_p() メソッドを呼び出してそれを明示的に要求しなければなりません。
+    try:
+        _ftps = FTP_TLS(archive_server)
+        _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
+    #    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
+        _ftps.login(userID, pw)
+        _ftps.prot_p() #データ接続をセキュアにするには、
+        #ユーザが prot_p() メソッドを呼び出してそれを明示的に要求しなければなりません。
 
-    _file = open(dir_path + '/' + file_name, 'r') #'r' means read as text mode
-    print "File opened : " + dir_path + '/' + file_name
+        _file = open(dir_path + '/' + file_name, 'r') #'r' means read as text mode
+        print "File opened : " + dir_path + '/' + file_name
 
-    total_lines = sum(1 for line in _file)
-    print total_lines
+        total_lines = sum(1 for line in _file)
+        print total_lines
 
-    _timeStamp = datetime.datetime.now()
-    logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
+        _timeStamp = datetime.datetime.now()
+        logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
 
-    _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-    print 'changed directory to: /home/mochimugi/www/seasonShots/' + put_directory
-    _ftps.storlines ('STOR ' + logfile_name, _file)
-    _file.close()
-    _ftps.quit()
-    print "Upload finished"
-
+        _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+        print 'changed directory to: /home/mochimugi/www/seasonShots/' + put_directory
+        _ftps.storlines('STOR ' + logfile_name, _file)
+        _file.close()
+        _ftps.quit()
+        print "Upload finished"
+    except:
+        print "Somthing wrong"
 
 def send_ftps(file_name): #ここにエラー処理を入れること
     print "ftps accessing"+ archive_server
