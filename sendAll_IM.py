@@ -61,8 +61,8 @@ print "dir_path is set to : " + dir_path #just for debugging
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
 
-# logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
-# logging.warning('Global IP Address:%s', global_ipAddress)
+logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
+logging.warning('Global IP Address:%s', global_ipAddress)
 
 def sendLog_ftps(file_name):
     _ftps = FTP_TLS(archive_server)
@@ -71,9 +71,13 @@ def sendLog_ftps(file_name):
     _ftps.login(userID, pw)
 
     _file = open(dir_path + '/' + file_name, 'rb')
-    print "Opend file : " + dir_path + '/' + file_name
-    timeStamp = datetime.datetime.now()
-    logfile_name = 'mochimugi' + timeStamp.strftime('%Y%m%d%H%M') + '.log'
+    print "File opened : " + dir_path + '/' + file_name
+
+    total_lines = sum(1 for line in _file)
+    print total_lines
+
+    _timeStamp = datetime.datetime.now()
+    logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
 
     _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
     print 'changed directory to: /home/mochimugi/www/seasonShots/' + put_directory
@@ -421,7 +425,7 @@ if __name__ == '__main__':
             # print dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
             # total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
             # #print total_lines
-         
+
             # fileObject = open(dir_path + '/'+ 'mochimugi.log', 'r')
             # print 'Opened log file'
             # readBuffer = fileObject.readlines()
@@ -432,7 +436,7 @@ if __name__ == '__main__':
 
             # for num_lines in range(startLine, total_lines):
             #     last20linesLog = last20linesLog + readBuffer[num_lines]
-            
+
             # print last20linesLog + "this is debugging only"
 
             # fileObject.close
@@ -458,10 +462,11 @@ if __name__ == '__main__':
 
         # logging.shutdown()#ログ動作を終結させる
         sendLog_ftps('mochimugi.log') #ログを送信、
+
+        if GPIO.input(PORT1) == 0:
         #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
-        if GPIO.input(PORT1) == 0: #デバッグ中はコメントアウト
             GPIO.cleanup() # <- GPIOポートを開放
-            os.system(powerMonagementModule_controlCommand)#シャットダウンコマンドはログをとってから
+            os.system(powerMonagementModule_controlCommand)
             print "sended power_controlCommand:" + powerMonagementModule_controlCommand
             time.sleep(5)
             os.system('sudo poweroff')
