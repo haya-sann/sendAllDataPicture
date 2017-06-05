@@ -76,10 +76,6 @@ def sendLog_ftps(file_name):
         _file = open(dir_path + '/' + file_name, 'rb') #'r' means read as text mode
         #'rb' means binarymode
         print "File opened : " + dir_path + '/' + file_name
-
-        total_lines = sum(1 for line in _file)
-        print total_lines + "行ありました"
-
         _timeStamp = datetime.datetime.now()
         logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
 
