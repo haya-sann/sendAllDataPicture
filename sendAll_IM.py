@@ -86,29 +86,32 @@ def sendLog_ftps(file_name):
         #_ftps.storlines('STOR ' + logfile_name, _file)
         _file.close()
         _ftps.quit()
-        print "Upload finished"
+        print "Upload finished with no error"
     except:
         print "Somthing wrong"
 
 def send_ftps(file_name): #ここにエラー処理を入れること
-    print "ftps accessing"+ archive_server
-    _ftps = FTP_TLS(archive_server)
-    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
-    _ftps.login(userID, pw)
-    _ftps.prot_p() #データ接続をセキュアにする
+    try:
+        print "ftps accessing"+ archive_server
+        _ftps = FTP_TLS(archive_server)
+        _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
+        _ftps.login(userID, pw)
+        _ftps.prot_p() #データ接続をセキュアにする
 
-    _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
-    # target file. 次のステップでアップロード成功したら削除した方がよい？
-    #SD Memoryがパンクする恐れがあるので、
-    #次のステップでアップロードが成功したらファイルは削除するように、改良するべきか？
+        _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
+        # target file. 次のステップでアップロード成功したら削除した方がよい？
+        #SD Memoryがパンクする恐れがあるので、
+        #次のステップでアップロードが成功したらファイルは削除するように、改良するべきか？
 
-    _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-    print 'change directory to: /home/mochimugi/www/seasonShots/' + put_directory
-    _ftps.storbinary('STOR ' + file_name, _file)
-    _file.close()
-    _ftps.quit()
-    print "Upload finished"
-
+        _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+        print 'change directory to: /home/mochimugi/www/seasonShots/' + put_directory
+        _ftps.storbinary('STOR ' + file_name, _file)
+        _file.close()
+        _ftps.quit()
+        print "Upload finished with no error"
+    except:
+        print "Somthing wrong"
+        
 def capture_send():
     print 'Waitng for shooting time'
     while True:
