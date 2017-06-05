@@ -70,7 +70,7 @@ def sendLog_ftps(file_name):
 #    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
     _ftps.login(userID, pw)
 
-    _file = open(dir_path + '/' + file_name, 'rb')
+    _file = open(dir_path + '/' + file_name, 'r') #'r' means read as text mode
     print "File opened : " + dir_path + '/' + file_name
 
     total_lines = sum(1 for line in _file)
@@ -93,8 +93,10 @@ def send_ftps(file_name): #ここにエラー処理を入れること
     _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
     _ftps.login(userID, pw)
 
-    _file = open(dir_path + '/' + file_name, 'rb') #target file. 次のステップでアップロード成功したら削除した方がよ$
-    #SD Memoryがパンクする恐れがあるので、次のステップでアップロードが成功したらファイルは削除するように、改良するべきか？
+    _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
+    # target file. 次のステップでアップロード成功したら削除した方がよい？
+    #SD Memoryがパンクする恐れがあるので、
+    #次のステップでアップロードが成功したらファイルは削除するように、改良するべきか？
 
     _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
     print 'change directory to: /home/mochimugi/www/seasonShots/' + put_directory
