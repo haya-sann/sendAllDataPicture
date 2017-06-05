@@ -61,7 +61,7 @@ print "dir_path is set to : " + dir_path #just for debugging
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
 
-logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
+logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
 logging.warning('logging.warning:Global IP Address:%s', global_ipAddress)
 
 def sendLog_ftps(file_name):
@@ -111,7 +111,7 @@ def send_ftps(file_name): #ここにエラー処理を入れること
         print "Upload finished with no error"
     except:
         print "Somthing wrong"
-        
+
 def capture_send():
     print 'Waitng for shooting time'
     while True:
