@@ -460,7 +460,7 @@ if __name__ == '__main__':
         except:
             print "connection failed"
 
-        # logging.shutdown()#ログ動作を終結させる
+        logging.shutdown()#ログ動作を終結させる
         sendLog_ftps('mochimugi.log') #ログを送信、
 
         if GPIO.input(PORT1) == 0:
