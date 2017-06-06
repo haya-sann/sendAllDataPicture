@@ -63,12 +63,12 @@ global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
 
 logger = getLogger(__name__)
-handler = StreamHandler()
+#handler = StreamHandler()
 file_handler = FileHandler(dir_path + '/'+ 'mochimugi.log', mode='a', encoding=None, delay=0)
 file_handler.setLevel(DEBUG)
-handler.setLevel(DEBUG)
+#handler.setLevel(DEBUG)
 logger.setLevel(DEBUG)
-logger.addHandler(handler)
+logger.addHandler(file_handler)
 logger.debug('logging.warning:Global IP Address:%s', global_ipAddress)
 
 
