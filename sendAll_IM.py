@@ -60,10 +60,10 @@ elif deploy == "sandBox":
 
 
 dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
-print "dir_path is set to : " + dir_path #just for debugging
+logger.debug("dir_path is set to : " + dir_path + "(just for debugging)")
 
 global_ipAddress =  commands.getoutput('hostname -I')
-print "Global IP Address is : %s" % global_ipAddress
+logger.debug("Global IP Address is : %s" % global_ipAddress)
 
 fileHandler = logging.FileHandler(dir_path + '/'+ 'mochimugi.log', mode='a', encoding=None, delay=0)
 fileHandler.setFormatter(formatter)
