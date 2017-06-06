@@ -65,17 +65,15 @@ print "dir_path is set to : " + dir_path #just for debugging
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
 
-file_Handler = logging.FileHandler(dir_path + '/'+ 'mochimugi.log', mode='a', encoding=None, delay=0)
-file_Handler.setFormatter(formatter)
+fileHandler = logging.FileHandler(dir_path + '/'+ 'mochimugi.log', mode='a', encoding=None, delay=0)
+fileHandler.setFormatter(formatter)
 streamHandler.setFormatter(formatter)
-file_Handler.setLevel(logging.DEBUG)
+fileHandler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 streamHandler.setLevel(logging.DEBUG)
 logger.addHandler(streamHandler)
-logger.addHandler(file_Handler)
+logger.addHandler(fileHandler)
 logger.debug('logging.warning:Global IP Address:%s', global_ipAddress)
-
-
 
 # logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
 # logging.warning('logging.warning:Global IP Address:%s', global_ipAddress)
