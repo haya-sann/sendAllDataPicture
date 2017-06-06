@@ -28,7 +28,7 @@ import picamera
 from ftplib import FTP_TLS
 import logging
 logger = logging.getLogger(__name__)
-formatter = logging.Formatter('[%(name)s] %(message)s')
+formatter = logging.Formatter('[%(name)s] %(asctime)s : %(message)s')
 streamHandler = logging.StreamHandler()
 
 import ConfigParser
