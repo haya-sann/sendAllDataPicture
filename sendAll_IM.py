@@ -66,6 +66,8 @@ global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
 
 file_Handler = logging.FileHandler(dir_path + '/'+ 'mochimugi.log', mode='a', encoding=None, delay=0)
+file_Handler.setFormatter(formatter)
+streamHandler.setFormatter(formatter)
 file_Handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 streamHandler.setLevel(logging.DEBUG)
