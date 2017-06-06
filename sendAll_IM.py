@@ -26,7 +26,10 @@ import subprocess
 
 import picamera
 from ftplib import FTP_TLS
-from logging import getLogger, StreamHandler, DEBUG ,FileHandler
+import logging
+logger = logging.getLogger(__name__)
+formatter = logging.Formatter('[%(name)s] %(message)s')
+streamHandler = logging.StreamHandler()
 
 import ConfigParser
 import socket
@@ -62,13 +65,12 @@ print "dir_path is set to : " + dir_path #just for debugging
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
 
-logger = getLogger(__name__)
-#handler = StreamHandler()
-file_handler = FileHandler(dir_path + '/'+ 'mochimugi.log', mode='a', encoding=None, delay=0)
-file_handler.setLevel(DEBUG)
-#handler.setLevel(DEBUG)
-logger.setLevel(DEBUG)
-logger.addHandler(file_handler)
+file_Handler = logging.FileHandler(dir_path + '/'+ 'mochimugi.log', mode='a', encoding=None, delay=0)
+file_Handler.setLevel(logging.DEBUG)
+logger.setLevel(logging.DEBUG)
+streamHandler.setLevel(logging.DEBUG)
+logger.addHandler(streamHandler)
+logger.addHandler(file_Handler)
 logger.debug('logging.warning:Global IP Address:%s', global_ipAddress)
 
 
