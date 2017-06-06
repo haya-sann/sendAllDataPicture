@@ -39,7 +39,7 @@ deploy = "sandBox"
 #deploy = "distribution"
 
 
-hourToBegin = 5 #カメラを動作開始させる時刻
+hourToBegin = 4 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
@@ -401,7 +401,9 @@ if __name__ == '__main__':
         now = datetime.datetime.now()
         hour = now.hour
         minute = now.minute
-        if hour < hourToBegin:
+        logger.debug("もち麦で現在稼働中のプログラム")
+        if hour < hourToBegin: 
+        #if hour < hourToBegin -1: #改良版
             x = 60 * hourToBegin - (hour * 60 + minute)
         elif hour >= hourToStop: #停止設定時刻になったら深夜24時までストップさせる
                                 #ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
