@@ -401,8 +401,8 @@ if __name__ == '__main__':
         now = datetime.datetime.now()
         hour = now.hour
         minute = now.minute
-        logger.debug("もち麦で現在稼働中のプログラム")
-        if hour < hourToBegin: 
+        logger.debug("hour < hourToBegin -1")
+        if hour < hourToBegin -1: 
         #if hour < hourToBegin -1: #改良版
             x = 60 * hourToBegin - (hour * 60 + minute)
         elif hour >= hourToStop: #停止設定時刻になったら深夜24時までストップさせる
