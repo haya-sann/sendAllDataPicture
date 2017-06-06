@@ -469,8 +469,8 @@ if __name__ == '__main__':
             #deployに"sandBox"と書いてあれば、putDataAPI_withAuth.phpが自動判別してsandBoxサーバーにデータを送る
             logger.debug("connection requested")
             response = conn.getresponse()
-            logger.debug(str(response.status))
-            logger.debug(str(response.reason))
+            logger.debug("Connection status:",str(response.status))
+            logger.debug("Status reason: ", str(response.reason))
             data = response.read()
             logger.debug(data)
             conn.close()
@@ -492,5 +492,3 @@ if __name__ == '__main__':
     except:
         logger.debug("sendLog failed")
         pass
-
-
