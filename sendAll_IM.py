@@ -26,7 +26,8 @@ import subprocess
 
 import picamera
 from ftplib import FTP_TLS
-import logging
+from logging import getLogger, StreamHandler, DEBUG ,FileHandler
+
 import ConfigParser
 import socket
 import commands
@@ -61,8 +62,19 @@ print "dir_path is set to : " + dir_path #just for debugging
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
 
-logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
-logging.warning('logging.warning:Global IP Address:%s', global_ipAddress)
+logger = getLogger(__name__)
+handler = StreamHandler()
+file_handler = FileHandler(dir_path + '/'+ 'mochimugi.log', mode='a', encoding=None, delay=0)
+file_handler.setLevel(DEBUG)
+handler.setLevel(DEBUG)
+logger.setLevel(DEBUG)
+logger.addHandler(handler)
+logger.debug('logging.warning:Global IP Address:%s', global_ipAddress)
+
+
+
+# logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
+# logging.warning('logging.warning:Global IP Address:%s', global_ipAddress)
 
 def sendLog_ftps(file_name):
     try:
@@ -78,7 +90,7 @@ def sendLog_ftps(file_name):
         print "File opened : " + dir_path + '/' + file_name
         _timeStamp = datetime.datetime.now()
         logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
-        logging.warning('This is just test for logging. Logging file is : ' + logfile_name)
+        logger.debug('This is just test for logging. Logging file is : ' + logfile_name)
 
         _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
         print 'changed directory to: /home/mochimugi/www/seasonShots/' + put_directory
