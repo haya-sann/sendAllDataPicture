@@ -35,9 +35,9 @@ import ConfigParser
 import socket
 import commands
 
-#deploy = "sandBox"
-deploy = "distribution"
-
+#DEPLOY = "sandBox"
+#DEPLOY = "distribution"
+DEPLOY=os.environ['DEPLOY']
 
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
@@ -53,9 +53,9 @@ key = configfile.get("settings", "key")#ThingSpeak Channel write key
 ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
 
-if deploy == "distribution":
+if DEPLOY == "distribution":
     put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
-elif deploy == "sandBox":
+elif DEPLOY == "sandBox":
     put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
 
 
@@ -71,8 +71,8 @@ logger.setLevel(logging.DEBUG)
 streamHandler.setLevel(logging.DEBUG)
 logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
-logger.debug('logging.warning:Global IP Address:%s', global_ipAddress)
-logger.debug("dir_path is set to : " + dir_path + "(just for debugging)")
+logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
+logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
 
 # logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
 # logging.warning('logging.warning:Global IP Address:%s', global_ipAddress)
@@ -462,12 +462,12 @@ if __name__ == '__main__':
 
             logger.debug('sending data to さくらレンタルサーバー via INTER-Mediator')
 
-            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'deploy' : deploy})
+            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'deploy' : DEPLOY})
 
             conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
             #/IM/im_build/webAPI/putDataAPI_withAuth.php にはさくらサーバー内のMySQL Databaseへのアクセス情報が書かれている
-            #deployに"sandBox"と書いてあれば、putDataAPI_withAuth.phpが自動判別してsandBoxサーバーにデータを送る
+            #DEPLOYに"sandBox"と書いてあれば、putDataAPI_withAuth.phpが自動判別してsandBoxサーバーにデータを送る
             logger.debug("connection requested")
             response = conn.getresponse()
             logger.debug("Connection status:"+ str(response.status))
