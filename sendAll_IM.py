@@ -437,6 +437,28 @@ if __name__ == '__main__':
         time.sleep(5)
         try:
             d = datetime.datetime.today()
+            #
+            #IMに全データ＋logの最終20行分を送信
+            #これは重複になるので削除する
+            # logger.debug(dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
+            # total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
+            # #logger.debug(total_lines
+
+            # fileObject = open(dir_path + '/'+ 'mochimugi.log', 'r')
+            # logger.debug('Opened log file'
+            # readBuffer = fileObject.readlines()
+            # last20linesLog = '## Last 20 lines from mochimugi.log ##' + '\n'#init string
+            # if total_lines-20 < 0:
+            #     startLine = 0
+            # startLine = total_lines-20
+
+            # for num_lines in range(startLine, total_lines):
+            #     last20linesLog = last20linesLog + readBuffer[num_lines]
+
+            # logger.debug(last20linesLog + "this is debugging only"
+
+            # fileObject.close
+            # logger.debug('File is closed safely'
 
             logger.debug('sending data to さくらレンタルサーバー via INTER-Mediator')
 
