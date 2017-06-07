@@ -35,9 +35,9 @@ import ConfigParser
 import socket
 import commands
 
-#DEPLOY = "sandBox"
-#DEPLOY = "distribution"
-DEPLOY=os.environ['DEPLOY']
+#DEPLOY_SWITCH = "sandBox"
+#DEPLOY_SWITCH = "distribution"
+DEPLOY_SWITCH = os.environ['DEPLOY']
 
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
@@ -53,9 +53,9 @@ key = configfile.get("settings", "key")#ThingSpeak Channel write key
 ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
 
-if DEPLOY == "distribution":
+if DEPLOY_SWITCH == "distribution":
     put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
-elif DEPLOY == "sandBox":
+elif DEPLOY_SWITCH == "sandBox":
     put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
 
 
