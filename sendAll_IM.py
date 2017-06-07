@@ -35,8 +35,8 @@ import ConfigParser
 import socket
 import commands
 
-deploy = "sandBox"
-#deploy = "distribution"
+#deploy = "sandBox"
+deploy = "distribution"
 
 
 hourToBegin = 5 #カメラを動作開始させる時刻
