@@ -27,6 +27,10 @@ import subprocess
 import picamera
 from ftplib import FTP_TLS
 import logging
+logger = logging.getLogger(__name__)
+formatter = logging.Formatter('[%(name)s] %(asctime)s : %(message)s')
+streamHandler = logging.StreamHandler()
+
 import ConfigParser
 import socket
 import commands
@@ -34,8 +38,7 @@ import commands
 deploy = "sandBox"
 #deploy = "distribution"
 
-chanell = 1454
-readKey= ac5dae26e4e9edfa
+
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
@@ -50,66 +53,91 @@ key = configfile.get("settings", "key")#ThingSpeak Channel write key
 ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
 
-put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
-put_directorySandbox = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
-
 if deploy == "distribution":
-    dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
-elif deploy == "distribution":
-    dir_path = '/home/pi/Documents/mochimugi/'+ put_directorySandbox
+    put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
+elif deploy == "sandBox":
+    put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
 
 
-global_ipAddress =  commands.getoutput('hostname -I')
-print "Global IP Address is : %s" % global_ipAddress
+dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
 
-logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
-logging.warning('Global IP Address:%s', global_ipAddress)
+global_ipAddress = commands.getoutput('hostname -I')
+
+fileHandler = logging.FileHandler(dir_path + '/'+ 'mochimugi.log', mode='a', encoding=None, delay=0)
+fileHandler.setFormatter(formatter)
+streamHandler.setFormatter(formatter)
+fileHandler.setLevel(logging.DEBUG)
+logger.setLevel(logging.DEBUG)
+streamHandler.setLevel(logging.DEBUG)
+logger.addHandler(streamHandler)
+logger.addHandler(fileHandler)
+logger.debug('logging.warning:Global IP Address:%s', global_ipAddress)
+logger.debug("dir_path is set to : " + dir_path + "(just for debugging)")
+
+# logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
+# logging.warning('logging.warning:Global IP Address:%s', global_ipAddress)
 
 def sendLog_ftps(file_name):
-    _ftps = FTP_TLS(archive_server)
-    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
-    _ftps.login(userID, pw)
+    try:
+        _ftps = FTP_TLS(archive_server)
+        _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
+    #    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
+        _ftps.login(userID, pw)
+        _ftps.prot_p() #データ接続をセキュアにするには、
+        #ユーザが prot_p() メソッドを呼び出してそれを明示的に要求しなければなりません。
 
-    _file = open(dir_path + '/' + file_name, 'rb')
+        _file = open(dir_path + '/' + file_name, 'rb') #'r' means read as text mode
+        #'rb' means binarymode
+        logger.debug("File opened : " + dir_path + '/' + file_name)
+        _timeStamp = datetime.datetime.now()
+        logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
+        logger.debug('This is just test for logging. Logging file is : ' + logfile_name)
 
-    timeStamp = datetime.datetime.now()
-    logfile_name = 'mochimugi' + timeStamp.strftime('%Y%m%d%H%M') + '.log'
+        _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+        logger.debug('changed directory to: /home/mochimugi/www/seasonShots/' + put_directory)
+        _ftps.storbinary('STOR ' + logfile_name, _file)
+        #_ftps.storlines('STOR ' + logfile_name, _file)
+        _file.close()
+        _ftps.quit()
+        logger.debug("Upload finished with no error")
+    except:
+        logger.debug("Somthing wrong")
 
-    _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-    _ftps.storbinary('STOR ' + logfile_name, _file)
-    _file.close()
-    _ftps.quit()
-    print "Upload finished"
+def send_ftps(file_name): #ここにエラー処理を入れること
+    try:
+        logger.debug("ftps accessing"+ archive_server)
+        _ftps = FTP_TLS(archive_server)
+        _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
+        _ftps.login(userID, pw)
+        _ftps.prot_p() #データ接続をセキュアにする
 
+        _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
+        # target file. 次のステップでアップロード成功したら削除した方がよい？
+        #SD Memoryがパンクする恐れがあるので、
+        #次のステップでアップロードが成功したらファイルは削除するように、改良するべきか？
 
-def send_ftps(file_name):
-    print "ftps accessing"+ archive_server
-    _ftps = FTP_TLS(archive_server)
-    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
-    _ftps.login(userID, pw)
-
-    _file = open(dir_path + '/' + file_name, 'rb') #target file. 次のステップでアップロード成功したら削除した方がよ$
-    #SD Memoryがパンクする恐れがあるので、次のステップでアップロードが成功したらファイルは削除するように、改良するべきか？
-
-    _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-    _ftps.storbinary('STOR ' + file_name, _file)
-    _file.close()
-    _ftps.quit()
-    print "Upload finished"
+        _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+        logger.debug('change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
+        _ftps.storbinary('STOR ' + file_name, _file)
+        _file.close()
+        _ftps.quit()
+        logger.debug("Upload finished with no error")
+    except:
+        logger.debug("Somthing wrong")
 
 def capture_send():
-    print 'Waitng for shooting time'
+    logger.debug('Waitng for shooting time')
     while True:
         now = datetime.datetime.now()
         if now.minute % everyMinutes == 0: #指定毎分時になると撮影
-            print'指定時間になりました'
+            logger.debug('指定時間になりました')
             file_name = now.strftime('%Y%m%d%H%M') + '.jpg'
             break
         elif everyMinutes - (now.minute % everyMinutes) > 7:#、5分以上待つなら取りあえず撮影して終わる
-            print '指定時間まで7分以上ありますので、テスト撮影して指定時刻5分前に再起動します'
+            logger.debug('指定時間まで7分以上ありますので、テスト撮影して指定時刻5分前に再起動します')
             file_name = '電源投入時テスト_' + now.strftime('%Y%m%d%H%M') + '.jpg'
             break
-    print '保存ファイル名；' + file_name
+    logger.debug('保存ファイル名；' + file_name)
     picamera.rotation = 180
     picamera.capture(dir_path+'/'+file_name)
     send_ftps(file_name)
@@ -266,7 +294,7 @@ def measureLight():
     #bus = smbus.SMBus(0) # Rev 1 Pi uses 0
     bus = smbus.SMBus(1)  # Rev 2 Pi uses 1
     sensor = BH1750(bus)
-    print "Sensitivity: {:d}".format(sensor.mtreg)
+    logger.debug("Light Sensitivity: {:d}".format(sensor.mtreg))
     lightLevel = sensor.measure_high_res2()
     time.sleep(1)
     return lightLevel
@@ -307,7 +335,6 @@ def compensate_P(adc_P):
     v2 = ((pressure / 4.0) * digP[7]) / 8192.0
     pressure = pressure + ((v1 + v2 + digP[6]) / 16.0)
 
-    print "pressure : %7.2f hPa" % (pressure/100)
     return pressure/100
 
 def compensate_T(adc_T):
@@ -316,7 +343,6 @@ def compensate_T(adc_T):
     v2 = (adc_T / 131072.0 - digT[0] / 8192.0) * (adc_T / 131072.0 - digT[0] / 8192.0) * digT[2]
     t_fine = v1 + v2
     temperature = t_fine / 5120.0
-    print "temp : %-6.2f ℃" % (temperature)
     return temperature
 
 def compensate_H(adc_H):
@@ -331,7 +357,6 @@ def compensate_H(adc_H):
         var_h = 100.0
     elif var_h < 0.0:
         var_h = 0.0
-    print "hum : %6.2f ％" % (var_h)
     return var_h
 
 def setup():
@@ -359,25 +384,25 @@ get_calib_param()
 if __name__ == '__main__':
     try:
         # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
-        print 'Preparering PiCamera'
         picamera = picamera.PiCamera()
         picamera.resolution = (1920, 1080) #HD Quality Size=1.5MB、研究材料としては最低限これくらいはほしい。稲穂の様子はこ$
         #picamera.resolution = (1024, 768) # こちらは554KBで済む
         # Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
         time.sleep(2)
-
+        logger.debug('PiCamera Prepared')
 
         now = datetime.datetime.now()
         hour = now.hour
-        print "現在時刻は" + str(now)
+        logger.debug("現在時刻は" + str(now))
 
         if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
-            capture_send() #撮影した写真をサーバーに送信
+            capture_send() #写真撮影し、結果をサーバーに送信
 
         now = datetime.datetime.now()
         hour = now.hour
         minute = now.minute
-        if hour < hourToBegin:
+        if hour < hourToBegin -1:
+            logger.debug("現在時刻は" + str(hour) + "（hour < hourToBegin -1: #改良版）")
             x = 60 * hourToBegin - (hour * 60 + minute)
         elif hour >= hourToStop: #停止設定時刻になったら深夜24時までストップさせる
                                 #ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
@@ -388,11 +413,10 @@ if __name__ == '__main__':
             if x <0:
                 x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
                 # x = 5   #テストのために5分のスリープを指定
-        print ("Deepsleep in " + str(x) + "minutes")
+        logger.debug("Deepsleep in " + str(x) + "minutes")
         x = x / 5
         powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
-        print '電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動'
-        logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
+        logger.debug('電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
 
         temperature, pressure, humid = readData()
         #Calculate CPU temperature of Raspberry Pi in Degrees C
@@ -415,52 +439,57 @@ if __name__ == '__main__':
             d = datetime.datetime.today()
             #
             #IMに全データ＋logの最終20行分を送信
-            print dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
-            total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
-            #print total_lines
-         
-            fileObject = open(dir_path + '/'+ 'mochimugi.log', 'r')
-            print 'Opened log file'
-            readBuffer = fileObject.readlines()
-            last20linesLog = '## Last 20 lines from mochimugi.log ##' + '\n'#init string
-            if total_lines-20 < 0:
-                startLine = 0
-            startLine = total_lines-20
+            #これは重複になるので削除する
+            # logger.debug(dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
+            # total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
+            # #logger.debug(total_lines
 
-            for num_lines in range(startLine, total_lines):
-                last20linesLog = last20linesLog + readBuffer[num_lines]
+            # fileObject = open(dir_path + '/'+ 'mochimugi.log', 'r')
+            # logger.debug('Opened log file'
+            # readBuffer = fileObject.readlines()
+            # last20linesLog = '## Last 20 lines from mochimugi.log ##' + '\n'#init string
+            # if total_lines-20 < 0:
+            #     startLine = 0
+            # startLine = total_lines-20
 
-            fileObject.close
-            print 'File is closed safely'
+            # for num_lines in range(startLine, total_lines):
+            #     last20linesLog = last20linesLog + readBuffer[num_lines]
 
-            print 'sending data to さくらレンタルサーバー via INTER-Mediator'
+            # logger.debug(last20linesLog + "this is debugging only"
 
-            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : last20linesLog, 'deploy' : deploy})
+            # fileObject.close
+            # logger.debug('File is closed safely'
+
+            logger.debug('sending data to さくらレンタルサーバー via INTER-Mediator')
+
+            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'deploy' : deploy})
 
             conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
             #/IM/im_build/webAPI/putDataAPI_withAuth.php にはさくらサーバー内のMySQL Databaseへのアクセス情報が書かれている
-            print "connection requested"
+            #deployに"sandBox"と書いてあれば、putDataAPI_withAuth.phpが自動判別してsandBoxサーバーにデータを送る
+            logger.debug("connection requested")
             response = conn.getresponse()
-            print response.status, response.reason
+            logger.debug("Connection status:"+ str(response.status))
+            logger.debug("Status reason: "+ str(response.reason))
             data = response.read()
-            print data
+            logger.debug(data)
             conn.close()
 
         except:
-            print "connection failed"
+            logger.debug("connection failed")
 
-        logging.shutdown()#ログ動作を終結させる
+        #logging.shutdown()#ログ動作を終結させる
         sendLog_ftps('mochimugi.log') #ログを送信、
+
+        if GPIO.input(PORT1) == 0:
         #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
-        if GPIO.input(PORT1) == 0: #デバッグ中はコメントアウト
             GPIO.cleanup() # <- GPIOポートを開放
-            os.system(powerMonagementModule_controlCommand)#シャットダウンコマンドはログをとってから
+            os.system(powerMonagementModule_controlCommand)
+            logger.debug("sended power_controlCommand:" + powerMonagementModule_controlCommand)
             time.sleep(5)
             os.system('sudo poweroff')
         GPIO.cleanup() # <- GPIOポートを開放
     except:
-        print "sendLog failed"
+        logger.debug("sendLog failed")
         pass
-
-
