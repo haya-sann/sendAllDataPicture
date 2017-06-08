@@ -44,7 +44,7 @@ except:
     DEPLOY_SWITCH = "sandBox"
 
 hourToBegin = 5 #カメラを動作開始させる時刻
-hourToStop = 23 #カメラを完全休止させる時刻
+hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
@@ -423,7 +423,7 @@ if __name__ == '__main__':
                 # x = 5   #テストのために5分のスリープを指定
         logger.debug("Deepsleep in " + str(x) + "minutes")
         x = x / 5
-        powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
+        powerMonagementModule_controlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
         logger.debug('電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
 
         temperature, pressure, humid = readData()
