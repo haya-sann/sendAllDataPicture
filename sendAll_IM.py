@@ -107,8 +107,9 @@ def sendLog_ftps(file_name):
         #log送信正常終了なので、中身をクリアする
         with open(dir_path + '/' + file_name,"w") as f:
             f.write("Log cleared : " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
+            f.close()
     except:
-        logger.debug("Somthing wrong")
+        logger.debug("sendLog_ftps end with somthing wrong")
 
 def send_ftps(file_name): #ここにエラー処理を入れること
     try:
