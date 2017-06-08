@@ -104,6 +104,9 @@ def sendLog_ftps(file_name):
         _file.close()
         _ftps.quit()
         logger.debug("Upload finished with no error")
+        #log送信正常終了なので、中身をクリアする
+        with open(dir_path + '/' + file_name,"w") as f:
+            f.write("")
     except:
         logger.debug("Somthing wrong")
 
@@ -483,7 +486,6 @@ if __name__ == '__main__':
         except:
             logger.debug("connection failed")
 
-        #logging.shutdown()#ログ動作を終結させる
         sendLog_ftps('mochimugi.log') #ログを送信、
 
         if GPIO.input(PORT1) == 0:
