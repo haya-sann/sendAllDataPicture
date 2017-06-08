@@ -38,6 +38,8 @@ import commands
 #DEPLOY_SWITCH = "sandBox"
 #DEPLOY_SWITCH = "distribution"
 DEPLOY_SWITCH = os.environ['DEPLOY']
+if DEPLOY_SWITCH == "":
+    DEPLOY_SWITCH = "sandBox"
 
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 23 #カメラを完全休止させる時刻
