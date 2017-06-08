@@ -489,8 +489,8 @@ if __name__ == '__main__':
             logger.debug("sended power_controlCommand:" + powerMonagementModule_controlCommand)
             time.sleep(5)
             os.system('sudo poweroff')
-        GPIO.cleanup() # <- Gート開放、複数回やってもいいのか？？？？？？？
-        #2017年06月08日（木）14時18分
+        GPIO.cleanup() # <- GPIO 開放、複数回やってもいいのか？？？？？？？
+        #2017年06月08日（木）14時27分
     except:
         logger.debug("sendLog failed")
         pass
