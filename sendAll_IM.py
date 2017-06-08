@@ -40,7 +40,7 @@ import commands
 DEPLOY_SWITCH = os.environ['DEPLOY']
 
 hourToBegin = 5 #カメラを動作開始させる時刻
-hourToStop = 15 #カメラを完全休止させる時刻
+hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
