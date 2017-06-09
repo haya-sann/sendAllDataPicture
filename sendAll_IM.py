@@ -28,7 +28,7 @@ import picamera
 from ftplib import FTP_TLS
 import logging
 logger = logging.getLogger(__name__)
-formatter = logging.Formatter('[%(name)s] %(asctime)s : %(message)s')
+formatter = logging.Formatter('[%(name)s] %(asctime)s %(levelname)s : %(message)s')
 streamHandler = logging.StreamHandler()
 
 import ConfigParser
@@ -92,28 +92,27 @@ def sendLog_ftps(file_name):
 
         _file = open(dir_path + '/' + file_name, 'rb') #'r' means read as text mode
         #'rb' means binarymode
-        logger.debug("File opened : " + dir_path + '/' + file_name)
+        logger.info("File opened : " + dir_path + '/' + file_name)
         _timeStamp = datetime.datetime.now()
         logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
-        logger.debug('This is just test for logging. Logging file is : ' + logfile_name)
+        logger.info('Logging file on the server is : ' + logfile_name)
 
         _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-        logger.debug('changed directory to: /home/mochimugi/www/seasonShots/' + put_directory)
+        logger.info('Success : Change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
         _ftps.storbinary('STOR ' + logfile_name, _file)
-        #_ftps.storlines('STOR ' + logfile_name, _file)
         _file.close()
         _ftps.quit()
-        logger.debug("Upload finished with no error")
+        logger.info("Upload finished and closed Log file, with no error")
         #log送信正常終了なので、中身をクリアする
         with open(dir_path + '/' + file_name,"w") as f:
-            f.write("Log cleared : " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
+            f.write("Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
             f.close()
     except:
-        logger.debug("sendLog_ftps end with somthing wrong")
+        logger.debug("sendLog_ftps end with somthing wrong. Please check")
 
 def send_ftps(file_name): #ここにエラー処理を入れること
     try:
-        logger.debug("ftps accessing"+ archive_server)
+        logger.info("ftps accessing"+ archive_server)
         _ftps = FTP_TLS(archive_server)
         _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
         _ftps.login(userID, pw)
@@ -125,27 +124,27 @@ def send_ftps(file_name): #ここにエラー処理を入れること
         #次のステップでアップロードが成功したらファイルは削除するように、改良するべきか？
 
         _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-        logger.debug('change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
+        logger.info('change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
         _ftps.quit()
-        logger.debug("Upload finished with no error")
+        logger.info("Upload finished with no error")
     except:
-        logger.debug("Somthing wrong")
+        logger.debug("Somthing wrong in ftps process")
 
 def capture_send():
-    logger.debug('Waitng for shooting time')
+    logger.info('Waiting for shooting time')
     while True:
         now = datetime.datetime.now()
         if now.minute % everyMinutes == 0: #指定毎分時になると撮影
-            logger.debug('指定時間になりました')
+            logger.info('指定時間になりました')
             file_name = now.strftime('%Y%m%d%H%M') + '.jpg'
             break
         elif everyMinutes - (now.minute % everyMinutes) > 7:#、5分以上待つなら取りあえず撮影して終わる
-            logger.debug('指定時間まで7分以上ありますので、テスト撮影して指定時刻5分前に再起動します')
+            logger.info('指定時間まで7分以上ありますので、テスト撮影して指定時刻5分前に再起動します')
             file_name = '電源投入時テスト_' + now.strftime('%Y%m%d%H%M') + '.jpg'
             break
-    logger.debug('保存ファイル名；' + file_name)
+    logger.info('保存ファイル名；' + file_name)
     picamera.rotation = 180
     picamera.capture(dir_path+'/'+file_name)
     send_ftps(file_name)
@@ -302,7 +301,7 @@ def measureLight():
     #bus = smbus.SMBus(0) # Rev 1 Pi uses 0
     bus = smbus.SMBus(1)  # Rev 2 Pi uses 1
     sensor = BH1750(bus)
-    logger.debug("Light Sensitivity: {:d}".format(sensor.mtreg))
+    logger.info("Light Sensitivity: {:d}".format(sensor.mtreg))
     lightLevel = sensor.measure_high_res2()
     time.sleep(1)
     return lightLevel
@@ -397,11 +396,11 @@ if __name__ == '__main__':
         #picamera.resolution = (1024, 768) # こちらは554KBで済む
         # Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
         time.sleep(2)
-        logger.debug('PiCamera Prepared')
+        logger.info('PiCamera Prepared')
 
         now = datetime.datetime.now()
         hour = now.hour
-        logger.debug("現在時刻は" + str(now))
+        logger.info("現在時刻は" + str(now))
 
         if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
             capture_send() #写真撮影し、結果をサーバーに送信
@@ -410,7 +409,7 @@ if __name__ == '__main__':
         hour = now.hour
         minute = now.minute
         if hour < hourToBegin -1:
-            logger.debug("現在時刻は" + str(hour) + "（hour < hourToBegin -1: #改良版）")
+            logger.info("現在時刻は" + str(hour) + "（hour < hourToBegin -1: #改良版）")
             x = 60 * hourToBegin - (hour * 60 + minute)
         elif hour >= hourToStop: #停止設定時刻になったら深夜24時までストップさせる
                                 #ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
@@ -421,10 +420,10 @@ if __name__ == '__main__':
             if x <0:
                 x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
                 # x = 5   #テストのために5分のスリープを指定
-        logger.debug("Deepsleep in " + str(x) + "minutes")
+        logger.info("Deepsleep in " + str(x) + "minutes")
         x = x / 5
         powerMonagementModule_controlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
-        logger.debug('電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
+        logger.info('電源モジュールに送信するコマンド用意：' + powerMonagementModule_controlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
 
         temperature, pressure, humid = readData()
         #Calculate CPU temperature of Raspberry Pi in Degrees C
@@ -445,30 +444,8 @@ if __name__ == '__main__':
         time.sleep(5)
         try:
             d = datetime.datetime.today()
-            #
-            #IMに全データ＋logの最終20行分を送信
-            #これは重複になるので削除する
-            # logger.debug(dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
-            # total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
-            # #logger.debug(total_lines
 
-            # fileObject = open(dir_path + '/'+ 'mochimugi.log', 'r')
-            # logger.debug('Opened log file'
-            # readBuffer = fileObject.readlines()
-            # last20linesLog = '## Last 20 lines from mochimugi.log ##' + '\n'#init string
-            # if total_lines-20 < 0:
-            #     startLine = 0
-            # startLine = total_lines-20
-
-            # for num_lines in range(startLine, total_lines):
-            #     last20linesLog = last20linesLog + readBuffer[num_lines]
-
-            # logger.debug(last20linesLog + "this is debugging only"
-
-            # fileObject.close
-            # logger.debug('File is closed safely'
-
-            logger.debug('sending data to さくらレンタルサーバー via INTER-Mediator')
+            logger.info('sending data to さくらレンタルサーバー via INTER-Mediator')
 
             params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'deploy' : DEPLOY_SWITCH})
 
@@ -476,16 +453,16 @@ if __name__ == '__main__':
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
             #/IM/im_build/webAPI/putDataAPI_withAuth.php にはさくらサーバー内のMySQL Databaseへのアクセス情報が書かれている
             #DEPLOY_SWITCHに"sandBox"と書いてあれば、putDataAPI_withAuth.phpが自動判別してsandBoxサーバーにデータを送る
-            logger.debug("connection requested")
+            logger.info("connection requested")
             response = conn.getresponse()
-            logger.debug("Connection status:"+ str(response.status))
-            logger.debug("Status reason: "+ str(response.reason))
+            logger.info("Connection status:"+ str(response.status))
+            logger.info("Status reason: "+ str(response.reason))
             data = response.read()
-            logger.debug(data)
+            logger.info(data)
             conn.close()
 
         except:
-            logger.debug("connection failed")
+            logger.debug("Connection to IM webAPI failed")
 
         sendLog_ftps('mochimugi.log') #ログを送信、
 
@@ -493,11 +470,11 @@ if __name__ == '__main__':
         #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
             GPIO.cleanup() # <- GPIOポートを開放
             os.system(powerMonagementModule_controlCommand)
-            logger.debug("sended power_controlCommand:" + powerMonagementModule_controlCommand)
+            logger.info("sended power_controlCommand:" + powerMonagementModule_controlCommand)
             time.sleep(5)
             os.system('sudo poweroff')
         GPIO.cleanup() # <- GPIO 開放、複数回やってもいいのか？？？？？？？
         #2017年06月08日（木）14時27分
     except:
-        logger.debug("sendLog failed")
+        logger.debug("Main program failed")
         pass
