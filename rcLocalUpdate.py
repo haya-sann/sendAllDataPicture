@@ -6,7 +6,7 @@ import os
 def updateRCLocal():
 #    os.system("/etc/rc.local < rcLocalUpdate.sh")
 
-    os.system("/home/pi/Documents/mochimugi/sendAllDataPicture/rcLocalUpdate.sh > /etc/rc.local")
+    os.system("sudo /home/pi/Documents/mochimugi/sendAllDataPicture/rcLocalUpdate.sh > /etc/rc.local")
 
 updateRCLocal()
 
