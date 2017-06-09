@@ -35,7 +35,8 @@ import ConfigParser
 import socket
 import commands
 
-import rcLocalUpdate.py
+import rcLocalUpdate
+rcLocalUpdate.updateRCLocal()
 
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']

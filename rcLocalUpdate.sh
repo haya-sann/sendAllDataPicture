@@ -1,5 +1,5 @@
 #!/bin/bash
-#これはテスト用-2番目です
+#これはテスト用-３番目です。sendAll_IM.pyからコール
 # sandBoxへの切り替えをサポートしたrc.local
 #Deploy時にSandBoxか、Distributionかを指定して出荷する
 #モデムのppp接続を待つようにした。2017/06/07
