@@ -35,12 +35,11 @@ import ConfigParser
 import socket
 import commands
 
-#DEPLOY_SWITCH = "sandBox"
-#DEPLOY_SWITCH = "distribution"
+import rcLocalUpdate.py
 
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
-except:
+except: #rc.localからexportされて送られるはずのDEPLYがない場合は
     DEPLOY_SWITCH = "sandBox"
 
 hourToBegin = 5 #カメラを動作開始させる時刻
