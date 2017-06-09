@@ -1,5 +1,6 @@
 #!/bin/bash
-#これはテスト用-4番目です。リブート！　rc.localからコール
+#これはテスト用-最後です。リブート！　rc.localからコール
+#成功した。
 # sandBoxへの切り替えをサポートしたrc.local
 #Deploy時にSandBoxか、Distributionかを指定して出荷する
 #モデムのppp接続を待つようにした。2017/06/07
