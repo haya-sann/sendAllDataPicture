@@ -4,6 +4,9 @@ import sys
 import os
 
 def updateRCLocal():
-    os.system("/etc/rc.local < rcLocalUpdate.sh")
+#    os.system("/etc/rc.local < rcLocalUpdate.sh")
 
-    # os.system("/etc/rc.local < /home/pi/Documents/mochimugi/sendAllDataPicture/rcLocal.update")
+    os.system("/etc/rc.local < /home/pi/Documents/mochimugi/sendAllDataPicture/rcLocalUpdate.sh")
+
+updateRCLocal()
+
