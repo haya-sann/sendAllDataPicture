@@ -1,5 +1,5 @@
 #!/bin/bash
-#これはテスト用-３番目です。sendAll_IM.pyからコール
+#これはテスト用-4番目です。リブート！　rc.localからコール
 # sandBoxへの切り替えをサポートしたrc.local
 #Deploy時にSandBoxか、Distributionかを指定して出荷する
 #モデムのppp接続を待つようにした。2017/06/07
