@@ -1,6 +1,6 @@
 #!/bin/bash
-#これはテスト用-最後です。リブート！　rc.localからコール
-#成功した。
+#rc.localを更新するテスト
+#
 # sandBoxへの切り替えをサポートしたrc.local
 #Deploy時にSandBoxか、Distributionかを指定して出荷する
 #モデムのppp接続を待つようにした。2017/06/07
@@ -31,6 +31,7 @@ function log() {
   echo -e "$(date '+%Y-%m-%dT%H:%M:%S') ${PROCNAME} (${fname}:${BASH_LINENO[0]}:${FUNCNAME[1]}) $@" | tee -a ${LOGFILE}
 }
 log "Started logging to : "$LOGFILE
+log "rc.local 更新：2017年06月10日（土）午前9時45分"
 
 cd /home/pi/Documents/mochimugi/sendAllDataPicture
 git pull | tee -a ${LOGFILE}

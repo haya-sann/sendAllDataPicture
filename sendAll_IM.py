@@ -77,6 +77,7 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
+logger.info("これは新しいsendAll_IM.py: 2017年06月10日（土）午前9時47分修正")
 
 # logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
 # logging.warning('logging.warning:Global IP Address:%s', global_ipAddress)
@@ -477,4 +478,6 @@ if __name__ == '__main__':
         #2017年06月08日（木）14時27分
     except:
         logger.debug("Main program failed")
-        pass
+        os.system("sudo /usr/sbin/i2cset -y 1 0x40 255 1 i")
+        os.system("sleep 240 ; poweroff")
+        logger.debug("system will poweroff after 4 minutes, and reboot after 5 minutes")
