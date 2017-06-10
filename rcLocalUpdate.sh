@@ -86,19 +86,21 @@ function waitForPPP() {
 }
 
 function my_shutdown() {
-  /usr/sbin/i2cset -y 1 0x40 255 11 i | tee -a ${LOGFILE}
+  powerControlCommand="/usr/sbin/i2cset -y 1 0x40 255 11 i"
+  echo powerControlCommand | tee -a ${LOGFILE}
   echo system will poweroff after 4 minutes
-  log "sended power control command : /usr/sbin/i2cset -y 1 0x40 255 11 i"
+  log "sended power control command : "$powerControlCommand
   sleep 240
   poweroff
   exit 0
 }
 
 function my_shutdown2() {
-  /usr/sbin/i2cset -y 1 0x40 255 0 i | tee -a ${LOGFILE}
+  powerControlCommand="/usr/sbin/i2cset -y 1 0x40 255 1 i"
+  echo powerControlCommand | tee -a ${LOGFILE}
   echo system will poweroff after 4 minutes
-  log "network is down : sended power control command : /usr/sbin/i2cset -y 1 0x40 255 0 i"
-  log "system will poweroff after 4 minutes, and reboot immediately"
+  log "network is down : sended power control command : "$powerControlCommand
+  log "system will poweroff after 4 minutes, and reboot after 5 minutes"
   sleep 240
   poweroff
   exit 0
