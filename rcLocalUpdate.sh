@@ -33,9 +33,6 @@ echo "***** above-mentioned is previous log  *****" | tee -a ${LOGFILE}
 log "Started logging to : "$LOGFILE
 echo "***** rc.local ver. 1.1 更新：2017年06月10日（土）11時44分  *****" | tee -a ${LOGFILE}
 
-cd /home/pi/Documents/mochimugi/sendAllDataPicture
-git pull | tee -a ${LOGFILE}
-
 #
 #Soracomのドングルppp接続またはネットワーク接続rc.local
 #ppp接続ないしはSakura,ne,jpへの疎通がない場合は4分間の休止後、55分間仮死状態に
@@ -98,7 +95,7 @@ function my_shutdown() {
 }
 
 function my_shutdown2() {
-  /usr/sbin/i2cset -y 1 0x40 255 2 i
+  /usr/sbin/i2cset -y 1 0x40 255 0 i
   echo system will poweroff after 4 minutes
   log "network is down : sended power control command : /usr/sbin/i2cset -y 1 0x40 255 0 i"
   log "system will poweroff after 4 minutes, and reboot immediately"
@@ -119,6 +116,11 @@ log "ppp is up and running"
 
 waitForPing || ( echo connectSoracom error ; my_shutdown2 )
 log "Sakura server is online"
+
+log "update all files in sendAllDataPicture with git pull"
+cd /home/pi/Documents/mochimugi/sendAllDataPicture
+git pull > | tee -a ${LOGFILE}
+
 
 # Print the IP address
 _IP=$(hostname -I) || true
