@@ -29,9 +29,11 @@ function log() {
   local fname=${BASH_SOURCE[1]##*/}
   echo -e "$(date '+%Y-%m-%dT%H:%M:%S') ${PROCNAME} (${fname}:${BASH_LINENO[0]}:${FUNCNAME[1]}) $@" | tee -a ${LOGFILE}
 }
-echo "***** above-mentioned is previously log  *****" | tee -a ${LOGFILE}
+echo "***** above-mentioned is previous log  *****" | tee -a ${LOGFILE}
 log "Started logging to : "$LOGFILE
-log "rc.local 更新：2017年06月10日（土）11時44分"
+echo "***** rc.local ver. 1.1 更新：2017年06月10日（土）11時44分  *****" | tee -a ${LOGFILE}
+
+log "rc.local ver. 1.1 更新：2017年06月10日（土）11時44分"
 
 cd /home/pi/Documents/mochimugi/sendAllDataPicture
 git pull | tee -a ${LOGFILE}
