@@ -29,7 +29,7 @@ function log() {
   local fname=${BASH_SOURCE[1]##*/}
   echo -e "$(date '+%Y-%m-%dT%H:%M:%S') ${PROCNAME} (${fname}:${BASH_LINENO[0]}:${FUNCNAME[1]}) $@" | tee -a ${LOGFILE}
 }
-log "***** above-mentioned is previously log  *****"
+echo "***** above-mentioned is previously log  *****" | tee -a ${LOGFILE}
 log "Started logging to : "$LOGFILE
 log "rc.local 更新：2017年06月10日（土）11時44分"
 
@@ -100,8 +100,8 @@ function my_shutdown() {
 function my_shutdown2() {
   /usr/sbin/i2cset -y 1 0x40 255 2 i
   echo system will poweroff after 4 minutes
-  log "network is down : sended power control command : /usr/sbin/i2cset -y 1 0x40 255 2 i"
-  log "system will poweroff after 4 minutes, and reboot after 10 minutes"
+  log "network is down : sended power control command : /usr/sbin/i2cset -y 1 0x40 255 0 i"
+  log "system will poweroff after 4 minutes, and reboot immediately"
   sleep 240
   poweroff
   exit 0

@@ -41,7 +41,7 @@ except: #rc.localからexportされて送られるはずのDEPLYがない場合�
     DEPLOY_SWITCH = "sandBox"
 
 hourToBegin = 5 #カメラを動作開始させる時刻
-hourToStop = 19 #カメラを完全休止させる時刻
+hourToStop = 23 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
@@ -482,6 +482,6 @@ if __name__ == '__main__':
         #2017年06月08日（木）14時27分
     except:
         logger.debug("Main program failed")
-        os.system("sudo /usr/sbin/i2cset -y 1 0x40 255 1 i")
+        os.system("sudo /usr/sbin/i2cset -y 1 0x40 255 0 i")
         os.system("sleep 240 ; poweroff")
-        logger.debug("system will poweroff after 4 minutes, and reboot after 5 minutes")
+        logger.debug("system will poweroff after 4 minutes, and reboot immediate")
