@@ -1,6 +1,5 @@
 #!/bin/bash
-#rc.localを更新するテスト
-#
+#これを更新してgit commit すると自動アップデートされる
 # sandBoxへの切り替えをサポートしたrc.local
 #Deploy時にSandBoxか、Distributionかを指定して出荷する
 #モデムのppp接続を待つようにした。2017/06/07
@@ -30,8 +29,9 @@ function log() {
   local fname=${BASH_SOURCE[1]##*/}
   echo -e "$(date '+%Y-%m-%dT%H:%M:%S') ${PROCNAME} (${fname}:${BASH_LINENO[0]}:${FUNCNAME[1]}) $@" | tee -a ${LOGFILE}
 }
+log "***** above-mentioned is previously log  *****"
 log "Started logging to : "$LOGFILE
-log "rc.local 更新：2017年06月10日（土）午前9時45分"
+log "rc.local 更新：2017年06月10日（土）11時44分"
 
 cd /home/pi/Documents/mochimugi/sendAllDataPicture
 git pull | tee -a ${LOGFILE}
