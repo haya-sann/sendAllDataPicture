@@ -10,8 +10,8 @@
 #結構重要な変更。一晩悩んだ。
 #次に起動するプログラムにDEPLOY情報を継承する #変数代入の＝の前後の空白を入れてはいけない#
 
-#export DEPLOY="sandBox"
-export DEPLOY="distribution"
+export DEPLOY="sandBox"
+#export DEPLOY="distribution"
 
 #case文でsandBoxに送るか、本番環境に送るかを選択する。
 case "$DEPLOY" in
@@ -32,8 +32,6 @@ function log() {
 echo "***** above-mentioned is previous log  *****" | tee -a ${LOGFILE}
 log "Started logging to : "$LOGFILE
 echo "***** rc.local ver. 1.1 更新：2017年06月10日（土）11時44分  *****" | tee -a ${LOGFILE}
-
-log "rc.local ver. 1.1 更新：2017年06月10日（土）11時44分"
 
 cd /home/pi/Documents/mochimugi/sendAllDataPicture
 git pull | tee -a ${LOGFILE}
@@ -113,7 +111,7 @@ crontab < /home/pi/crontab_off #disable crontab
 echo -e "\e[42;31mcrontab is disabled\e[m"
 log "crontab is off"
 
-#まず、USBモデムがsora.comに接続できるのを待つ。失敗すると10分後に再起動させる。
+#まず、USBモデムがsora.comに接続できるのを待つ。失敗すると4分待って再起動させる。
 waitForPPP || ( echo connectSoracom error ; my_shutdown2 )
 
 echo -e "\e[42;31mppp is up and running\e[m"
