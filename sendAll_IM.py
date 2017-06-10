@@ -35,9 +35,6 @@ import ConfigParser
 import socket
 import commands
 
-import rcLocalUpdate
-rcLocalUpdate.updateRCLocal()
-
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
@@ -77,7 +74,14 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("これは新しいsendAll_IM.py: 2017年06月10日（土）午前9時47分修正")
+logger.info("これは新しいsendAll_IM.py: 2017年06月10日（土）午前10時11分修正")
+
+try:
+    import rcLocalUpdate
+    rcLocalUpdate.updateRCLocal()
+    logger.info("Successfully updated rc.local file")
+except :
+    logger.debug("failed update rc.local file")
 
 # logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
 # logging.warning('logging.warning:Global IP Address:%s', global_ipAddress)
