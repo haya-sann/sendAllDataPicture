@@ -87,7 +87,7 @@ function waitForPPP() {
 
 function my_shutdown() {
   powerControlCommand="/usr/sbin/i2cset -y 1 0x40 255 11 i"
-  echo powerControlCommand | tee -a ${LOGFILE}
+  $(echo powerControlCommand) | tee -a ${LOGFILE} #変数をコマンドとして実行させるには$()とすろ
   echo system will poweroff after 4 minutes
   log "sended power control command : "$powerControlCommand
   sleep 240
@@ -97,7 +97,7 @@ function my_shutdown() {
 
 function my_shutdown2() {
   powerControlCommand="/usr/sbin/i2cset -y 1 0x40 255 1 i"
-  echo powerControlCommand | tee -a ${LOGFILE}
+  $(echo powerControlCommand) | tee -a ${LOGFILE}
   echo system will poweroff after 4 minutes
   log "network is down : sended power control command : "$powerControlCommand
   log "system will poweroff after 4 minutes, and reboot after 5 minutes"
