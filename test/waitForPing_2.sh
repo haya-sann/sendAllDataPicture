@@ -20,7 +20,5 @@ for i in {1..3};
 return 1
 }
 
-waitForPing1 || ( echo network error ; exit 1 )
-waitForPing2 || ( echo network error ; exit 1 )
-
-echo network available
+waitForPing1 || ( echo network1 error )
+waitForPing2 || ( echo network2 error )
