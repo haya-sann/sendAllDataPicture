@@ -6,8 +6,9 @@ for i in {1..3};
     do ping -c1 192.168.12.8 &> /dev/null && (Server is available) && break; 
     echo -n .
     done
-[ $i == 3 ] && ( echo Can not reach to Server ; exit 1)
-return 1
+[ $i == 3 ] && ( echo Can not reach to Server)
+echo just test 
+return 0
 }
 
 function waitForPing2() {
@@ -17,7 +18,7 @@ for i in {1..3};
     echo -n .
     done
 [ $i == 3 ] && ( echo Can not reach to Server ; exit 1)
-return 1
+return 0
 }
 
 waitForPing1 || ( echo network1 error )
