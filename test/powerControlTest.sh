@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function my_shutdown2() {
-    powerControlCommand="sudo /usr/sbin/i2cset -y 1 0x40 15 0 i"
+    powerControlCommand="sudo /usr/sbin/i2cset -y 1 0x41 15 0 i"
     eval $powerControlCommand 2>&1 | tee -a ./logTest.log
 
     trap "echo Encounterd error; exit 1" ERR
