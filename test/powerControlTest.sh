@@ -18,8 +18,7 @@ function my_shutdown2() {
     echo system will poweroff after 10 seconds, and reboot
     sleep 10
     sudo poweroff
-    exit 0
-  return 0
+    return 0
 }
 
 my_shutdown2
