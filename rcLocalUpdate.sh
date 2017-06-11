@@ -69,7 +69,7 @@ for i in {1..5};
     do ping -c1 mochimugi.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && break; 
     echo -n .
     done
-[ $i = 5 ] && ( echo Can not reach to Sakura Server ; my_shutdown2)
+[ $i = 5 ] && ( echo Can not reach Sakura Server ; my_shutdown2)
 return 0
 }
 
