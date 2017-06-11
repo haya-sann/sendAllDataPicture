@@ -96,7 +96,7 @@ function my_shutdown() {
 }
 
 function my_shutdown2() {
-  powerControlCommand="/usr/sbin/i2cset -y 1 0x41 255 1 i"
+  powerControlCommand="/usr/sbin/i2cset -y 1 0x40 255 1 i"
   $(echo powerControlCommand) | tee -a ${LOGFILE}
   echo system will poweroff after 4 minutes
   log "network is down : sended power control command : "$powerControlCommand
