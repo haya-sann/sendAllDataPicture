@@ -5,7 +5,7 @@ function my_shutdown2() {
 
     for i in {1..5}
     do
-        if eval $powerControlCommand |& grep "Error" then
+        if eval $powerControlCommand |& grep "Error"; then
         echo "Error encountered"
         sleep 1
         else
@@ -27,4 +27,4 @@ function goToPowerOff() {
 }
 
 my_shutdown2 && goToPowerOff
- 
+
