@@ -96,14 +96,22 @@ function my_shutdown() {
 }
 
 function my_shutdown2() {
-  powerControlCommand="/usr/sbin/i2cset -y 1 0x40 255 1 i"
-  $(echo powerControlCommand) | tee -a ${LOGFILE}
-  echo system will poweroff after 4 minutes
-  log "network is down : sended power control command : "$powerControlCommand
-  log "system will poweroff after 4 minutes, and reboot after 5 minutes"
-  sleep 240
-  poweroff
-  exit 0
+    powerControlCommand="sudo /usr/sbin/i2cset -y 1 0x41 10 0 i"
+    for i in {1..5}
+    do
+        if eval $powerControlCommand |& grep "Error"; then
+        echo "Error encountered"
+        sleep 1
+        else
+        break
+        fi
+    done
+[ $i = 5 ] && echo error writing I2C && reboot
+    echo system will poweroff after 10 seconds, and reboot
+    log "network is down : sended power control command : "$powerControlCommand
+    log "system will poweroff after 10 seconds, and reboot"
+    sudo poweroff
+    return 0
 }
 
 crontab < /home/pi/crontab_off #disable crontab
