@@ -18,6 +18,7 @@ for i in {1..3};
     echo -n .
     done
 [ $i = 3 ] && ( echo Can not reach to Server ; return 1)
+echo just test, function 2 
 return 0
 }
 
