@@ -14,7 +14,7 @@ return 0
 function waitForPing2() {
     # Wait for Network to be available.
 for i in {1..3};
-    do ping -c1 google.com &> /dev/null && (Echo Server is available) && break; 
+    do ping -c1 google.com &> /dev/null && (echo Server is available) && break; 
     echo -n .
     done
 [ $i == 3 ] && ( echo Can not reach to Server ; exit 1)
