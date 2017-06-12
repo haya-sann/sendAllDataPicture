@@ -474,14 +474,42 @@ if __name__ == '__main__':
         if GPIO.input(PORT1) == 0:
         #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
             GPIO.cleanup() # <- GPIOポートを開放
-            os.system(powerMonagementModule_controlCommand)
-            logger.info("sended power_controlCommand:" + powerMonagementModule_controlCommand)
+            logger.info("sending power_controlCommand:" + powerMonagementModule_controlCommand)
+            for i in range(1,5):
+                try:
+                    process = Popen(powerMonagementModule_controlCommand, shell=True, stdout=PIPE, stderr=PIPE)
+                    output, err = process.communicate()
+
+                    if "Error" in err:
+                        print "Error encounterd"
+                    else:
+                        break
+                except OSError as e:
+                    print ("System will reboot")
+                    call("sudo reboot")
+
             time.sleep(5)
-            os.system('sudo poweroff')
+            logger.info("I2C command success: ", str(i) + " time retry. System will powerdown and reboot imedeately")
+            call('sudo poweroff', shell=True)
         GPIO.cleanup() # <- GPIO 開放、複数回やってもいいのか？？？？？？？
         #2017年06月08日（木）14時27分
     except:
         logger.debug("Main program failed")
-        os.system("sudo /usr/sbin/i2cset -y 1 0x40 255 0 i")
-        os.system("sleep 240 ; poweroff")
+        powerMonagementModule_controlCommand="sudo /usr/sbin/i2cset -y 1 0x40 255 0 i"
+        for i in range(1,5):
+            try:
+                process = Popen(powerMonagementModule_controlCommand, shell=True, stdout=PIPE, stderr=PIPE)
+                output, err = process.communicate()
+
+                if "Error" in err:
+                    print "Error encounterd"
+                else:
+                    break
+            except OSError as e:
+                print ("System will reboot")
+                call("sudo reboot")
+
+        time.sleep(240)
+        logger.info("I2C command success: ", str(i) + " time retry. System will powerdown and reboot imedeately")
+        call('sudo poweroff', shell=True)
         logger.debug("system will poweroff after 4 minutes, and reboot immediate")
