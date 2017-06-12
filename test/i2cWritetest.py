@@ -8,7 +8,7 @@ x=0
 
 file = "StandardError.log"
 
-powerMonagementModule_controlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 10 ' + str(x) + ' i'
+powerMonagementModule_controlCommand = 'sudo /usr/sbin/i2cset -y 1 0x41 10 ' + str(x) + ' i'
 
 print "sending Power Control Command : "+powerMonagementModule_controlCommand
 
@@ -18,9 +18,8 @@ try:
         print >>subprocess.sys.stderr, "I2C command was terminated by signal", -retcode
     else:
         print >>subprocess.sys.stderr, "I2C command success", retcode
+        subprocess.call('sudo poweroff', shell=True)
 except OSError as e:
     print >>subprocess.sys.stderr, "Execution failed:", e
 
-time.sleep(1)
-subprocess.call('sudo poweroff', shell=True)
 
