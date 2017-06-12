@@ -1,5 +1,7 @@
 #!/usr/bin/python
 #coding: utf-8
+import sys
+sys.path.append('/usr/local/lib/python3.4/dist-packages/')
 
 from  subprocess import Popen, PIPE
 import time
@@ -11,7 +13,7 @@ powerMonagementModule_controlCommand = 'sudo /usr/sbin/i2cset -y 1 0x41 10 ' + s
 
 print "sending Power Control Command : "+powerMonagementModule_controlCommand
 
-process = Popen(powerMonagementModule_controlCommand,  stdout=PIPE, stderr=PIPE)
+process = Popen(powerMonagementModule_controlCommand, stdout=PIPE, stderr=PIPE)
 output, err = process.communicate()
 
 print output, err
