@@ -427,7 +427,7 @@ if __name__ == '__main__':
                 # x = 5   #テストのために5分のスリープを指定
         logger.info("Deepsleep in " + str(x) + "minutes")
         x = x / 5
-        powerMonagementModule_controlCommand = 'sudo /usr/sbin/i2cset -y 1 0x41 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
+        powerMonagementModule_controlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
         logger.info('電源モジュールに送信するコマンド用意：' + powerMonagementModule_controlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
 
         temperature, pressure, humid = readData()
@@ -497,7 +497,7 @@ if __name__ == '__main__':
         #2017年06月08日（木）14時27分
     except:
         logger.debug("Main program failed")
-        powerMonagementModule_controlCommand="sudo /usr/sbin/i2cset -y 1 0x41 255 0 i"
+        powerMonagementModule_controlCommand="sudo /usr/sbin/i2cset -y 1 0x40 255 0 i"
         for i in range(1,5):
             try:
                 process = Popen(powerMonagementModule_controlCommand, shell=True, stdout=PIPE, stderr=PIPE)
