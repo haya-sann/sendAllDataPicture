@@ -22,7 +22,7 @@ import locale   # import文はどこに書いてもOK(可読性などの為、�
 import RPi.GPIO as GPIO
 import ambient
 import spidev
-import subprocess
+from  subprocess import Popen, PIPE, call
 
 import picamera
 from ftplib import FTP_TLS
