@@ -491,7 +491,7 @@ if __name__ == '__main__':
                     call("sudo reboot")
 
             time.sleep(5)
-            logger.info("I2C command success: ", str(i) + " time retry. System will powerdown and reboot imedeately")
+            logger.info("I2C command success: " + str(i) + " time retry. System will powerdown and reboot imedeately")
             call('sudo poweroff', shell=True)
         GPIO.cleanup() # <- GPIO 開放、複数回やってもいいのか？？？？？？？
         #2017年06月08日（木）14時27分
@@ -512,6 +512,6 @@ if __name__ == '__main__':
                 call("sudo reboot")
 
         time.sleep(240)
-        logger.info("I2C command success: ", str(i) + " time retry. System will powerdown and reboot imedeately")
+        logger.info("I2C command success: " + str(i) + " time retry. System will powerdown and reboot imedeately")
         call('sudo poweroff', shell=True)
         logger.debug("system will poweroff after 4 minutes, and reboot immediate")
