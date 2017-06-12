@@ -21,6 +21,6 @@ try:
 except OSError as e:
     print >>subprocess.sys.stderr, "Execution failed:", e
 
-time.sleep(5)
-#call('sudo poweroff', shell=True)
+time.sleep(1)
+subprocess.call('sudo poweroff', shell=True)
 
