@@ -491,14 +491,14 @@ if __name__ == '__main__':
                     call("sudo reboot")
 
             time.sleep(5)
-            logger.info("I2C command success: " + str(i) + " time retry. System will powerdown and reboot imedeately")
+            logger.info("I2C command success: " + str(i) + " time retry. System will powerdown")
             call('sudo poweroff', shell=True)
         GPIO.cleanup() # <- GPIO 開放、複数回やってもいいのか？？？？？？？
         #2017年06月08日（木）14時27分
     except:
         logger.debug("Main program failed")
         powerControlCommand="sudo /usr/sbin/i2cset -y 1 0x40 255 0 i"
-        logger.debug("Sending power control command"+powerControlCommand)
+        logger.debug("Sending power control command : "+powerControlCommand)
         for i in range(1,5):
             try:
                 process = Popen(powerControlCommand, shell=True, stdout=PIPE, stderr=PIPE)
