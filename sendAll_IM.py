@@ -427,8 +427,8 @@ if __name__ == '__main__':
                 # x = 5   #テストのために5分のスリープを指定
         logger.info("Deepsleep in " + str(x) + "minutes")
         x = x / 5
-        powerMonagementModule_controlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
-        logger.info('電源モジュールに送信するコマンド用意：' + powerMonagementModule_controlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
+        powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
+        logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
 
         temperature, pressure, humid = readData()
         #Calculate CPU temperature of Raspberry Pi in Degrees C
@@ -474,10 +474,10 @@ if __name__ == '__main__':
         if GPIO.input(PORT1) == 0:
         #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
             GPIO.cleanup() # <- GPIOポートを開放
-            logger.info("sending power_controlCommand:" + powerMonagementModule_controlCommand)
+            logger.info("sending powerControlCommand:" + powerControlCommand)
             for i in range(1,5):
                 try:
-                    process = Popen(powerMonagementModule_controlCommand, shell=True, stdout=PIPE, stderr=PIPE)
+                    process = Popen(powerControlCommand, shell=True, stdout=PIPE, stderr=PIPE)
                     output, err = process.communicate()
 
                     if "Error" in err:
@@ -497,10 +497,11 @@ if __name__ == '__main__':
         #2017年06月08日（木）14時27分
     except:
         logger.debug("Main program failed")
-        powerMonagementModule_controlCommand="sudo /usr/sbin/i2cset -y 1 0x40 255 0 i"
+        powerControlCommand="sudo /usr/sbin/i2cset -y 1 0x40 255 0 i"
+        logger.debug("Sending power control command"+powerControlCommand)
         for i in range(1,5):
             try:
-                process = Popen(powerMonagementModule_controlCommand, shell=True, stdout=PIPE, stderr=PIPE)
+                process = Popen(powerControlCommand, shell=True, stdout=PIPE, stderr=PIPE)
                 output, err = process.communicate()
 
                 if "Error" in err:

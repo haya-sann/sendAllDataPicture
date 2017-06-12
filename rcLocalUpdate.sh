@@ -31,7 +31,7 @@ function log() {
 }
 echo "***** above-mentioned is previous log  *****" | tee -a ${LOGFILE}
 log "Started logging to : "$LOGFILE
-echo "***** rc.local ver. 1.1 更新：2017年06月10日（土）11時44分  *****" | tee -a ${LOGFILE}
+echo "***** rc.local ver. 1.2 更新：2017/06/13　01:14  *****" | tee -a ${LOGFILE}
 
 #
 #Soracomのドングルppp接続またはネットワーク接続rc.local
@@ -87,11 +87,20 @@ function waitForPPP() {
 
 function my_shutdown() {
   powerControlCommand="/usr/sbin/i2cset -y 1 0x40 255 11 i"
-  $(echo powerControlCommand) | tee -a ${LOGFILE} #変数をコマンドとして実行させるには$()とすろ
+    for i in {1..5}
+    do
+        if eval $powerControlCommand |& grep "Error"; then
+        echo "Error encountered"
+        sleep 1
+        else
+        break
+        fi
+    done
+[ $i = 5 ] && echo error writing I2C && reboot
   echo system will poweroff after 4 minutes
   log "sended power control command : "$powerControlCommand
   sleep 240
-  poweroff
+  sudo poweroff
   exit 0
 }
 
