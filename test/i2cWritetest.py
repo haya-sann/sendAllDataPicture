@@ -21,7 +21,7 @@ for i in range(1,5):
         if "Error" in err:
             print "Error encounterd"
         else:
-            print >>sys.stderr, "I2C command success"
+            print >>sys.stderr, "I2C command success: ", i + " time retry"
             call('sudo poweroff', shell=True)
             break
     except OSError as e:
