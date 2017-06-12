@@ -74,7 +74,7 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("これは新しいsendAll_IM.py: 2017年06月10日（土）午前10時11分修正")
+logger.info("これは新しいsendAll_IM.py. ver.1.2: 2017/06/13 00:25修正")
 
 try:
     import rcLocalUpdate
@@ -427,7 +427,7 @@ if __name__ == '__main__':
                 # x = 5   #テストのために5分のスリープを指定
         logger.info("Deepsleep in " + str(x) + "minutes")
         x = x / 5
-        powerMonagementModule_controlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
+        powerMonagementModule_controlCommand = 'sudo /usr/sbin/i2cset -y 1 0x41 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
         logger.info('電源モジュールに送信するコマンド用意：' + powerMonagementModule_controlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
 
         temperature, pressure, humid = readData()
@@ -482,10 +482,12 @@ if __name__ == '__main__':
 
                     if "Error" in err:
                         print "Error encounterd"
+                        logger.debug("Error encountered during i2c write")
                     else:
                         break
                 except OSError as e:
-                    print ("System will reboot")
+                    print "System will reboot"
+                    logger.debug("System will reboot")
                     call("sudo reboot")
 
             time.sleep(5)
@@ -495,18 +497,18 @@ if __name__ == '__main__':
         #2017年06月08日（木）14時27分
     except:
         logger.debug("Main program failed")
-        powerMonagementModule_controlCommand="sudo /usr/sbin/i2cset -y 1 0x40 255 0 i"
+        powerMonagementModule_controlCommand="sudo /usr/sbin/i2cset -y 1 0x41 255 0 i"
         for i in range(1,5):
             try:
                 process = Popen(powerMonagementModule_controlCommand, shell=True, stdout=PIPE, stderr=PIPE)
                 output, err = process.communicate()
 
                 if "Error" in err:
-                    print "Error encounterd"
+                    logger.debug("Error encounterd")
                 else:
                     break
             except OSError as e:
-                print ("System will reboot")
+                logger.debug ("System will reboot")
                 call("sudo reboot")
 
         time.sleep(240)
