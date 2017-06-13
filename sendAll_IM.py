@@ -40,7 +40,7 @@ try:
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
     DEPLOY_SWITCH = "sandBox"
 
-hourToBegin = 5 #カメラを動作開始させる時刻
+hourToBegin = 1 #カメラを動作開始させる時刻
 hourToStop = 23 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
@@ -74,7 +74,8 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("これは新しいsendAll_IM.py. ver.1.2: 2017/06/13 00:25修正")
+logger.info("これは新しいsendAll_IM.py. ver.1.2: 2017/06/13 22:42修正")
+logger.info("動作終了23時、開始午前1時")
 
 try:
     import rcLocalUpdate
@@ -428,8 +429,10 @@ if __name__ == '__main__':
                 # x = 5   #テストのために5分のスリープを指定
         logger.info("Deepsleep in " + str(x) + "minutes")
         x = x / 5
-        powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
-        logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
+        timeToOff = 40
+        powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 ' + timeToOff + '40 ' + str(x) + ' i'
+        #40秒後に電源オフ、最後のパラメーター×5分後に起動
+        logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後に電源オフ、' + str(x) + '分後に起動')
 
         temperature, pressure, humid = readData()
         #Calculate CPU temperature of Raspberry Pi in Degrees C
