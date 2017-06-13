@@ -88,6 +88,7 @@ except :
 
 def sendLog_ftps(file_name):
     try:
+        logger.info("Sending log with ftps to server : "+ archive_server)
         _ftps = FTP_TLS(archive_server)
         _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
     #    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認

@@ -90,7 +90,7 @@ function my_shutdown() {
     for i in {1..5}
     do
         if eval $powerControlCommand |& grep "Error"; then
-        echo "Error encountered"
+        echo "Error encountered in my_shutdown. write i2c bus"
         sleep 1
         else
         break
@@ -109,7 +109,7 @@ function my_shutdown2() {
     for i in {1..5}
     do
         if eval $powerControlCommand |& grep "Error"; then
-        echo "Error encountered"
+        echo "Error encountered in my_shutdown2. Write i2c bus"
         sleep 1
         else
         break
@@ -145,8 +145,6 @@ _IP=$(hostname -I) || true
 if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
-
-# { { sudo python /home/pi/Documents/mochimugi/sendAllDataPicture/sendAll_IM.py | tee /home/pi/Documents/mochimugi/${DIRPATH}/mochimugi.log; } 3>&2 2>&1 1>&3 | tee /home/pi/Documents/mochimugi/${DIRPATH}/mochimugiErr.log; } 3>&2 2>&1 1>&3 || ( echo python error ; my_shutdown )
 
 #sendAll_IM.pyに環境変数DEPLOYを送るためにはsudoでは機能しない
 python /home/pi/Documents/mochimugi/sendAllDataPicture/sendAll_IM.py || ( echo python error ; my_shutdown )
