@@ -75,7 +75,7 @@ logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
 logger.info("これは新しいsendAll_IM.py. ver.1.2: 2017/06/13 22:42修正")
-logger.info("設定動作終了時刻："+str(hourToBegin)+ "時、開始："+str(hourToStop)+"時")
+logger.info("設定動作開始時刻："+str(hourToBegin)+"時、　終了時刻："+str(hourToStop)+ "時")
 
 try:
     import rcLocalUpdate
