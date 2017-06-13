@@ -435,10 +435,10 @@ if __name__ == '__main__':
 
         #logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
 
-        #logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':' + timeToOff + '秒後に電源オフ、' + str(x) + '分後に起動')
+        logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':' + timeToOff + '秒後に電源オフ、' + str(x) + '分後に起動')
 
         temperature, pressure, humid = readData()
-        #Calculate CPU temperature of Raspberry Pi in Degrees C
+        logger.info("Calculate CPU temperature of Raspberry Pi in Degrees C")
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
         lightLevel = measureLight()
         #get voltage data from MCP3002
