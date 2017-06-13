@@ -40,8 +40,8 @@ try:
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
     DEPLOY_SWITCH = "sandBox"
 
-hourToBegin = 2 #カメラを動作開始させる時刻
-hourToStop = 23 #カメラを完全休止させる時刻
+hourToBegin = 5 #カメラを動作開始させる時刻
+hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
@@ -75,7 +75,7 @@ logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
 logger.info("これは新しいsendAll_IM.py. ver.1.2: 2017/06/13 22:42修正")
-logger.info("動作終了23時、開始午前1時")
+logger.info("設定動作終了時刻："+str(hourToBegin)+ "時、開始："+str(hourToStop)+"時")
 
 try:
     import rcLocalUpdate
