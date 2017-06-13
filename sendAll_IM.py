@@ -433,9 +433,9 @@ if __name__ == '__main__':
         powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 ' + timeToOff + ' ' + str(x) + ' i'
         #40秒後に電源オフ、最後のパラメーター×5分後に起動
 
-        logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
+        #logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
 
-        #logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後に電源オフ、' + str(x) + '分後に起動')
+        #logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':' + timeToOff + '秒後に電源オフ、' + str(x) + '分後に起動')
 
         temperature, pressure, humid = readData()
         #Calculate CPU temperature of Raspberry Pi in Degrees C
