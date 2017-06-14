@@ -154,7 +154,7 @@ def capture_send():
     logger.info('写真の保存ファイル名；' + file_name)
     picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
     time.sleep(2) #これも入れ忘れてた　2017/06/14　12:59
-    #picamera.brightness = 60 #標準の50よりほんの少し明るめに
+    picamera.brightness = 55 #標準の50よりほんの少し明るめに
     picamera.rotation = 180
     picamera.capture(dir_path+'/'+file_name)
     send_ftps(file_name)
