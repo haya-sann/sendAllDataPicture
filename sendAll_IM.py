@@ -156,6 +156,9 @@ def capture_send():
     time.sleep(2) #これも入れ忘れてた　2017/06/14　12:59
     picamera.brightness = 55 #標準の50よりほんの少し明るめに
     picamera.contrast = 53 #標準の50よりほんの少しコントラストを強めに
+    logger.info("brightness:"+str(picamera.brightness)+" ,contrast:"+(picamera.contrast))
+    picamera.annotate_background = picamera.Color('black')
+    picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S')
     picamera.rotation = 180
     picamera.capture(dir_path+'/'+file_name)
     send_ftps(file_name)
