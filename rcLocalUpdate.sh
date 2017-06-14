@@ -138,7 +138,8 @@ log "Sakura server is online"
 
 log "update all files in sendAllDataPicture with git pull"
 cd /home/pi/Documents/mochimugi/sendAllDataPicture
-git checkout deletePictAfterSend
+git checkout master | tee -a ${LOGFILE}
+git status | tee -a ${LOGFILE}
 git pull | tee -a ${LOGFILE}
 
 # Print the IP address
