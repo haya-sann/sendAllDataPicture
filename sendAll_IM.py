@@ -111,7 +111,7 @@ def sendLog_ftps(file_name):
         _ftps.quit()
         logger.info("Upload finished and closed Log file, with no error")
         #log送信正常終了なので、中身をクリアする
-        with open(dir_path + '/' + file_name,"w") as f:
+        with open(dir_path + '/' + file_name, "w") as f:
             f.write("Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
             f.close()
     except:
@@ -128,16 +128,20 @@ def send_ftps(file_name): #ここにエラー処理を入れること
         _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
         # target file. 次のステップでアップロード成功したら削除した方がよい？
         #SD Memoryがパンクする恐れがあるので、
-        #次のステップでアップロードが成功したらファイルは削除するように、改良するべきか？
+        #次のステップでアップロードが成功したらファイルは削除するように、改良する。2017/06/14
 
         _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
         logger.info('change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
         _ftps.quit()
-        logger.info("Upload finished with no error")
     except:
         logger.debug("Somthing wrong in ftps process")
+        raise
+    finally:
+        logger.info("Upload finished with no error")
+
+
 
 def capture_send():
     logger.info('Waiting for shooting time')
@@ -161,7 +165,13 @@ def capture_send():
     # picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S')
     picamera.rotation = 180
     picamera.capture(dir_path+'/'+captureFile_name)
-    send_ftps(captureFile_name)
+    
+    try:
+        send_ftps(captureFile_name)
+    except:
+        pass #ここはそのまま何もしない
+    finally:
+        logger.info("エラーなしで送信できたので、Ras Pi上の写真は削除")
     return captureFile_name
 
 spi = spidev.SpiDev()
@@ -418,7 +428,7 @@ if __name__ == '__main__':
         logger.info("現在時刻は" + str(now))
 
         if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
-            captureFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
+            localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
 
         now = datetime.datetime.now()
         hour = now.hour
@@ -448,6 +458,7 @@ if __name__ == '__main__':
         temperature, pressure, humid = readData()
         logger.info("Calculate CPU temperature of Raspberry Pi in Degrees C")
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
+        import pdb; pdb.set_trace()
         lightLevel = measureLight()
         #get voltage data from MCP3002
         # ch0
@@ -461,7 +472,7 @@ if __name__ == '__main__':
         voltage_ch1 = voltage_ch1 / 38.75
         voltage_ch2 = voltage_ch2 / 38.75
 
-        memo = captureFile_name
+        memo = localFile_name
 
         time.sleep(5)
         try:
