@@ -35,12 +35,14 @@ import ConfigParser
 import socket
 import commands
 
+localFile_name = ""
+
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
     DEPLOY_SWITCH = "sandBox"
 
-hourToBegin = 5 #カメラを動作開始させる時刻
+hourToBegin = 2 #カメラを動作開始させる時刻
 hourToStop = 23 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
@@ -74,7 +76,8 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("これは新しいsendAll_IM.py. ver.1.2: 2017/06/13 22:42修正")
+logger.info("これは新しいsendAll_IM.py. ver.1.3: 2017/06/15　02:37修正")
+logger.info("ftpサーバーに写真が正常に送信されたらローカルファイルは削除する")
 logger.info("設定動作開始時刻："+str(hourToBegin)+"時、　終了時刻："+str(hourToStop)+ "時")
 
 try:
@@ -135,12 +138,11 @@ def send_ftps(file_name): #ここにエラー処理を入れること
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
         _ftps.quit()
+        logger.info("Upload finished with no error")
     except:
         logger.debug("Somthing wrong in ftps process")
         raise
-    finally:
-        logger.info("Upload finished with no error")
-
+ 
 
 
 def capture_send():
@@ -153,7 +155,7 @@ def capture_send():
             break
         elif everyMinutes - (now.minute % everyMinutes) > 7:#、5分以上待つなら取りあえず撮影して終わる
             logger.info('指定時間まで7分以上ありますので、テスト撮影して指定時刻5分前に再起動します')
-            cuptureFile_name = '電源投入時テスト_' + now.strftime('%Y%m%d%H%M') + '.jpg'
+            captureFile_name = '電源投入時テスト_' + now.strftime('%Y%m%d%H%M') + '.jpg'
             break
     logger.info('写真の保存ファイル名；' + captureFile_name)
     picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
@@ -168,11 +170,14 @@ def capture_send():
     
     try:
         send_ftps(captureFile_name)
+
     except:
-        pass #ここはそのまま何もしない
+        logger.info("Failed file transfer。そのまま何もしない")
     finally:
-        logger.info("エラーなしで送信できたので、Ras Pi上の写真は削除")
-    return captureFile_name
+        logger.info("File is sended with no error. Delete " + dir_path+'/'+ captureFile_name + " on Ras Pi")
+        os.remove(dir_path+'/'+captureFile_name)
+        return captureFile_name
+
 
 spi = spidev.SpiDev()
 spi.open(0, 0)
@@ -458,7 +463,7 @@ if __name__ == '__main__':
         temperature, pressure, humid = readData()
         logger.info("Calculate CPU temperature of Raspberry Pi in Degrees C")
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
-        import pdb; pdb.set_trace()
+
         lightLevel = measureLight()
         #get voltage data from MCP3002
         # ch0
