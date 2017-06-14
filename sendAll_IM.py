@@ -128,16 +128,20 @@ def send_ftps(file_name): #ここにエラー処理を入れること
         _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
         # target file. 次のステップでアップロード成功したら削除した方がよい？
         #SD Memoryがパンクする恐れがあるので、
-        #次のステップでアップロードが成功したらファイルは削除するように、改良するべきか？
+        #次のステップでアップロードが成功したらファイルは削除するように、改良する。2017/06/14
 
         _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
         logger.info('change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
         _ftps.quit()
-        logger.info("Upload finished with no error")
     except:
         logger.debug("Somthing wrong in ftps process")
+        raise
+    finally:
+        logger.info("Upload finished with no error")
+
+
 
 def capture_send():
     logger.info('Waiting for shooting time')
@@ -161,7 +165,13 @@ def capture_send():
     # picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S')
     picamera.rotation = 180
     picamera.capture(dir_path+'/'+captureFile_name)
-    send_ftps(captureFile_name)
+    
+    try:
+        send_ftps(captureFile_name)
+    except:
+        pass #ここはそのまま何もしない
+    finally:
+        logger.info("エラーなしで送信できたので、Ras Pi上の写真は削除")
     return captureFile_name
 
 spi = spidev.SpiDev()
