@@ -458,6 +458,7 @@ if __name__ == '__main__':
         temperature, pressure, humid = readData()
         logger.info("Calculate CPU temperature of Raspberry Pi in Degrees C")
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
+        import pdb; pdb.set_trace()
         lightLevel = measureLight()
         #get voltage data from MCP3002
         # ch0
