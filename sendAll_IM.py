@@ -173,7 +173,8 @@ def capture_send():
     except:
         logger.info("Failed file transfer。そのまま何もしない")
     finally:
-        logger.info("Sended with no error. Delete picture on Ras Pi")
+        logger.info("File is sended with no error. Delete " + dir_path+'/'+ captureFile_name + " on Ras Pi")
+        os.remove(dir_path+'/'+captureFile_name)
         return captureFile_name
 
 
