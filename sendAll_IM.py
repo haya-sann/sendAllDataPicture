@@ -111,7 +111,7 @@ def sendLog_ftps(file_name):
         _ftps.quit()
         logger.info("Upload finished and closed Log file, with no error")
         #log送信正常終了なので、中身をクリアする
-        with open(dir_path + '/' + file_name,"w") as f:
+        with open(dir_path + '/' + file_name, "w") as f:
             f.write("Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
             f.close()
     except:
@@ -428,7 +428,7 @@ if __name__ == '__main__':
         logger.info("現在時刻は" + str(now))
 
         if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
-            captureFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
+            localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
 
         now = datetime.datetime.now()
         hour = now.hour
@@ -471,7 +471,7 @@ if __name__ == '__main__':
         voltage_ch1 = voltage_ch1 / 38.75
         voltage_ch2 = voltage_ch2 / 38.75
 
-        memo = captureFile_name
+        memo = localFile_name
 
         time.sleep(5)
         try:
