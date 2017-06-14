@@ -35,6 +35,8 @@ import ConfigParser
 import socket
 import commands
 
+localFile_name = ""
+
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
@@ -135,12 +137,11 @@ def send_ftps(file_name): #ここにエラー処理を入れること
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
         _ftps.quit()
+        logger.info("Upload finished with no error")
     except:
         logger.debug("Somthing wrong in ftps process")
         raise
-    finally:
-        logger.info("Upload finished with no error")
-
+ 
 
 
 def capture_send():
@@ -168,11 +169,13 @@ def capture_send():
     
     try:
         send_ftps(captureFile_name)
+
     except:
-        pass #ここはそのまま何もしない
+        logger.info("Failed file transfer。そのまま何もしない")
     finally:
-        logger.info("エラーなしで送信できたので、Ras Pi上の写真は削除")
-    return captureFile_name
+        logger.info("Sended with no error. Delete picture on Ras Pi")
+        return captureFile_name
+
 
 spi = spidev.SpiDev()
 spi.open(0, 0)
