@@ -151,7 +151,8 @@ def capture_send():
             logger.info('指定時間まで7分以上ありますので、テスト撮影して指定時刻5分前に再起動します')
             file_name = '電源投入時テスト_' + now.strftime('%Y%m%d%H%M') + '.jpg'
             break
-    logger.info('保存ファイル名；' + file_name)
+    logger.info('写真の保存ファイル名；' + file_name)
+    picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
     picamera.rotation = 180
     picamera.capture(dir_path+'/'+file_name)
     send_ftps(file_name)
