@@ -145,13 +145,13 @@ def capture_send():
         now = datetime.datetime.now()
         if now.minute % everyMinutes == 0: #指定毎分時になると撮影
             logger.info('指定時間になりました')
-            file_name = now.strftime('%Y%m%d%H%M') + '.jpg'
+            captureFile_name = now.strftime('%Y%m%d%H%M') + '.jpg'
             break
         elif everyMinutes - (now.minute % everyMinutes) > 7:#、5分以上待つなら取りあえず撮影して終わる
             logger.info('指定時間まで7分以上ありますので、テスト撮影して指定時刻5分前に再起動します')
-            file_name = '電源投入時テスト_' + now.strftime('%Y%m%d%H%M') + '.jpg'
+            cuptureFile_name = '電源投入時テスト_' + now.strftime('%Y%m%d%H%M') + '.jpg'
             break
-    logger.info('写真の保存ファイル名；' + file_name)
+    logger.info('写真の保存ファイル名；' + captureFile_name)
     picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
     time.sleep(2) #これも入れ忘れてた　2017/06/14　12:59
     picamera.brightness = 55 #標準の50よりほんの少し明るめに
@@ -160,8 +160,9 @@ def capture_send():
     # picamera.annotate_background = picamera.Color('black')
     # picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S')
     picamera.rotation = 180
-    picamera.capture(dir_path+'/'+file_name)
-    send_ftps(file_name)
+    picamera.capture(dir_path+'/'+captureFile_name)
+    send_ftps(captureFile_name)
+    return captureFile_name
 
 spi = spidev.SpiDev()
 spi.open(0, 0)
@@ -417,7 +418,7 @@ if __name__ == '__main__':
         logger.info("現在時刻は" + str(now))
 
         if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
-            capture_send() #写真撮影し、結果をサーバーに送信
+            captureFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
 
         now = datetime.datetime.now()
         hour = now.hour
@@ -459,6 +460,8 @@ if __name__ == '__main__':
 
         voltage_ch1 = voltage_ch1 / 38.75
         voltage_ch2 = voltage_ch2 / 38.75
+
+        memo = file_name
 
         time.sleep(5)
         try:
