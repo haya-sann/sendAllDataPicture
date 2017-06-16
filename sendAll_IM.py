@@ -42,7 +42,7 @@ try:
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
     DEPLOY_SWITCH = "sandBox"
 
-hourToBegin = 5 #カメラを動作開始させる時刻
+hourToBegin = 1 #カメラを動作開始させる時刻
 hourToStop = 23 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
