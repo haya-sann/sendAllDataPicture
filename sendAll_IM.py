@@ -463,7 +463,7 @@ if __name__ == '__main__':
         wakeupTime = now + timeToWait #起動時刻算出
 
 
-        logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':' + str(timeToOff) + '秒後に電源オフ、' + timeToWait.strftime('%Y%m%d%H%M') + 'に起動')
+        logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':' + str(timeToOff) + '秒後に電源オフ、' + wakeupTime.strftime('%Y%m%d%H%M') + 'に起動')
 
         temperature, pressure, humid = readData()
         logger.info("Calculate CPU temperature of Raspberry Pi in Degrees C")
