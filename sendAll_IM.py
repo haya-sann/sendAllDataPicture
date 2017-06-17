@@ -42,7 +42,7 @@ try:
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
     DEPLOY_SWITCH = "sandBox"
 
-hourToBegin = 1 #カメラを動作開始させる時刻
+hourToBegin = 12 #カメラを動作開始させる時刻
 hourToStop = 23 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
@@ -161,7 +161,9 @@ def capture_send():
     picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
     time.sleep(2) #これも入れ忘れてた　2017/06/14　12:59
     picamera.brightness = 55 #標準の50よりほんの少し明るめに
-    picamera.contrast = 53 #標準の50よりほんの少しコントラストを強めに
+#    picamera.contrast = 53 
+#too yellow, comment out
+#標準の50よりほんの少しコントラストを強めに
     logger.info("brightness:"+str(picamera.brightness)+" ,contrast:"+str(picamera.contrast))
     # picamera.annotate_background = picamera.Color('black')
     # picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S')
