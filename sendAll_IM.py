@@ -42,7 +42,7 @@ try:
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
     DEPLOY_SWITCH = "sandBox"
 
-hourToBegin = 1 #カメラを動作開始させる時刻
+hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 23 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
@@ -76,8 +76,7 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("これは新しいsendAll_IM.py. ver.1.3: 2017/06/15　02:37修正")
-logger.info("ftpサーバーに写真が正常に送信されたらローカルファイルは削除する")
+logger.info("これは新しいsendAll_IM.py. ver.1.4: 2017/06/18　03時14分修正")
 logger.info("設定動作開始時刻："+str(hourToBegin)+"時、　終了時刻："+str(hourToStop)+ "時")
 
 try:
