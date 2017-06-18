@@ -66,10 +66,11 @@ log "PROGRAM SWITCH is off. Now system start normally"
 function waitForPing() {
     # Wait for Network to be available.
 for i in {1..5};
-    do ping -c1 mochimugi.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && break; 
+    do ping -c1 mochimugi1.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && break; 
+    #just for debugging sbout ping to server
     echo -n .
     done
-[ $i = 5 ] && ( echo Can not reach Sakura Server ; my_shutdown2)
+[ $i = 5 ] && ( echo Can not reach Sakura Server  | tee -a ${LOGFILE} ; my_shutdown2)
 return 0
 }
 
