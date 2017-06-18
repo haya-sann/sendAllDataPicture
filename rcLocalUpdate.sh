@@ -73,15 +73,6 @@ for i in {1..5};
 return 0
 }
 
-function waitForPingTest() {
-    # Wait for Network to be available.
-for i in {1..5};
-    do ping -c1 mochimugi1.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && break; 
-    echo -n .
-    done
-[ $i = 5 ] && ( echo Can not reach Sakura Server  | tee -a ${LOGFILE}; return 1)
-}
-
 function waitForPPP() {
   echo waiting for ppp connection
   for i in {1..30}
@@ -118,7 +109,7 @@ function my_shutdown2() {
     for i in {1..5}
     do
         if eval $powerControlCommand |& grep "Error"; then
-        echo "Error encountered in my_shutdown2. Write i2c bus"
+        echo "Error encountered in my_shutdown2. Write i2c bus" | log
         sleep 1
         else
         break
@@ -144,9 +135,6 @@ log "ppp is up and running"
 
 waitForPing || ( echo connectSoracom error ; my_shutdown2 )
 log "Sakura server is online"
-
-waitForPingTest || ( echo connectSoracom error ; log "Returned with error. Sakura server is NOT online" )
-
 
 log "update all files in sendAllDataPicture with git pull"
 cd /home/pi/Documents/mochimugi/sendAllDataPicture
