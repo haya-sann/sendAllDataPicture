@@ -79,8 +79,7 @@ for i in {1..5};
     do ping -c1 mochimugi1.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && break; 
     echo -n .
     done
-[ $i = 5 ] && ( echo Can not reach Sakura Server  | tee -a ${LOGFILE})
-return 0
+[ $i = 5 ] && ( echo Can not reach Sakura Server  | tee -a ${LOGFILE}; return 1)
 }
 
 function waitForPPP() {
@@ -146,7 +145,7 @@ log "ppp is up and running"
 waitForPing || ( echo connectSoracom error ; my_shutdown2 )
 log "Sakura server is online"
 
-waitForPingTest || ( echo connectSoracom error ; log "Sakura server is NOT online" )
+waitForPingTest || ( echo connectSoracom error ; log "Returned with error. Sakura server is NOT online" )
 
 
 log "update all files in sendAllDataPicture with git pull"
