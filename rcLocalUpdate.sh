@@ -116,9 +116,9 @@ function my_shutdown2() {
         fi
     done
 [ $i = 5 ] && echo error writing I2C && reboot
-    echo system will poweroff after 10 seconds, and reboot
+    echo system will poweroff after 10 seconds, and reboot | log
     log "network is down : sended power control command : "$powerControlCommand
-    log "system will poweroff after 10 seconds, and reboot"
+#    log "system will poweroff after 10 seconds, and reboot"
     sudo poweroff
     return 0
 }
