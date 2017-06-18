@@ -66,11 +66,20 @@ log "PROGRAM SWITCH is off. Now system start normally"
 function waitForPing() {
     # Wait for Network to be available.
 for i in {1..5};
-    do ping -c1 mochimugi1.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && break; 
-    #just for debugging sbout ping to server
+    do ping -c1 mochimugi.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && break; 
     echo -n .
     done
 [ $i = 5 ] && ( echo Can not reach Sakura Server  | tee -a ${LOGFILE} ; my_shutdown2)
+return 0
+}
+
+function waitForPingTest() {
+    # Wait for Network to be available.
+for i in {1..5};
+    do ping -c1 mochimugi1.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && break; 
+    echo -n .
+    done
+[ $i = 5 ] && ( echo Can not reach Sakura Server  | tee -a ${LOGFILE})
 return 0
 }
 
@@ -136,6 +145,9 @@ log "ppp is up and running"
 
 waitForPing || ( echo connectSoracom error ; my_shutdown2 )
 log "Sakura server is online"
+
+waitForPingTest || ( echo connectSoracom error ; log "Sakura server is NOT online" )
+
 
 log "update all files in sendAllDataPicture with git pull"
 cd /home/pi/Documents/mochimugi/sendAllDataPicture
