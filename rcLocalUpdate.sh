@@ -91,6 +91,7 @@ function my_shutdown() {
     do
         if eval $powerControlCommand |& grep "Error"; then
         echo "Error encountered in my_shutdown. write i2c bus"
+        log "Error encountered in my_shutdown2. Write i2c bus"
         sleep 1
         else
         break
@@ -105,7 +106,7 @@ function my_shutdown() {
 }
 
 function my_shutdown2() {
-    powerControlCommand="sudo /usr/sbin/i2cset -y 1 0x40 10 0 i"
+    powerControlCommand="sudo /usr/sbin/i2cset -y 1 0x41 10 0 i"
     for i in {1..5}
     do
         if eval $powerControlCommand |& grep "Error"; then
