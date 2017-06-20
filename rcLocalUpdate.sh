@@ -140,9 +140,9 @@ log "Sakura server is online"
 
 log "update all files in sendAllDataPicture with git pull"
 cd /home/pi/Documents/mochimugi/sendAllDataPicture
-git checkout master | tee -a ${LOGFILE} || log ("Error occured in git. Update failed")
-git status | tee -a ${LOGFILE} || log ("Error occured in git. Update failed")
-git pull | tee -a ${LOGFILE} || log ("Error occured in git. Update failed")
+git checkout master | tee -a ${LOGFILE} #|| log ("Error occured in git. Update failed")
+git status | tee -a ${LOGFILE}# || log ("Error occured in git. Update failed")
+git pull | tee -a ${LOGFILE}# || log ("Error occured in git. Update failed")
 
 # Print the IP address
 _IP=$(hostname -I) || true
