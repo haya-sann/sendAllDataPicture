@@ -519,12 +519,12 @@ if __name__ == '__main__':
 
                     if "Error" in err:
                         print "Error encounterd"
-                        logger.debug("Error encountered during i2c write")
+                        logger.debug("Error encountered during i2c write"  + str(i) + " time retry.")
                     else:
                         break
                 except OSError as e:
                     print "System will reboot"
-                    logger.debug("System will reboot")
+                    logger.debug("System error. reboot now")
                     call("sudo reboot")
 
             time.sleep(5)
@@ -542,14 +542,14 @@ if __name__ == '__main__':
                 output, err = process.communicate()
 
                 if "Error" in err:
-                    logger.debug("Error encounterd")
+                    logger.debug("Error encounterd during i2c write"  + str(i) + " time retry.")
                 else:
                     break
             except OSError as e:
-                logger.debug ("System will reboot")
+                logger.debug ("OSError. System will reboot")
                 call("sudo reboot")
 
         time.sleep(240)
         logger.info("I2C command success: " + str(i) + " time retry. System will powerdown and reboot imedeately")
         call('sudo poweroff', shell=True)
-        logger.debug("system will poweroff after 4 minutes, and reboot immediate")
+        logger.debug("system will poweroff after 4 minutes, and reboot immediately")
