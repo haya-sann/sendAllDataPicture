@@ -90,7 +90,7 @@ function my_shutdown() {
     for i in {1..5}
     do
         if eval $powerControlCommand |& grep "Error"; then
-        echo "Error encountered in my_shutdown. write i2c bus"
+        echo Error encountered in my_shutdown. write i2c bus
         log "Error encountered in my_shutdown2. Write i2c bus"
         sleep 1
         else
@@ -110,14 +110,14 @@ function my_shutdown2() {
     for i in {1..5}
     do
         if eval $powerControlCommand |& grep "Error"; then
-        echo "Error encountered in my_shutdown2. Write i2c bus"
-        log "Error encountered in my_shutdown2. Write i2c bus"
+        echo I2C bus write error.$i" times"
+        log "I2C bus write error. "$i"times"
         sleep 1
         else
         break
         fi
     done
-[ $i = 5 ] && echo error writing I2C && log "error writing I2C, reboot right away" && reboot
+[ $i = 5 ] && echo error writing I2C && log "error writing I2C, "$i" times. Reboot right away" && reboot
     echo system will poweroff after 10 seconds, and reboot
     log "network is down : sended power control command : "$powerControlCommand
 #    log "system will poweroff after 10 seconds, and reboot"
