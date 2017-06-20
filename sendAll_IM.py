@@ -164,7 +164,8 @@ def capture_send():
 #標準の50よりほんの少しコントラストを強めに
     logger.info("brightness:"+str(picamera.brightness)+" ,contrast:"+str(picamera.contrast))
     # picamera.annotate_background = picamera.Color('black')
-    picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S') + " , Contrast : " + str(picamera.contrast)
+    picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S')
+    # + " , Contrast : " + str(picamera.contrast)
     picamera.rotation = 180
     picamera.capture(dir_path+'/'+captureFile_name)
     
