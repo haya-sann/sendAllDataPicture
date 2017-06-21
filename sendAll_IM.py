@@ -139,7 +139,7 @@ def send_ftps(file_name): #ここにエラー処理を入れること
         _ftps.quit()
         logger.info("Upload finished with no error")
     except:
-        logger.debug("Somthing wrong in ftps process")
+        logger.debug("Somthing wrong in send_ftps process")
         raise
  
 
@@ -172,14 +172,12 @@ def capture_send():
     
     try:
         send_ftps(captureFile_name)
-
-    except:
-        logger.info("Failed file transfer。そのまま何もしない")
-    finally:
         logger.info("File is sended with no error. Delete " + dir_path+'/'+ captureFile_name + " on Ras Pi")
         os.remove(dir_path+'/'+captureFile_name)
         return captureFile_name
 
+    except:
+        logger.info("Failed file transfer in send_ftps。そのまま何もしない")
 
 spi = spidev.SpiDev()
 spi.open(0, 0)
