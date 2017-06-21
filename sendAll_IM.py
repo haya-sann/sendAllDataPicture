@@ -132,7 +132,7 @@ def send_ftps(file_name): #ここにエラー処理を入れること
         #SD Memoryがパンクする恐れがあるので、
         #次のステップでアップロードが成功したらファイルは削除するように、改良する。2017/06/14
 
-        _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+        _ftps.cwd('/home/mochimugi/www/seasonShots1/' + put_directory) #アップロード先ディレクトリに移動
         logger.info('change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
