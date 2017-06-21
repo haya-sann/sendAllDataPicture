@@ -36,6 +36,7 @@ import socket
 import commands
 
 localFile_name = ""
+pictureContrast = 20
 
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
@@ -160,7 +161,7 @@ def capture_send():
     picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
     time.sleep(2) #これも入れ忘れてた　2017/06/14　12:59
 #    picamera.brightness = 55 #標準の50よりほんの少し明るめに
-    picamera.contrast = 10 
+    picamera.contrast = pictureContrast 
 #標準の50よりほんの少しコントラストを強めに
     logger.info("brightness:"+str(picamera.brightness)+" ,contrast:"+str(picamera.contrast))
     # picamera.annotate_background = picamera.Color('black')
