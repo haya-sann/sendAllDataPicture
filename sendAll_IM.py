@@ -109,7 +109,7 @@ def sendLog_ftps(file_name):
         logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
         logger.info('Logging file on the server is : ' + logfile_name)
 
-        _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+        _ftps.cwd('/home/mochimugi/www/seasonShots1/' + put_directory) #アップロード先ディレクトリに移動
         logger.info('Success : Change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
 
         _ftps.storbinary('STOR ' + logfile_name, _file)
@@ -122,13 +122,15 @@ def sendLog_ftps(file_name):
         
         _file.close()
         _ftps.quit()
-        logger.info("Upload finished and closed Log file, with no error")
+        logger.info("Upload finished and closed Log file, with no error. Clear log file.")
         #log送信正常終了なので、中身をクリアする
         with open(dir_path + '/' + file_name, "w") as f:
             f.write("Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
             f.close()
-    except:
-        logger.debug("sendLog_ftps end with somthing wrong. Please check")
+    except _ftps.all_errors, e:
+        logger.debug("sendLog_ftps end with somthing wrong. :" + str(e).split(None, 1)[0])
+        _file.close()
+        _ftps.quit()
 
 def send_ftps(file_name): #ここにエラー処理を入れること
     try:
