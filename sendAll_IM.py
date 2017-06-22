@@ -131,6 +131,7 @@ def sendLog_ftps(file_name):
         logger.debug("sendLog_ftps error. :" + str(e))
         _file.close()
         _ftps.quit()
+        raise
 
 def send_ftps(file_name): #ここにエラー処理を入れること
     try:
@@ -141,9 +142,7 @@ def send_ftps(file_name): #ここにエラー処理を入れること
         _ftps.prot_p() #データ接続をセキュアにする
 
         _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
-        # target file. 次のステップでアップロード成功したら削除した方がよい？
-        #SD Memoryがパンクする恐れがあるので、
-        #次のステップでアップロードが成功したらファイルは削除するように、改良する。2017/06/14
+        # アップロードが成功したらファイルは削除。2017/06/23
 
         _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
         logger.info('change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
@@ -151,11 +150,12 @@ def send_ftps(file_name): #ここにエラー処理を入れること
         _file.close()
         _ftps.quit()
         logger.info("Upload finished with no error")
-    except:
-        logger.debug("Somthing wrong in send_ftps process")
-        raise
- 
 
+    except Exception as e:
+        logger.debug("send(picture)_ftps error. :" + str(e))
+        _file.close()
+        _ftps.quit()
+        raise
 
 def capture_send():
     logger.info('Waiting for shooting time')
