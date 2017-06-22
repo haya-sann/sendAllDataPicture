@@ -111,7 +111,13 @@ def sendLog_ftps(file_name):
 
         _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
         logger.info('Success : Change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
-        _ftps.storbinary('STOR ' + logfile_name, _file)
+
+        ftps_storeCommand = "_ftps.storbinary('STOR ' + logfile_name, _file)"
+
+        process = Popen(ftps_storeCommand, shell=True, stdout=PIPE, stderr=PIPE)
+        output, err = process.communicate()
+
+        
         _file.close()
         _ftps.quit()
         logger.info("Upload finished and closed Log file, with no error")
