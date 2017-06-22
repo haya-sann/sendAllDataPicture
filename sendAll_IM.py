@@ -128,7 +128,7 @@ def sendLog_ftps(file_name):
             f.write("Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
             f.close()
     except Exception as e:
-        logger.debug("sendLog_ftps error. :" + str(e).split(None, 1)[0])
+        logger.debug("sendLog_ftps error. :" + str(e))
         _file.close()
         _ftps.quit()
 
