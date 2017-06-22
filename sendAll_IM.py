@@ -127,8 +127,8 @@ def sendLog_ftps(file_name):
         with open(dir_path + '/' + file_name, "w") as f:
             f.write("Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
             f.close()
-    except _ftps.all_errors, e:
-        logger.debug("sendLog_ftps end with somthing wrong. :" + str(e).split(None, 1)[0])
+    except Exception as e:
+        logger.debug("sendLog_ftps error. :" + str(e).split(None, 1)[0])
         _file.close()
         _ftps.quit()
 
