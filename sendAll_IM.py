@@ -117,6 +117,8 @@ def sendLog_ftps(file_name):
         process = Popen(ftps_storeCommand, shell=True, stdout=PIPE, stderr=PIPE)
         output, err = process.communicate()
 
+        for line in _file:
+            print line
         
         _file.close()
         _ftps.quit()
