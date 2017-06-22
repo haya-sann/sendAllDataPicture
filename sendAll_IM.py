@@ -30,6 +30,8 @@ import logging
 logger = logging.getLogger(__name__)
 formatter = logging.Formatter('[%(name)s] %(asctime)s %(levelname)s : %(message)s')
 streamHandler = logging.StreamHandler()
+logger.setLevel(logging.DEBUG)
+
 
 import ConfigParser
 import socket
@@ -67,12 +69,12 @@ dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
 
 global_ipAddress = commands.getoutput('hostname -I')
 
+streamHandler.setFormatter(formatter)
+streamHandler.setLevel(logging.DEBUG)
+
 fileHandler = logging.FileHandler(dir_path + '/'+ 'mochimugi.log', mode='a', encoding=None, delay=0)
 fileHandler.setFormatter(formatter)
-streamHandler.setFormatter(formatter)
 fileHandler.setLevel(logging.DEBUG)
-logger.setLevel(logging.DEBUG)
-streamHandler.setLevel(logging.DEBUG)
 logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
