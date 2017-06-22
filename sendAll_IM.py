@@ -45,7 +45,7 @@ try:
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
     DEPLOY_SWITCH = "sandBox"
 
-hourToBegin = 1 #カメラを動作開始させる時刻
+hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 23 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
@@ -109,7 +109,7 @@ def sendLog_ftps(file_name):
         logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
         logger.info('Logging file on the server is : ' + logfile_name)
 
-        _ftps.cwd('/home/mochimugi/www/seasonShots1/' + put_directory) #アップロード先ディレクトリに移動
+        _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
         logger.info('Success : Change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
 
         _ftps.storbinary('STOR ' + logfile_name, _file)
