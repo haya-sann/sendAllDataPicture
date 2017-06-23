@@ -38,7 +38,7 @@ import socket
 import commands
 
 localFile_name = ""
-pictureContrast = 20
+pictureContrast = 10
 
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
