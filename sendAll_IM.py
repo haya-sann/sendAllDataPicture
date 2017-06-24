@@ -478,6 +478,7 @@ if __name__ == '__main__':
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
         logger.info("CPU temperature in Degrees C : " + str(temp))
         try:
+            lightLevel =0 #init light level
             lightLevel = measureLight()
         except Exception as measureLightError:
             logger.debug("Error occured in measureLight: " + str(measureLightError))
