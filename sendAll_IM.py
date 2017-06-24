@@ -477,7 +477,10 @@ if __name__ == '__main__':
         temperature, pressure, humid = readData()
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
         logger.info("CPU temperature in Degrees C : " + str(temp))
-        lightLevel = measureLight()
+        try:
+            lightLevel = measureLight()
+        except Exception as measureLightError:
+            logger.debug("Error occured in measureLight: " + str(measureLightError))
         #get voltage data from MCP3002
         # ch0
         resp = spi.xfer2([0x68, 0x00])
