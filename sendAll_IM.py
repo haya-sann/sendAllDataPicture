@@ -514,9 +514,8 @@ if __name__ == '__main__':
             data = response.read()
             logger.info(data)
             conn.close()
-
-        except:
-            logger.debug("Connection to IM webAPI failed")
+        except Exception as webAPI_error:
+            logger.debug("Connection to IM webAPI failed: " + str(webAPI_error))
 
         sendLog_ftps('mochimugi.log') #ログを送信、
 
