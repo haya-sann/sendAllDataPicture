@@ -79,7 +79,7 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("これは新しいsendAll_IM.py. ver.1.4.1: 2017/06/24 16時15分改修")
+logger.info("これは新しいsendAll_IM.py. ver.2: 2017/06/24 16時30分改修")
 logger.info("設定動作開始時刻："+str(hourToBegin)+"時、　終了時刻："+str(hourToStop)+ "時")
 
 try:
@@ -344,6 +344,7 @@ def measureLight():
     sensor = BH1750(bus)
     logger.info("Light Sensitivity: {:d}".format(sensor.mtreg))
     lightLevel = sensor.measure_high_res2()
+    logger.info("Light Level: " + str(lightLevel))
     time.sleep(1)
     return lightLevel
 
