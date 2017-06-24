@@ -542,8 +542,8 @@ if __name__ == '__main__':
             call('sudo poweroff', shell=True)
         GPIO.cleanup() # <- GPIO 開放、複数回やってもいいのか？？？？？？？
         #2017年06月08日（木）14時27分
-    except:
-        logger.debug("Main program failed")
+    except Exception as e:
+        logger.debug("Main program failed :" + str(e))
         powerControlCommand="sudo /usr/sbin/i2cset -y 1 0x40 255 0 i"
         logger.debug("Sending power control command : "+powerControlCommand)
         for i in range(1,5):
