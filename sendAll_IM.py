@@ -476,7 +476,7 @@ if __name__ == '__main__':
 
         temperature, pressure, humid = readData()
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
-        logger.info("CPU temperature in Degrees C" + str(temp))
+        logger.info("CPU temperature in Degrees C : " + str(temp))
         lightLevel = measureLight()
         #get voltage data from MCP3002
         # ch0
