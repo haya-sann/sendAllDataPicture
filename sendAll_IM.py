@@ -339,7 +339,7 @@ def get_calib_param():
             digH[i] = (-digH[i] ^ 0xFFFF) + 1
 
 def measureLight():
-    for lightSense in (10):
+    for lightSense in (0, 10):
         try:
             #bus = smbus.SMBus(0) # Rev 1 Pi uses 0
             bus = smbus.SMBus(1)  # Rev 2 Pi uses 1
@@ -351,7 +351,7 @@ def measureLight():
             return lightLevel
             break
         except Exception as error_inMeasureLight:
-            logger.debug("Error during sensing light data: " + str(error_inMeasureLight) + " / " + str(lightSense) +" times trial")
+            logger.debug("Error during sensing light data: " + str(error_inMeasureLight) + " / " + str(lightSense) + " times trial")
     else:
         logger.debug("Error during sensing light data after : " + str(lightSense) +" times trial")
     
