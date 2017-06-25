@@ -79,7 +79,7 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("これは新しいsendAll_IM.py. ver.2: 2017/06/24 16時30分改修")
+logger.info("これは新しいsendAll_IM.py. ver.2 Exception as error_inMeasureLight: 2017/06/24 16時30分改修")
 logger.info("設定動作開始時刻："+str(hourToBegin)+"時、　終了時刻："+str(hourToStop)+ "時")
 
 try:
@@ -339,16 +339,18 @@ def get_calib_param():
             digH[i] = (-digH[i] ^ 0xFFFF) + 1
 
 def measureLight():
-    #bus = smbus.SMBus(0) # Rev 1 Pi uses 0
-    bus = smbus.SMBus(1)  # Rev 2 Pi uses 1
-    sensor = BH1750(bus)
-    logger.info("Light Sensitivity: {:d}".format(sensor.mtreg))
-    lightLevel = sensor.measure_high_res2()
-    logger.info("Light Level: " + str(lightLevel))
-    time.sleep(1)
-    return lightLevel
-
-
+    try:
+        #bus = smbus.SMBus(0) # Rev 1 Pi uses 0
+        bus = smbus.SMBus(1)  # Rev 2 Pi uses 1
+        sensor = BH1750(bus)
+        logger.info("Light Sensitivity: {:d}".format(sensor.mtreg))
+        lightLevel = sensor.measure_high_res2()
+        logger.info("Light Level: " + str(lightLevel))
+        time.sleep(1)
+        return lightLevel
+    except Exception as error_inMeasureLight:
+        logger.debug("Error during sensing light data: " + str(error_inMeasureLight))
+    
 def readData():
     data = []
     for i in range(0xF7, 0xF7+8):
