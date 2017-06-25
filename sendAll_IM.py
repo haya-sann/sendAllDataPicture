@@ -339,7 +339,7 @@ def get_calib_param():
             digH[i] = (-digH[i] ^ 0xFFFF) + 1
 
 def measureLight():
-    for lightSense in range(1, 10):
+    for lightSense in range(1, 50):
         try:
             #bus = smbus.SMBus(0) # Rev 1 Pi uses 0
             bus = smbus.SMBus(1)  # Rev 2 Pi uses 1
