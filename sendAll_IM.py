@@ -350,7 +350,8 @@ def measureLight():
         return lightLevel
     except Exception as error_inMeasureLight:
         logger.debug("Error during sensing light data: " + str(error_inMeasureLight))
-    
+        raise
+
 def readData():
     data = []
     for i in range(0xF7, 0xF7+8):
