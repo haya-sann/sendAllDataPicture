@@ -133,7 +133,7 @@ def sendLog_ftps(file_name):
         _ftps.quit()
         raise
 
-def send_ftps(file_name): #ここにエラー処理を入れること
+def send_ftps(file_name): #エラー処理 will be raise to main()
     try:
         logger.info("ftps accessing"+ archive_server)
         _ftps = FTP_TLS(archive_server)
@@ -341,7 +341,7 @@ def get_calib_param():
 def measureLight():
     for lightSense in range(1, 20):
         try:
-            logger.info("Sensing light evel...")
+            logger.info("Sensing light level...")
             #bus = smbus.SMBus(0) # Rev 1 Pi uses 0
             bus = smbus.SMBus(1)  # Rev 2 Pi uses 1
             sensor = BH1750(bus)
