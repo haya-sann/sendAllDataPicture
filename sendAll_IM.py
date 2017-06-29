@@ -432,9 +432,6 @@ def setup():
     writeReg(0xF5, config_reg)
 
 
-get_calib_param()
-
-
 if __name__ == '__main__':
     try:
         # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
@@ -482,6 +479,7 @@ if __name__ == '__main__':
 
         i2c_address = 0x76 # read BMP280 device 1
         setup()
+        get_calib_param()
         temperature, pressure, humid = readData()
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
         logger.info("CPU temperature in Degrees C : " + str(temp))
