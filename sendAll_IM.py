@@ -444,7 +444,6 @@ if __name__ == '__main__':
 
         now = datetime.datetime.now()
         hour = now.hour
-        logger.info("現在時刻は" + str(now))
 
         if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
             localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
@@ -453,7 +452,6 @@ if __name__ == '__main__':
         hour = now.hour
         minute = now.minute
         if hour < hourToBegin -1:
-            logger.info("現在時刻は" + str(hour) + "（hour < hourToBegin -1: #改良版）")
             x = 60 * hourToBegin - (hour * 60 + minute)
         elif hour >= hourToStop: #停止設定時刻になったら深夜24時までストップさせる
                                 #ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
