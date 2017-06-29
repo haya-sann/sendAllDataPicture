@@ -481,6 +481,11 @@ if __name__ == '__main__':
         setup()
         get_calib_param()
         temperature, pressure, humid = readData()
+        i2c_address = 0x77 # read BMP280 device 2
+        setup()
+        get_calib_param()
+        sensor_temp, sensor_press, sensor_humid =readData()
+        logger.info("Temperature in the light sensor case: " + str(sensor_temp))
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
         logger.info("CPU temperature in Degrees C : " + str(temp))
         try:
