@@ -79,7 +79,7 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("これは新しいsendAll_IM.py. ver.2 Exception as error_inMeasureLight: 2017/06/24 16時30分改修")
+logger.info("これは新しいsendAll_IM.py. ver1.4.3 Added second BME280 2017/06/30 01:30改修")
 logger.info("設定動作開始時刻："+str(hourToBegin)+"時、　終了時刻："+str(hourToStop)+ "時")
 
 try:
@@ -519,12 +519,11 @@ if __name__ == '__main__':
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
             #/IM/im_build/webAPI/putDataAPI_withAuth.php にはさくらサーバー内のMySQL Databaseへのアクセス情報が書かれている
             #DEPLOY_SWITCHに"sandBox"と書いてあれば、putDataAPI_withAuth.phpが自動判別してsandBoxサーバーにデータを送る
-            logger.info("connection requested")
             response = conn.getresponse()
             logger.info("Connection status:"+ str(response.status))
             logger.info("Status reason: "+ str(response.reason))
-            data = response.read()
-            logger.info(data)
+            # data = response.read()
+            # logger.info(data)
             conn.close()
         except Exception as webAPI_error:
             logger.debug("Connection to IM webAPI failed: " + str(webAPI_error))
