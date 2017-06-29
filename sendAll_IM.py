@@ -513,7 +513,7 @@ if __name__ == '__main__':
 
             logger.info('sending data to さくらレンタルサーバー via INTER-Mediator')
 
-            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : memo, 'deploy' : DEPLOY_SWITCH})
+            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'sensor_temp' : sensor_temp, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : memo, 'deploy' : DEPLOY_SWITCH})
 
             conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
