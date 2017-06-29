@@ -432,7 +432,6 @@ def setup():
     writeReg(0xF5, config_reg)
 
 
-setup()
 get_calib_param()
 
 
@@ -482,6 +481,7 @@ if __name__ == '__main__':
         logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':' + str(timeToOff) + '秒後に電源オフ、' + wakeupTime.strftime('%m月%d日%H時%M分') + 'に起動')
 
         i2c_address = 0x76 # read BMP280 device 1
+        setup()
         temperature, pressure, humid = readData()
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
         logger.info("CPU temperature in Degrees C : " + str(temp))
