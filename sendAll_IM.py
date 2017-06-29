@@ -440,7 +440,6 @@ if __name__ == '__main__':
         #picamera.resolution = (1024, 768) # こちらは554KBで済む
         # Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
         time.sleep(2)
-        logger.info('PiCamera Prepared')
 
         now = datetime.datetime.now()
         hour = now.hour
@@ -462,7 +461,6 @@ if __name__ == '__main__':
             if x <0:
                 x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
                 # x = 5   #テストのために5分のスリープを指定
-        logger.info("Deepsleep in " + str(x) + "minutes")
         x = x / 5
         timeToOff = 40
         powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 ' + str(timeToOff) + ' ' + str(x) + ' i'
