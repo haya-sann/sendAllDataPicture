@@ -15,4 +15,5 @@ with picamera.PiCamera() as camera:
         try:
             time.sleep(2)
         except KeyboardInterrupt:
-            camera.stop_preview()
+            break
+    camera.stop_preview()
