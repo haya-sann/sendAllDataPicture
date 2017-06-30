@@ -12,4 +12,7 @@ with picamera.PiCamera() as camera:
     camera.start_preview()
     while True:
     #Camera warm-up time
-        time.sleep(2)
+        try:
+            time.sleep(2)
+        except KeyboardInterrupt:
+            break
