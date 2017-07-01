@@ -44,7 +44,6 @@ echo -e "\e[42;31mto stop this autorun script, set PROGRAM SWITCH on\e[m"
 echo -e "\e[31mwithin 10 seconds\e[m"
 
 sleep 10
-ntpq -p
 
 PORT1=23 #GPIO23=Pin16
 gpio -g mode $PORT1 in
@@ -66,7 +65,7 @@ log "PROGRAM SWITCH is off. Now system start normally"
 function waitForPing() {
     # Wait for Network to be available.
 for i in {1..5};
-    do ping -c1 mochimugi.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && ntpdate dns5.sakura.ad.jp && break; 
+    do ping -c1 mochimugi.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && (ntpq -p | tee -a ${LOGFILE}) && break; 
     # server reached, update time
     echo -n .
     done
