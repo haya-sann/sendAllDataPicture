@@ -65,7 +65,7 @@ log "PROGRAM SWITCH is off. Now system start normally"
 function waitForPing() {
     # Wait for Network to be available.
 for i in {1..5};
-    do ping -c1 mochimugi.sakura.ne.jp &> /dev/null && (echo "ping reached SakuraServer"; ntpq -p | tee -a ${LOGFILE}) && break; 
+    do ping -c1 mochimugi.sakura.ne.jp &> /dev/null && (ntpq -p | tee -a ${LOGFILE}) && break; 
     # server reached, update time
     echo -n .
     done
