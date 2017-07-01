@@ -489,6 +489,7 @@ if __name__ == '__main__':
             logger.info("Temperature in the light sensor case: " + str(sensor_temp))
     
         except Exception as BMP280_2_error:
+            logger.info("BMP280 in the light sensor case error: " + str(BMP280_2_error))
             raise
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
         logger.info("CPU temperature in Degrees C : " + str(temp))
