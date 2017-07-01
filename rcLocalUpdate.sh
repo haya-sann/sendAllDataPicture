@@ -53,7 +53,7 @@ PORT2=24 #GPIO24=Pin18
 gpio -g mode $PORT2 out
 
 
-if [ `gpio -g read $PORT1` -eq 1 ] ; then #シングルクオートの``が大切なようだ
+if [ `gpio -g read $PORT1` -eq 1 ] ; then #シングルクオートの``が大切
   log "program switch is ON"
   gpio -g write $PORT2 1
   crontab < /home/pi/crontab
@@ -66,7 +66,8 @@ log "PROGRAM SWITCH is off. Now system start normally"
 function waitForPing() {
     # Wait for Network to be available.
 for i in {1..5};
-    do ping -c1 mochimugi.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && break; 
+    do ping -c1 mochimugi.sakura.ne.jp &> /dev/null && (echo SakuraServer is available) && ntpdate dns5.sakura.ad.jp && break; 
+    # server reached, update time
     echo -n .
     done
 [ $i = 5 ] && ( echo Can not reach Sakura Server  | tee -a ${LOGFILE} ; my_shutdown2)
