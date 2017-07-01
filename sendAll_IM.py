@@ -480,6 +480,7 @@ if __name__ == '__main__':
             temperature, pressure, humid = readData()
 
         except Exception as BMP280_1_error:
+            logger.info("BMP280_1 error: " + str(BMP280_1_error))
             raise
         try:
             i2c_address = 0x77 # read BMP280 device 2
