@@ -47,7 +47,7 @@ except: #rc.localからexportされて送られるはずのDEPLYがない場合�
 
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 23 #カメラを完全休止させる時刻
-everyMinutes = 60 #何分おきに撮影するのかをセット
+everyMinutes = 37 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/mochimugi/config.conf")#Localに置いたconfig.confファイルへの絶対パスを使った
@@ -165,7 +165,7 @@ def capture_send():
             logger.info('指定時間になりました')
             captureFile_name = now.strftime('%Y%m%d%H%M') + '.jpg'
             break
-        elif everyMinutes - (now.minute % everyMinutes) > 7:#、5分以上待つなら取りあえず撮影して終わる
+        elif everyMinutes - (now.minute % everyMinutes) > 7:#7分より多く待つなら取りあえず撮影して終わる
             logger.info('指定時間まで7分以上ありますので、テスト撮影して指定時刻5分前に再起動します')
             captureFile_name = '電源投入時テスト_' + now.strftime('%Y%m%d%H%M') + '.jpg'
             break
