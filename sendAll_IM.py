@@ -47,7 +47,7 @@ except: #rc.localからexportされて送られるはずのDEPLYがない場合�
 
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 23 #カメラを完全休止させる時刻
-everyMinutes = 37 #何分おきに撮影するのかをセット
+everyMinutes = 60 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/mochimugi/config.conf")#Localに置いたconfig.confファイルへの絶対パスを使った
