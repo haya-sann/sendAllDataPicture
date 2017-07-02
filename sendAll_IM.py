@@ -161,7 +161,7 @@ def capture_send():
     logger.info('Waiting for shooting time')
     while True:
         now = datetime.datetime.now()
-        if now.minute % everyMinutes == 0: #指定毎分時になると撮影
+        if now.minute % everyMinutes <= 5: #指定毎分時、過ぎた場合は5分以内なら撮影
             logger.info('指定時間になりました')
             captureFile_name = now.strftime('%Y%m%d%H%M') + '.jpg'
             break
