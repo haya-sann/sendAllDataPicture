@@ -127,6 +127,7 @@ def sendLog_ftps(file_name):
         with open(dir_path + '/' + file_name, "w") as f:
             f.write("Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
             f.close()
+        return logfile_name
     except Exception as e:
         logger.debug("sendLog_ftps error. :" + str(e))
         _file.close()
@@ -514,12 +515,14 @@ if __name__ == '__main__':
         memo = localFile_name
 
         time.sleep(5)
+        logfile_name = sendLog_ftps('mochimugi.log') #ログを送信、
+
         try:
             d = datetime.datetime.today()
 
             logger.info('sending data to さくらレンタルサーバー via INTER-Mediator')
 
-            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'sensor_temp' : sensor_temp, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : memo, 'deploy' : DEPLOY_SWITCH})
+            params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'sensor_temp' : sensor_temp, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : memo, 'log' : logfile_name, 'deploy' : DEPLOY_SWITCH})
 
             conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
@@ -533,8 +536,6 @@ if __name__ == '__main__':
             conn.close()
         except Exception as webAPI_error:
             logger.debug("Connection to IM webAPI failed: " + str(webAPI_error))
-
-        sendLog_ftps('mochimugi.log') #ログを送信、
 
         if GPIO.input(PORT1) == 0:
         #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
