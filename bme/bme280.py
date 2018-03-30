@@ -169,7 +169,7 @@ def setup():
 		writeReg(0xF4,ctrl_meas_reg)
 		writeReg(0xF5,config_reg)
 
-	except (KeyError, ValueError) as err:
+	except (KeyError, ValueError, IOError) as err:
 		logger.exception('Error in read bme280: %s', err)
 		pass
 
