@@ -31,7 +31,8 @@ if __name__ == '__main__':
 	else:
 		print 'Please specify i2c_address. Assuming default 0x76'
 		print 'Ex:python bme280.py 0x77'
-		print 'i2cのアドレスとして' + hex(i2c_address) +'がセットされました'
+
+print 'i2cのアドレスとして' + hex(i2c_address) +'がセットされました'
 
 #bus = SMBus(bus_number) #元はこうなっていた。
 bus = smbus.SMBus(bus_number)
