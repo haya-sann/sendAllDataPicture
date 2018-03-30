@@ -27,7 +27,7 @@ temperature, pressure, humid, lightLevel = captureSensorData()
 
 #send date to さくらレンタルサーバー
 
-params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN",    'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel })
+params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'deploy' : "sandBox" })
 
 
 if __name__ == '__main__':
