@@ -175,9 +175,8 @@ def setup():
 
 
 	except IOError:
-     		logger.info('IOErrorです。デバイスが認識できません')
-			logger.exception('Error in read bme280: %s', err)
-
+     	logger.info('IOErrorです。デバイスが認識できません')
+		logger.exception('Error in read bme280: %s', err)
 		pass
 #		sys.exit()
 
