@@ -32,7 +32,7 @@ params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp,
 
 if __name__ == '__main__':
     try:            
-        conn = httplib.HTTPSConnection("mochimugi.ne.jp")
+        conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
         conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
         print ("connection requested")
         response = conn.getresponse()
