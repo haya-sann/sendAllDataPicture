@@ -14,6 +14,7 @@ global_ipAddress =  commands.getoutput('hostname -I')
 dir_path = os.path.abspath(os.path.dirname(__file__))
 
 import logging
+
 logger = logging.getLogger(__name__)
 formatter = logging.Formatter('[%(name)s] %(asctime)s %(levelname)s : %(message)s')
 streamHandler = logging.StreamHandler()
@@ -73,7 +74,7 @@ if __name__ == '__main__':
         print (data)
         conn.close()
 
-	except IOError:
+	except IOError as e:
 		logger.info('IOErrorです。デバイスが認識できません')
 #		logger.exception('Error in read bme280: %s', err)
 	finally:
