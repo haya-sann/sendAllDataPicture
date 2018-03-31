@@ -7,10 +7,12 @@ import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
 from bme280 import bmeRead
 
-def captureSensorData():
+i2c_address = 0x76
+
+def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
     #I2C、SPIなどを使ってデータキャプチャ
-    bmeRead(0x76)
+    bmeRead(i2c_address)
 
     return temperature, pressure, humid
 
@@ -22,7 +24,7 @@ print ('データ取得時刻 == %s : %s\n' % (d, type(d))) # Microsecond(10^-6s
 #Calculate CPU temperature of Raspberry Pi in Degrees C
 temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
 
-temperature, pressure, humid = captureSensorData()
+temperature, pressure, humid = captureSensorData(i2c_address)
 
 #send date to さくらレンタルサーバー
 
