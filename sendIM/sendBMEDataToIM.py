@@ -74,7 +74,7 @@ if __name__ == '__main__':
         print (data)
         conn.close()
 
-	except IOError as e:
+    except IOError:
 		logger.info('IOErrorです。デバイスが認識できません')
 #		logger.exception('Error in read bme280: %s', err)
 	finally:
