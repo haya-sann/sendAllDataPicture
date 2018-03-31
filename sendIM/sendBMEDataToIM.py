@@ -7,6 +7,7 @@ import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
 import os
 import commands
+import sys
 
 from bme280 import bmeRead
 
@@ -47,7 +48,7 @@ def captureSensorData(i2c_address):
         temperature, pressure, humid = bmeRead(i2c_address)
     except IOError as e:
         logger.info("IO errorが起きました" + str(e))
-        exit
+        sys.exit()
 
     return temperature, pressure, humid
 
