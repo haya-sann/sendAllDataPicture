@@ -38,7 +38,7 @@ temperature =0.0
 pressure = 0.0
 humid = 0.0
 
-i2c_address = 0x77
+i2c_address = 0x76
 
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
