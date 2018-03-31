@@ -45,7 +45,7 @@ t_fine = 0.0
 def bmeRead(reg_i2c_address):
     global i2c_address
     i2c_address = reg_i2c_address
-	print 'i2cのアドレスとして' + hex(i2c_address) +'がセットされました'
+    print 'i2cのアドレスとして' + hex(i2c_address) +'がセットされました'
     setup()
     get_calib_param()
     readData()
