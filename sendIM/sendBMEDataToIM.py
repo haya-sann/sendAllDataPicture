@@ -5,7 +5,13 @@ import httplib, urllib
 import time
 import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
+import os
+import commands
+
 from bme280 import bmeRead
+
+global_ipAddress =  commands.getoutput('hostname -I')
+
 
 import logging
 logger = logging.getLogger(__name__)
@@ -25,7 +31,6 @@ logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
 logger.info("これは新しいsendAll_IM.py. ver1.4.3 Added second BME280 2017/06/30 01:30改修")
-logger.info("設定動作開始時刻："+str(hourToBegin)+"時、　終了時刻："+str(hourToStop)+ "時")
 
 
 temperature =0.0
