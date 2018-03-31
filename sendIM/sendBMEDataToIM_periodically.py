@@ -5,24 +5,50 @@ import httplib, urllib
 import time
 import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
+import os
+import commands
+import sys
+
 from bme280 import bmeRead
+
+global_ipAddress =  commands.getoutput('hostname -I')
+dir_path = os.path.abspath(os.path.dirname(__file__))
+
 import logging
+
 logger = logging.getLogger(__name__)
 formatter = logging.Formatter('[%(name)s] %(asctime)s %(levelname)s : %(message)s')
 streamHandler = logging.StreamHandler()
 logger.setLevel(logging.DEBUG)
 
 
+streamHandler.setFormatter(formatter)
+streamHandler.setLevel(logging.DEBUG)
+
+fileHandler = logging.FileHandler(dir_path + '/mochimugi.log', mode='a', encoding=None, delay=0)
+fileHandler.setFormatter(formatter)
+fileHandler.setLevel(logging.DEBUG)
+logger.addHandler(streamHandler)
+logger.addHandler(fileHandler)
+logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
+logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
+logger.info("これは新しいsendAll_IM.py. ver1.4.3 Added second BME280 2017/06/30 01:30改修")
+
+
 temperature =0.0
 pressure = 0.0
 humid = 0.0
 
-i2c_address = 0x77
+i2c_address = 0x76
 
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
     #I2C、SPIなどを使ってデータキャプチャ
-    temperature, pressure, humid = bmeRead(i2c_address)
+    try:
+        temperature, pressure, humid = bmeRead(i2c_address)
+    except IOError as e:
+        logger.info("デバイスが見つかりません　：" + str(e))
+        sys.exit(False)
 
     return temperature, pressure, humid
 
@@ -53,10 +79,11 @@ if __name__ == '__main__':
         print (data)
         conn.close()
 
-    except:
-        print ("connection failed")
-
-
+    except IOError:
+		logger.info('IOErrorです。デバイスが認識できません')
+    #		logger.exception('Error in read bme280: %s', err)
+    finally:
+		print('処理を終了しました')
 
 
 
