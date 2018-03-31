@@ -34,7 +34,7 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("これは新しいsendAll_IM.py. ver1.4.3 Added second BME280 2017/06/30 01:30改修")
+logger.info("実行中のプログラムは" + str(__file__) + "です")
 
 
 temperature =0.0
@@ -76,8 +76,7 @@ def sendPowerCommand():
 	#retryのInstallationは
 	#$ pip install retry
 	#from retry import retry
-    logger.info("sended PowerCommand")
-
+    logger.info("sended PowerCommand" + str(powerControlCommand))
 
 if __name__ == '__main__':
     try:
