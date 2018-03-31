@@ -5,14 +5,12 @@ import httplib, urllib
 import time
 import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
+import bme280.py
 
 def captureSensorData():
     #センサーからデータ収集するプログラムを実装
     #I2C、SPIなどを使ってデータキャプチャ
-    temperature = 53.32
-    pressure = 1090
-    humid = 56.5
-    lightLevel = 1200
+
     return temperature, pressure, humid, lightLevel
 
 # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
