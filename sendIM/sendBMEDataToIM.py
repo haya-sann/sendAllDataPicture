@@ -43,7 +43,10 @@ i2c_address = 0x76
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
     #I2C、SPIなどを使ってデータキャプチャ
-    temperature, pressure, humid = bmeRead(i2c_address)
+    try:
+        temperature, pressure, humid = bmeRead(i2c_address)
+    except IOError as e:
+        logger.info("IO errorが起きました" + e)
 
     return temperature, pressure, humid
 
