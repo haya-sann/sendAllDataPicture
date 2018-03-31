@@ -67,9 +67,19 @@ temperature, pressure, humid = captureSensorData(i2c_address)
 params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure/100, 'humid': humid, 'deploy' : "sandBox" })
 #params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'deploy' : "sandBox" })
 
+@retry()
+def sendPowerCommand():
+    os.system(powerControlCommand) #import osが必要
+        #成功するまで繰り返す
+	#retryのInstallationは
+	#$ pip install retry
+	#from retry import retry
+    logger.info("sended PowerCommand")
+
 
 if __name__ == '__main__':
-    try:            
+    try:
+        powerControlCommand = '/usr/sbin/i2cset -y 1 0x40 40 1 i'
         conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
         conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
         print ("connection requested")
@@ -78,6 +88,9 @@ if __name__ == '__main__':
         data = response.read()
         print (data)
         conn.close()
+        sendPowerCommand()
+        time.sleep(5)
+        os.system('sudo poweroff')
 
     except IOError:
 		logger.info('IOErrorです。デバイスが認識できません')
