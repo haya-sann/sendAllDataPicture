@@ -11,7 +11,7 @@ import commands
 from bme280 import bmeRead
 
 global_ipAddress =  commands.getoutput('hostname -I')
-
+dir_path = os.path.abspath(os.path.dirname(__file__))
 
 import logging
 logger = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ logger.setLevel(logging.DEBUG)
 streamHandler.setFormatter(formatter)
 streamHandler.setLevel(logging.DEBUG)
 
-fileHandler = logging.FileHandler('./mochimugi.log', mode='a', encoding=None, delay=0)
+fileHandler = logging.FileHandler(dir_path + '/mochimugi.log', mode='a', encoding=None, delay=0)
 fileHandler.setFormatter(formatter)
 fileHandler.setLevel(logging.DEBUG)
 logger.addHandler(streamHandler)
