@@ -10,7 +10,7 @@ from bme280 import bmeRead
 def captureSensorData():
     #センサーからデータ収集するプログラムを実装
     #I2C、SPIなどを使ってデータキャプチャ
-    bmeRead()
+    bmeRead(0x76)
 
     return temperature, pressure, humid
 
