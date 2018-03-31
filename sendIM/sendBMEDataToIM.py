@@ -73,10 +73,16 @@ if __name__ == '__main__':
         print (data)
         conn.close()
 
-    except:
-        print ("connection failed")
+	except (KeyError, ValueError) as err:
+		logger.exception('Error in read bme280: %s', err)
+		pass
 
 
+	except IOError:
+		logger.info('IOErrorです。デバイスが認識できません')
+#		logger.exception('Error in read bme280: %s', err)
+	finally:
+		print('処理を終了しました')
 
 
 
