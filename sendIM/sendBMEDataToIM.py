@@ -14,6 +14,19 @@ streamHandler = logging.StreamHandler()
 logger.setLevel(logging.DEBUG)
 
 
+streamHandler.setFormatter(formatter)
+streamHandler.setLevel(logging.DEBUG)
+
+fileHandler = logging.FileHandler('./mochimugi.log', mode='a', encoding=None, delay=0)
+fileHandler.setFormatter(formatter)
+fileHandler.setLevel(logging.DEBUG)
+logger.addHandler(streamHandler)
+logger.addHandler(fileHandler)
+logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
+logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
+logger.info("これは新しいsendAll_IM.py. ver1.4.3 Added second BME280 2017/06/30 01:30改修")
+logger.info("設定動作開始時刻："+str(hourToBegin)+"時、　終了時刻："+str(hourToStop)+ "時")
+
 
 temperature =0.0
 pressure = 0.0

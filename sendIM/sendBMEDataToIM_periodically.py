@@ -6,6 +6,12 @@ import time
 import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
 from bme280 import bmeRead
+import logging
+logger = logging.getLogger(__name__)
+formatter = logging.Formatter('[%(name)s] %(asctime)s %(levelname)s : %(message)s')
+streamHandler = logging.StreamHandler()
+logger.setLevel(logging.DEBUG)
+
 
 temperature =0.0
 pressure = 0.0
