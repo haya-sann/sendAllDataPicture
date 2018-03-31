@@ -5,13 +5,14 @@ import httplib, urllib
 import time
 import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
-import bme280
+from bme280 import bmeRead
 
 def captureSensorData():
     #センサーからデータ収集するプログラムを実装
     #I2C、SPIなどを使ってデータキャプチャ
+    bmeRead()
 
-    return temperature, pressure, humid, lightLevel
+    return temperature, pressure, humid
 
 # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
 d = datetime.datetime.today()
@@ -21,7 +22,7 @@ print ('データ取得時刻 == %s : %s\n' % (d, type(d))) # Microsecond(10^-6s
 #Calculate CPU temperature of Raspberry Pi in Degrees C
 temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
 
-temperature, pressure, humid, lightLevel = captureSensorData()
+temperature, pressure, humid = captureSensorData()
 
 #send date to さくらレンタルサーバー
 
