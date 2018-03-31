@@ -10,6 +10,8 @@ import commands
 import sys
 
 from bme280 import bmeRead
+from retry import retry
+
 
 global_ipAddress =  commands.getoutput('hostname -I')
 dir_path = os.path.abspath(os.path.dirname(__file__))
