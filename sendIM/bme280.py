@@ -32,7 +32,6 @@ if __name__ == '__main__':
 		print 'Please specify i2c_address. Assuming default 0x76'
 		print 'Ex:python bme280.py 0x77'
 
-print 'i2cのアドレスとして' + hex(i2c_address) +'がセットされました'
 
 #bus = SMBus(bus_number) #元はこうなっていた。
 bus = smbus.SMBus(bus_number)
@@ -46,6 +45,7 @@ t_fine = 0.0
 def bmeRead(reg_i2c_address):
     global i2c_address
     i2c_address = reg_i2c_address
+	print 'i2cのアドレスとして' + hex(i2c_address) +'がセットされました'
     setup()
     get_calib_param()
     readData()
