@@ -46,11 +46,11 @@ def bmeRead(reg_i2c_address):
     global i2c_address
     i2c_address = reg_i2c_address
     print 'i2cのアドレスとして' + hex(i2c_address) +'がセットされました'
-	try:
+    try:
         setup()
-	except IOError:
-		raise
-		
+    except IOError:
+        raise
+
     get_calib_param()
     readData()
     return temperature, pressure, var_h
