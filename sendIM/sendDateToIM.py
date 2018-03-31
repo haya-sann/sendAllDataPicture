@@ -7,6 +7,10 @@ import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
 from bme280 import bmeRead
 
+temperature =0.0
+pressure = 0.0
+humid = 0.0
+
 i2c_address = 0x77
 
 def captureSensorData(i2c_address):
