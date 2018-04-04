@@ -104,6 +104,7 @@ if __name__ == '__main__':
     finally:
 		print('処理を終了しました')
         os.system('sudo poweroff')
+        
 
 
 
