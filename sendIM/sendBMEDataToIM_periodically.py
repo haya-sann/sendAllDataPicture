@@ -66,7 +66,7 @@ temperature, pressure, humid = captureSensorData(i2c_address)
 
 #send date to さくらレンタルサーバー
 
-fileObject = open(d'mochimugi.log', 'r')
+fileObject = open('mochimugi.log', 'r')
 mochimugiLog = fileObject.read()
 fileObject.close
 
