@@ -103,5 +103,6 @@ if __name__ == '__main__':
     #		logger.exception('Error in read bme280: %s', err)
     finally:
         print('処理を終了しました')
-        os.system('sudo poweroff')
         
+print('システムを終了します')
+os.system('sudo poweroff')
