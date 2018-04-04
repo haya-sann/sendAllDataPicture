@@ -95,15 +95,15 @@ if __name__ == '__main__':
         data = response.read()
         print (data)
         conn.close()
-        #sendPowerCommand()
+        sendPowerCommand()
         time.sleep(5)
-        #os.system('sudo poweroff')
 
     except IOError:
 		logger.info('IOErrorです。デバイスが認識できません')
     #		logger.exception('Error in read bme280: %s', err)
     finally:
 		print('処理を終了しました')
+        os.system('sudo poweroff')
 
 
 
