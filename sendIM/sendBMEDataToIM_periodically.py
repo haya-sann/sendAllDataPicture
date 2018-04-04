@@ -93,9 +93,9 @@ if __name__ == '__main__':
         data = response.read()
         print (data)
         conn.close()
-        sendPowerCommand()
+        #sendPowerCommand()
         time.sleep(5)
-        os.system('sudo poweroff')
+        #os.system('sudo poweroff')
 
     except IOError:
 		logger.info('IOErrorです。デバイスが認識できません')
