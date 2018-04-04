@@ -70,6 +70,8 @@ fileObject = open('mochimugi.log', 'r')
 mochimugiLog = fileObject.read()
 fileObject.close
 
+print (mochimugiLog)
+
 params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure/100, 'humid': humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
 #params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'deploy' : "sandBox" })
 
