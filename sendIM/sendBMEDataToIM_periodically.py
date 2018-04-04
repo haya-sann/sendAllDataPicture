@@ -66,7 +66,11 @@ temperature, pressure, humid = captureSensorData(i2c_address)
 
 #send date to さくらレンタルサーバー
 
-params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure/100, 'humid': humid, 'deploy' : "sandBox" })
+fileObject = open(dir_path + '/' + 'mochimugi.log', 'r')
+mochimugiLog = fileObject.readlines()
+fileObject.close
+
+params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure/100, 'humid': humid, 'memo':mochimugiLog, 'deploy' : "sandBox" })
 #params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'deploy' : "sandBox" })
 
 @retry()
