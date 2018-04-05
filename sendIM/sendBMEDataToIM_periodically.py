@@ -68,9 +68,9 @@ def sendDataToIM():
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
     print ("connection requested")
     response = conn.getresponse()
-    logger.info (response.status, response.reason)
+    print (response.status, response.reason)
     data = response.read()
-    logger.info (data)
+    print (data)
     conn.close()
 
 # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
