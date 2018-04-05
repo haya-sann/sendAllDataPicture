@@ -54,6 +54,26 @@ def captureSensorData(i2c_address):
 
     return temperature, pressure, humid
 
+def sendDataToIM():
+    fileObject = open('mochimugi.log', 'r')
+    mochimugiLog = fileObject.read()
+    fileObject.close
+
+    print (mochimugiLog)
+
+
+    params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure/100, 'humid': humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
+    #params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'deploy' : "sandBox" })
+
+
+    conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
+    print ("connection requested")
+    response = conn.getresponse()
+    print (response.status, response.reason)
+    data = response.read()
+    print (data)
+    conn.close()
+
 # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
 d = datetime.datetime.today()
 
@@ -66,15 +86,6 @@ temperature, pressure, humid = captureSensorData(i2c_address)
 
 #send date to さくらレンタルサーバー
 
-fileObject = open('mochimugi.log', 'r')
-mochimugiLog = fileObject.read()
-fileObject.close
-
-print (mochimugiLog)
-
-params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure/100, 'humid': humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
-#params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'deploy' : "sandBox" })
-
 @retry()
 def sendPowerCommand():
     os.system(powerControlCommand) #import osが必要
@@ -84,25 +95,21 @@ def sendPowerCommand():
 	#from retry import retry
     logger.info("sended PowerCommand" + str(powerControlCommand))
 
-if __name__ == '__main__':
-    try:
-        powerControlCommand = '/usr/sbin/i2cset -y 1 0x40 40 1 i'
-        conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
-        conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
-        print ("connection requested")
-        response = conn.getresponse()
-        print (response.status, response.reason)
-        data = response.read()
-        print (data)
-        conn.close()
-        sendPowerCommand()
-        time.sleep(5)
+try:
+    powerControlCommand = '/usr/sbin/i2cset -y 1 0x40 60 1 i'
+    conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
 
-    except IOError:
-		logger.info('IOErrorです。デバイスが認識できません')
-    #		logger.exception('Error in read bme280: %s', err)
-    finally:
-        print('処理を終了しました')
+
+    sendPowerCommand()
+    time.sleep(5)
+
+except IOError:
+    logger.info('IOErrorです。デバイスが認識できません')
+#		logger.exception('Error in read bme280: %s', err)
+finally:
+    print('処理を終了しました')
         
+sendDataToIM()
+
 print('システムを終了します')
 os.system('sudo poweroff')
