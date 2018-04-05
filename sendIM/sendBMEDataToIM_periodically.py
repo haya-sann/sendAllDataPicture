@@ -33,8 +33,7 @@ fileHandler.setLevel(logging.DEBUG)
 logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
-logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("実行中のプログラムは" + str(__file__) + "です")
+logger.info(dir_path + str(__file__) + "is running")
 
 
 temperature =0.0
@@ -69,9 +68,9 @@ def sendDataToIM():
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
     print ("connection requested")
     response = conn.getresponse()
-    print (response.status, response.reason)
+    logger.info (response.status, response.reason)
     data = response.read()
-    print (data)
+    logger.info (data)
     conn.close()
 
 # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
