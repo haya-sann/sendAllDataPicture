@@ -55,7 +55,7 @@ def captureSensorData(i2c_address):
     return temperature, pressure, humid
 
 def sendDataToIM():
-    fileObject = open('mochimugi.log', 'r')
+    fileObject = open(dir_path + '/mochimugi.log', 'r')
     mochimugiLog = fileObject.read()
     fileObject.close
 
