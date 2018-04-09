@@ -63,7 +63,7 @@ def sendDataToIM():
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
     print ("connection requested")
     response = conn.getresponse()
-    print (response.status, response.reason)
+    print (response.status, response.reason)ｚ
     data = response.read()
     print (data)
     conn.close()
@@ -106,7 +106,7 @@ except IOError:
     logger.info('IOErrorです。デバイスが認識できません')
 #		logger.exception('Error in read bme280: %s', err)
 finally:
-    logger.info('処理を終了しました')
+    logger.info('処理を正常に終了しました。これはテストメッセージ')
         
 sendDataToIM()
 
