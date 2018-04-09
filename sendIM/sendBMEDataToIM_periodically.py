@@ -40,8 +40,6 @@ temperature =0.0
 pressure = 0.0
 humid = 0.0
 
-i2c_address = 0x76
-
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
     #I2C、SPIなどを使ってデータキャプチャ
@@ -58,10 +56,7 @@ def sendDataToIM():
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    print (mochimugiLog)
-
-
-    params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure/100, 'humid': humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
+    params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'cpu_temp': temp, 'temperature': temperature, 'pressure': pressure/100, 'humid': humid,  'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
     #params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'deploy' : "sandBox" })
 
 
@@ -81,7 +76,12 @@ print ('データ取得時刻 == %s : %s\n' % (d, type(d))) # Microsecond(10^-6s
 #Calculate CPU temperature of Raspberry Pi in Degrees C
 temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
 
+i2c_address = 0x76
 temperature, pressure, humid = captureSensorData(i2c_address)
+
+i2c_address = 0x77
+outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
+
 
 #send date to さくらレンタルサーバー
 
