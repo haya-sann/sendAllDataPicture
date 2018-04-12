@@ -81,7 +81,7 @@ temp, pressure, humid = captureSensorData(i2c_address)
 i2c_address = 0x77
 outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
 
-logger.info("収集データ確認：" + f"{temp:2.4}" +"," + f"{pressure:2.4}" +"," + f"{humid:2.4}" +"," + f"{outer_temp:2.4}" +"," + f"{outer_pressure:2.4}" +"," + f"{outer_humid:2.4}")
+logger.info("収集データ確認：" + '{:.2f}'.format(temp) +"," + '{:.2f}'.format(pressure) +"," + '{:.2f}'.format(humid) +"," + '{:.2f}'.format(outer_temp) +"," + '{:.2f}'.format(outer_pressure) +"," + '{:.2f}'.format(outer_humid))
 
 #send date to さくらレンタルサーバー
 
