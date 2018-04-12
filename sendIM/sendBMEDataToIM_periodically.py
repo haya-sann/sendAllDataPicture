@@ -99,7 +99,7 @@ try:
     conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
 
 
-    sendPowerCommand()
+    #sendPowerCommand()
     time.sleep(5)
 
 except IOError:
@@ -110,5 +110,5 @@ finally:
         
 sendDataToIM()
 
-print('システムを終了します')
-os.system('sudo poweroff')
+print('システムを終了しません')
+#os.system('sudo poweroff')
