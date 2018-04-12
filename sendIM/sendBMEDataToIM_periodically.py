@@ -52,14 +52,12 @@ def captureSensorData(i2c_address):
     return temperature, pressure, humid
 
 def sendDataToIM():
-    fileObject = open(dir_path + '/mochimugi.log', 'r')
+    fileObject = open(dir_path + '/mochimugi.log', 'r')#サーバーにログを送信する準備
     mochimugiLog = fileObject.read()
     fileObject.close
 
     params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid,  'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
     #params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'deploy' : "sandBox" })
-
-    logger.info("サーバー送信データ：" + params_IM)
 
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
     print ("connection requested")
@@ -83,6 +81,7 @@ temp, pressure, humid = captureSensorData(i2c_address)
 i2c_address = 0x77
 outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
 
+logger.info("収集データ確認：" + temp +"," + pressure +"," + humid +"," + outer_temp +"," + outer_pressure +"," + outer_humid)
 
 #send date to さくらレンタルサーバー
 
@@ -100,7 +99,7 @@ try:
     conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
 
 
-    #sendPowerCommand()
+    sendPowerCommand()
     time.sleep(5)
 
 except IOError:
@@ -111,5 +110,5 @@ finally:
         
 sendDataToIM()
 
-print('システムを終了しません')
-#os.system('sudo poweroff')
+print('システムを終了します')
+os.system('sudo poweroff')
