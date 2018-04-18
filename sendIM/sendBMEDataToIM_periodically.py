@@ -8,9 +8,20 @@ import locale   # import文はどこに書いてもOK(可読性などの為、�
 import os
 import commands
 import sys
+import ambient #ambientにデータを送込むライブラリ
 
 from bme280 import bmeRead
 from retry import retry
+
+configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
+configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
+
+archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
+pw = configfile.get("settings", "password")      #ログインパスワード
+userID = configfile.get("settings", "id")        #サーバーログインUser id
+key = configfile.get("settings", "key")#ThingSpeak Channel write key
+ambiKey = configfile.get("settings", "ambiKey")
+imKey = configfile.get("settings", "imKey")
 
 
 global_ipAddress =  commands.getoutput('hostname -I')
@@ -39,6 +50,9 @@ logger.info(dir_path + str(__file__) + "is running. 2018/04/10の改良版です
 temperature =0.0
 pressure = 0.0
 humid = 0.0
+V0=0.0
+V1=0.0
+lux=0.0
 
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
@@ -51,12 +65,20 @@ def captureSensorData(i2c_address):
 
     return temperature, pressure, humid
 
+def sendDataToAmbient();
+    ambi = ambient.Ambient(999, ambiKey) # チャネルID、ライトキー
+    r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure/100, "d4": humid, "d5": lux, "d6": v0, "d7": v1})
+    if r.status_code == 200:
+        logger.info('successfuly sended data to Ambient')
+    elif logger.info('Connection to AbmiData failed')
+
+
 def sendDataToIM():
     fileObject = open(dir_path + '/mochimugi.log', 'r')#サーバーにログを送信する準備
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid,  'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
+    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid,  'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
     #params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'deploy' : "sandBox" })
 
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
