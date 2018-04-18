@@ -70,8 +70,8 @@ def sendDataToAmbient():
     r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure/100, "d4": humid, "d5": lux, "d6": v0, "d7": v1})
     if r.status_code == 200:
         logger.info('successfuly sended data to Ambient')
-    elif logger.info('Connection to AbmiData failed')
-
+    else:
+        logger.info('Connection to AbmiData failed')
 
 def sendDataToIM():
     fileObject = open(dir_path + '/mochimugi.log', 'r')#サーバーにログを送信する準備
