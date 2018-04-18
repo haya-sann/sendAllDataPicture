@@ -8,6 +8,7 @@ import locale   # import文はどこに書いてもOK(可読性などの為、�
 import os
 import commands
 import sys
+import ConfigParser
 import ambient #ambientにデータを送込むライブラリ
 
 from bme280 import bmeRead
