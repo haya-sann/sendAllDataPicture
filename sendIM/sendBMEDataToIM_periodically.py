@@ -65,7 +65,7 @@ def captureSensorData(i2c_address):
 
     return temperature, pressure, humid
 
-def sendDataToAmbient();
+def sendDataToAmbient():
     ambi = ambient.Ambient(999, ambiKey) # チャネルID、ライトキー
     r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure/100, "d4": humid, "d5": lux, "d6": v0, "d7": v1})
     if r.status_code == 200:
@@ -105,7 +105,10 @@ outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
 
 logger.info("収集データ確認：" + '{:.2f}'.format(temp) +"/" + '{:.2f}'.format(pressure) +"/" + '{:.2f}'.format(humid) +"/" + '{:.2f}'.format(outer_temp) +"/" + '{:.2f}'.format(outer_pressure) +"/" + '{:.2f}'.format(outer_humid))
 
-#send date to さくらレンタルサーバー
+#Send atmosphere data to AmbiData
+sendDataToAmbient()
+
+#send data to さくらレンタルサーバー
 
 @retry()
 def sendPowerCommand():
