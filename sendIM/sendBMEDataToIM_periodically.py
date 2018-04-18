@@ -51,8 +51,8 @@ logger.info(dir_path + str(__file__) + "is running. 2018/04/10の改良版です
 temperature =0.0
 pressure = 0.0
 humid = 0.0
-V0=0.0
-V1=0.0
+v0=0.0
+v1=0.0
 lux=0.0
 
 def captureSensorData(i2c_address):
