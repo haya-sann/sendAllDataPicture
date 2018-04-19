@@ -70,8 +70,8 @@ def measureLight():
     for lightSense in range(1, 20):
         try:
             logger.info("Sensing light level...")
-            #bus = smbus.SMBus(0) # Rev 1 Pi uses 0
-            bus = smbus.SMBus(1)  # Rev 2 Pi uses 1
+            bus = smbus.SMBus(0) # Rev 1 Pi uses 0
+            #bus = smbus.SMBus(1)  # Rev 2 Pi uses 1
             sensor = BH1750(bus)
             logger.info("Light Sensitivity: {:d}".format(sensor.mtreg))
             lightLevel = sensor.measure_high_res2()
