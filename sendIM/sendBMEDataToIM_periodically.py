@@ -6,6 +6,7 @@ import time
 import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
 import os
+import smbus
 import commands
 import sys
 import ConfigParser
