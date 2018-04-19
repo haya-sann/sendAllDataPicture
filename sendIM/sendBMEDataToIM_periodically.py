@@ -53,7 +53,7 @@ pressure = 0.0
 humid = 0.0
 v0=0.0
 v1=0.0
-lux=0.0
+
 
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
@@ -66,9 +66,28 @@ def captureSensorData(i2c_address):
 
     return temperature, pressure, humid
 
+def measureLight():
+    for lightSense in range(1, 20):
+        try:
+            logger.info("Sensing light level...")
+            #bus = smbus.SMBus(0) # Rev 1 Pi uses 0
+            bus = smbus.SMBus(1)  # Rev 2 Pi uses 1
+            sensor = BH1750(bus)
+            logger.info("Light Sensitivity: {:d}".format(sensor.mtreg))
+            lightLevel = sensor.measure_high_res2()
+            logger.info("Light Level: " + str(lightLevel))
+            return lightLevel
+            break
+        except Exception as error_inMeasureLight:
+            logger.debug("Error during sensing light data: " + str(error_inMeasureLight) + " / " + str(lightSense) + " times trial")
+            time.sleep(2)
+    else:
+        logger.debug("Error during sensing light data after : " + str(lightSense) +" times trial")
+
+
 def sendDataToAmbient():
     ambi = ambient.Ambient(999, ambiKey) # チャネルID、ライトキー
-    r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure/100, "d4": humid, "d5": lux, "d6": v0, "d7": v1})
+    r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure/100, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
     if r.status_code == 200:
         logger.info('successfuly sended data to Ambient')
     else:
@@ -79,7 +98,7 @@ def sendDataToIM():
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid,  'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
+    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
     #params_IM = urllib.urlencode({'c': "TsaJt1fR5SyN", 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'deploy' : "sandBox" })
 
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
@@ -103,6 +122,13 @@ temp, pressure, humid = captureSensorData(i2c_address)
 
 i2c_address = 0x77
 outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
+
+try:
+    lightLevel =0 #init light level
+    lightLevel = measureLight()
+except Exception as measureLightError:
+    logger.debug("Error occured in measureLight: " + str(measureLightError))
+ 
 
 logger.info("収集データ確認：" + '{:.2f}'.format(temp) +"/" + '{:.2f}'.format(pressure) +"/" + '{:.2f}'.format(humid) +"/" + '{:.2f}'.format(outer_temp) +"/" + '{:.2f}'.format(outer_pressure) +"/" + '{:.2f}'.format(outer_humid))
 
