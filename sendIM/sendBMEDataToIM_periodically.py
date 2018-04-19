@@ -45,13 +45,10 @@ fileHandler.setFormatter(formatter)
 fileHandler.setLevel(logging.DEBUG)
 logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
-logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
-logger.info(dir_path + str(__file__) + "is running. 2018/04/10の改良版です")
 
-
-temperature =0.0
-pressure = 0.0
-humid = 0.0
+#temperature =0.0
+#pressure = 0.0
+#humid = 0.0
 v0=0.0
 v1=0.0
 
@@ -238,7 +235,7 @@ except IOError:
     logger.info('IOErrorです。デバイスが認識できません')
 #		logger.exception('Error in read bme280: %s', err)
 finally:
-    logger.info('処理を正常に終了しました。これはオートアップデートのテストメッセージ')
+    logger.info('一連の処理を終了しました。エラーログも確認してください')
         
 sendDataToIM()
 
