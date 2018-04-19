@@ -207,7 +207,7 @@ except Exception as measureLightError:
     logger.debug("Error occured in measureLight: " + str(measureLightError))
  
 
-logger.info("収集データ確認：" + '{:.2f}'.format(temp) +"/" + '{:.2f}'.format(pressure) +"/" + '{:.2f}'.format(humid) +"/" + '{:.2f}'.format(outer_temp) +"/" + '{:.2f}'.format(outer_pressure) +"/" + '{:.2f}'.format(outer_humid))
+# logger.info("収集データ確認：" + '{:.2f}'.format(temp) +"/" + '{:.2f}'.format(pressure) +"/" + '{:.2f}'.format(humid) +"/" + '{:.2f}'.format(outer_temp) +"/" + '{:.2f}'.format(outer_pressure) +"/" + '{:.2f}'.format(outer_humid))
 
 #Send atmosphere data to AmbiData
 sendDataToAmbient()
