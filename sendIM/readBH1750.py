@@ -106,7 +106,7 @@ def measureLight():
 
 
 if __name__ == '__main__':
-	try:
+    try:
         lightLevel =0 #init light level
         lightLevel = measureLight()
         print(lightLevel)
