@@ -2,6 +2,7 @@
 #coding: utf-8
 
 import smbus
+import time
 
 from logging import getLogger
 logger = getLogger(__name__) 
@@ -9,7 +10,6 @@ logger = getLogger(__name__)
 bus_number = 1
 #bus = SMBus(bus_number) #元はこうなっていた。
 bus = smbus.SMBus(bus_number)
-
 
 class BH1750():
     """ Implement BH1750 communication. """
@@ -104,12 +104,5 @@ def measureLight():
     else:
         logger.debug("Error during sensing light data after : " + str(lightSense) +" times trial")
 
-
-if __name__ == '__main__':
-    try:
-        lightLevel =0 #init light level
-        lightLevel = measureLight()
-        print(lightLevel)
-    except Exception as measureLightError:
-        logger.debug("Error occured in measureLight: " + str(measureLightError))
- 
+if __name__=="__main__":
+    measureLight()
