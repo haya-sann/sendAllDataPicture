@@ -105,4 +105,4 @@ def measureLight():
         logger.debug("Error during sensing light data after : " + str(lightSense) +" times trial")
 
 if __name__=="__main__":
-    measureLight()
+    print(measureLight())
