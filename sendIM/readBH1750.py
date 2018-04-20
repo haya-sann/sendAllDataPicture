@@ -4,7 +4,7 @@
 import smbus
 import time
 
-from logging import getLogger
+from logging import getLogger, StreamHandler, DEBUG
 logger = getLogger(__name__) 
 
 handler = StreamHandler()
