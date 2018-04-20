@@ -7,6 +7,13 @@ import time
 from logging import getLogger
 logger = getLogger(__name__) 
 
+handler = StreamHandler()
+handler.setLevel(DEBUG)
+logger.setLevel(DEBUG)
+logger.addHandler(handler)
+logger.propagate = False
+
+
 bus_number = 1
 #bus = SMBus(bus_number) #元はこうなっていた。
 bus = smbus.SMBus(bus_number)
