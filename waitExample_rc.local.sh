@@ -40,9 +40,8 @@ log "Started logging to : "$LOGFILE
 log "rc.local 更新：2017年06月10日（土）11時44分"
 
 cd /home/pi/Documents/mochimugi/sendAllDataPicture
-git pull | tee -a ${LOGFILE}
-
-
+#git pull | tee -a ${LOGFILE} #add text
+git pull | tee ${LOGFILE} 
 
 echo -e "\e[42;31mto stop this autorun script, press PROGRAM SWITCH\e[m"
 echo -e "\e[31mwithin 10 seconds\e[m"
