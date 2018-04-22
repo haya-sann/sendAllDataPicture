@@ -78,7 +78,7 @@ def sendDataToAmbient():
 
 def sendDataToIM():
 #    fileObject = open(dir_path + '/mochimugi.log', 'r')#サーバーにログを送信する準備
-    fileObject = open('var/log/mochimugi.log', 'r')#サーバーにログを送信する準備
+    fileObject = open('/var/log/mochimugi.log', 'r')#サーバーにログを送信する準備
     mochimugiLog = fileObject.read()
     fileObject.close
 
