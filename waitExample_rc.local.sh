@@ -27,7 +27,7 @@ echo "Now current directory is set : "$DIRPATH
 #ログを生成する
 #LOGFILE="/home/pi/Documents/mochimugi/${DIRPATH}/mochimugi.log"
 
-LOGFILE="/home/pi/Documents/mochimugi/sendAllDataPicture/sendIM/mochimugi.log"
+LOGFILE="/var/log/mochimugi.log" #ログファイルは標準のログ置き場に
 
 readonly PROCNAME=${0##*/}
 

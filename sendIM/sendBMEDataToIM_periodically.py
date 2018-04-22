@@ -27,7 +27,7 @@ imKey = configfile.get("settings", "imKey")
 
 
 global_ipAddress =  commands.getoutput('hostname -I')
-dir_path = os.path.abspath(os.path.dirname(__file__))
+dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情報
 
 import logging
 
@@ -42,7 +42,7 @@ streamHandler.setLevel(logging.DEBUG)
 
 #fileHandler = logging.FileHandler(dir_path + '/mochimugi.log', mode='w', encoding=None, delay=0)
 
-fileHandler = logging.FileHandler('mochimugi.log', mode='w', encoding=None, delay=0)
+fileHandler = logging.FileHandler('/var/log/mochimugi.log', mode='w', encoding=None, delay=0)
 
 
 fileHandler.setFormatter(formatter)
@@ -77,7 +77,8 @@ def sendDataToAmbient():
         logger.info('Connection to AbmiData failed')
 
 def sendDataToIM():
-    fileObject = open(dir_path + '/mochimugi.log', 'r')#サーバーにログを送信する準備
+#    fileObject = open(dir_path + '/mochimugi.log', 'r')#サーバーにログを送信する準備
+    fileObject = open('var/log/mochimugi.log', 'r')#サーバーにログを送信する準備
     mochimugiLog = fileObject.read()
     fileObject.close
 
