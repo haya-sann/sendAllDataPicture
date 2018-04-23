@@ -15,7 +15,8 @@ import sys
 
 #from logging import getLogger
 import logging
-BME_logger = logging.getLogger(__name__) 
+BME_logger = logging.getLogger("BME280 sensor App:") 
+#BME_logger = logging.getLogger(__name__) 
 
 bus_number  = 1
 i2c_address = 0x76 #default i2c_address
