@@ -1,5 +1,6 @@
 #!/usr/bin/python
 #coding: utf-8
+#このデバイス（田んぼカメラ）を外に設置する際は、サーバー上のwebAPIを正確に指すように調整するのを忘れないように
 
 import httplib, urllib
 import time
