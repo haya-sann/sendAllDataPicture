@@ -11,6 +11,9 @@ import commands
 import sys
 import ConfigParser
 import ambient #ambientにデータを送込むライブラリ
+import RPi.GPIO as GPIO
+
+GPIO_NO = 23 #PIN-16にプログラマースイッチを装着している。GPIO23に相当する
 
 from bme280 import bmeRead
 from retry import retry
@@ -117,21 +120,33 @@ def sendPowerCommand():
 	#from retry import retry
     logger.info("sended PowerCommand" + str(powerControlCommand))
 
-if 
-
-try:
-    powerControlCommand = '/usr/sbin/i2cset -y 1 0x40 60 1 i'
-    conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
 
 
-    sendPowerCommand()
-    time.sleep(5)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(GPIO_NO, GPIO.IN)
 
-except IOError:
-    logger.info('IOErrorです。デバイスが認識できません')
-#		logger.exception('Error in read bme280: %s', err)
-finally:
-    logger.info('一連の処理を終了しました。エラーログも確認してください')
+if GPIO.input(GPIO_NO) == 0
+    try:
+        powerControlCommand = '/usr/sbin/i2cset -y 1 0x40 60 1 i'
+        conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
+
+
+        sendPowerCommand()
+        time.sleep(5)
+
+    except IOError:
+        logger.info('IOErrorです。デバイスが認識できません')
+    #		logger.exception('Error in read bme280: %s', err)
+    finally:
+        logger.info('PowerControl設定の処理を終わりました。エラーログも確認してください')
+
+GPIO.cleanup()
+
+
+print("Program exit\n")
+
+
+
         
 sendDataToIM()
 
