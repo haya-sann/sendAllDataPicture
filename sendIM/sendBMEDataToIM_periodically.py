@@ -145,10 +145,16 @@ GPIO.cleanup()
 
 print("Program exit\n")
 
-
-
         
 sendDataToIM()
 
 print('システムを終了します')
 os.system('sudo poweroff')
+
+
+
+if GPIO.input(GPIO_NO) == 0:
+    print('システムを終了します')
+    os.system('sudo poweroff')
+
+GPIO.cleanup()
