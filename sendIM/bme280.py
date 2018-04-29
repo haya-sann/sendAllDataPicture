@@ -21,8 +21,8 @@ logger = get_module_logger(__name__)
 logger.propagate = True
 
 
-BME_logger = logging.getLogger("BME280 sensor App:") 
-#BME_logger = logging.getLogger(__name__) 
+# BME_logger = logging.getLogger("BME280 sensor App:") 
+# #BME_logger = logging.getLogger(__name__) 
 
 bus_number  = 1
 i2c_address = 0x76 #default i2c_address
@@ -182,15 +182,15 @@ def setup():
 		writeReg(0xF5,config_reg)
 
 	except (KeyError, ValueError) as err:
-		BME_logger.exception('Error in read bme280: %s', err)
+		logger.exception('Error in read bme280: %s', err)
 		pass
 
 
 	except IOError:
-		BME_logger.info('IOErrorです。デバイスが認識できません')
+		logger.info('IOErrorです。デバイスが認識できません')
 #		BME_logger.exception('Error in read bme280: %s', err)
 	finally:
-		BME_logger.info('BME280読取りを終了しました')
+		logger.info('BME280読取りを終了しました')
 #		sys.exit()
 
 
