@@ -14,7 +14,13 @@ import time
 import sys
 
 #from logging import getLogger
-import logging
+
+from <modname> import get_module_logger
+logger = get_module_logger(__name__)
+
+logger.propagate = True
+
+
 BME_logger = logging.getLogger("BME280 sensor App:") 
 #BME_logger = logging.getLogger(__name__) 
 

@@ -4,13 +4,9 @@
 import smbus
 import time
 
-from logging import getLogger, StreamHandler, DEBUG
-logger = getLogger(__name__) 
+from <modname> import get_module_logger
+logger = get_module_logger(__name__) 
 
-handler = StreamHandler()
-handler.setLevel(DEBUG)
-logger.setLevel(DEBUG)
-logger.addHandler(handler)
 logger.propagate = True
 
 

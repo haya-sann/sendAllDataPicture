@@ -30,26 +30,12 @@ imKey = configfile.get("settings", "imKey")
 global_ipAddress =  commands.getoutput('hostname -I')
 dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情報
 
-import logging
 
-logger = logging.getLogger(__name__)
-formatter = logging.Formatter('[%(name)s] %(asctime)s %(levelname)s : %(message)s')
-streamHandler = logging.StreamHandler()
-logger.setLevel(logging.DEBUG)
+from <modname> import get_module_logger
+logger = get_module_logger(__name__)
 
-
-streamHandler.setFormatter(formatter)
-streamHandler.setLevel(logging.DEBUG)
 
 #fileHandler = logging.FileHandler(dir_path + '/mochimugi.log', mode='w', encoding=None, delay=0)
-
-fileHandler = logging.FileHandler('/var/log/mochimugi.log', mode='w', encoding=None, delay=0)
-
-
-fileHandler.setFormatter(formatter)
-fileHandler.setLevel(logging.DEBUG)
-logger.addHandler(streamHandler)
-logger.addHandler(fileHandler)
 
 #temperature =0.0
 #pressure = 0.0
@@ -130,6 +116,8 @@ def sendPowerCommand():
 	#$ pip install retry
 	#from retry import retry
     logger.info("sended PowerCommand" + str(powerControlCommand))
+
+if 
 
 try:
     powerControlCommand = '/usr/sbin/i2cset -y 1 0x40 60 1 i'
