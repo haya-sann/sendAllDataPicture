@@ -34,7 +34,7 @@ global_ipAddress =  commands.getoutput('hostname -I')
 dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情報
 
 
-from <modname> import get_module_logger
+from __init__ import get_module_logger
 logger = get_module_logger(__name__)
 
 
