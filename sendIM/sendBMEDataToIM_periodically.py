@@ -40,9 +40,9 @@ logger = get_module_logger(__name__)
 
 #fileHandler = logging.FileHandler(dir_path + '/mochimugi.log', mode='w', encoding=None, delay=0)
 
-#temperature =0.0
-#pressure = 0.0
-#humid = 0.0
+temperature =0.0
+pressure = 0.0
+humid = 0.0
 v0=0.0
 v1=0.0
 
@@ -54,7 +54,6 @@ def captureSensorData(i2c_address):
         temperature, pressure, humid = bmeRead(i2c_address)
     except IOError as e:
         logger.info("デバイスが見つかりません　：" + str(e))
-        temperature = 0 , pressure = 0, humid = 0 #0を代入するのは正しくない。Noneを入れたい。
         #sys.exit(False)
 
     return temperature, pressure, humid
