@@ -12,7 +12,6 @@ def get_module_logger(modname):
 
     fileHandler.setFormatter(formatter)
     fileHandler.setLevel(logging.DEBUG)
-    logger.addHandler(streamHandler)
     logger.addHandler(fileHandler)
 
 
