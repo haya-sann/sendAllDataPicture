@@ -140,8 +140,6 @@ if GPIO.input(GPIO_NO) == 0:
     finally:
         logger.info('PowerControl設定の処理を終わりました。エラーログも確認してください')
 
-GPIO.cleanup()
-
 
 print("Program exit\n")
 
