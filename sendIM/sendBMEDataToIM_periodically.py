@@ -54,7 +54,7 @@ def captureSensorData(i2c_address):
         temperature, pressure, humid = bmeRead(i2c_address)
     except IOError as e:
         logger.info("デバイスが見つかりません　：" + str(e))
-        temperature = None , pressure = None, humid = None
+        temperature = 0 , pressure = 0, humid = 0 #0を代入するのは正しくない。Noneを入れたい。
         #sys.exit(False)
 
     return temperature, pressure, humid
