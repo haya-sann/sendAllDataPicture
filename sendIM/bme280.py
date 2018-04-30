@@ -27,9 +27,9 @@ logger.propagate = True
 bus_number  = 1
 i2c_address = 0x76 #default i2c_address
 
-temperature =0.0
-pressure = 0.0
-var_h = 0.0
+# temperature =0.0
+# pressure = 0.0
+# var_h = 0.0
 
 argLength = len(sys.argv) #引数の個数を取得
 
