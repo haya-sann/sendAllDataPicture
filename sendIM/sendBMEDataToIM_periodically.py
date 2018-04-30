@@ -37,6 +37,7 @@ dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情�
 from __init__ import get_module_logger
 logger = get_module_logger(__name__)
 
+logger.propagate = True
 
 #fileHandler = logging.FileHandler(dir_path + '/mochimugi.log', mode='w', encoding=None, delay=0)
 
