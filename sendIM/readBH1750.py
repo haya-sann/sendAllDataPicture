@@ -98,7 +98,6 @@ def measureLight():
             sensor = BH1750(bus)
             logger.info("Light Sensitivity: {:d}".format(sensor.mtreg))
             lightLevel = sensor.measure_high_res2()
-            logger.info("Light Level: " + str(lightLevel))
             return lightLevel
             break
         except Exception as error_inMeasureLight:
