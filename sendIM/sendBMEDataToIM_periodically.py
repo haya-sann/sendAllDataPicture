@@ -53,9 +53,9 @@ def captureSensorData(i2c_address):
     except IOError as e:
         logger.info("デバイスが見つかりません　：" + str(e))
         #sys.exit(False)
-        temperature = ""
-        pressure = ""
-        humid = ""
+        temperature = 9999.99
+        pressure = 9999.99
+        humid = 9999.99
 
     return temperature, pressure, humid
 
