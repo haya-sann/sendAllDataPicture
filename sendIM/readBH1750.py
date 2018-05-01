@@ -7,7 +7,8 @@ import time
 from __init__ import get_module_logger
 logger = get_module_logger(__name__) 
 
-logger.propagate = True
+logger.propagate = False
+#logger.propagate = True
 
 
 bus_number = 1
