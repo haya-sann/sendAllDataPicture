@@ -190,7 +190,7 @@ def setup():
 		logger.info('IOErrorです。デバイスが認識できません')
 #		BME_logger.exception('Error in read bme280: %s', err)
 	finally:
-		logger.info('BME280読取りを終了しました')
+		logger.info('BME280（I2C:%s）の読取りを完了しました',i2c_address)
 #		sys.exit()
 
 
