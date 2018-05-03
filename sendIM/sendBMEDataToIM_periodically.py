@@ -81,7 +81,7 @@ def sendDataToIM():
     print ("connection requested")
     response = conn.getresponse()
     print (response.status, response.reason)
-    logger.info(response.status, response.reason)
+    logger.info(str(response.status) + str(response.reason))
     data = response.read()
     print (data)
     conn.close()
