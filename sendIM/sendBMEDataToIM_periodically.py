@@ -73,7 +73,7 @@ def sendDataToIM():
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
+    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'log':mochimugiLog, 'deploy' : "sandBox" })
 #   params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
     
     conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
@@ -111,8 +111,6 @@ except Exception as measureLightError:
 #Send atmosphere data to AmbiData
 sendDataToAmbient()
 
-#send data to さくらレンタルサーバー
-
 @retry()
 def sendPowerCommand():
     os.system(powerControlCommand) #import osが必要
@@ -144,7 +142,7 @@ if GPIO.input(GPIO_NO) == 0:
 
 print("Program exit\n")
 
-        
+#send data to さくらレンタルサーバー        
 sendDataToIM()
 
 if GPIO.input(GPIO_NO) == 0:
