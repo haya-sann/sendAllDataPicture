@@ -39,8 +39,6 @@ logger = get_module_logger(__name__)
 
 logger.propagate = True
 
-#fileHandler = logging.FileHandler(dir_path + '/mochimugi.log', mode='w', encoding=None, delay=0)
-
 v0=0.0
 v1=0.0
 
