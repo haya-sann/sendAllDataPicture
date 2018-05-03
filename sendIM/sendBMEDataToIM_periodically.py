@@ -65,19 +65,19 @@ def sendDataToAmbient():
     else:
         logger.info('Connection to AbmiData failed')
 
+def nonsafe_loads(obj):
+    if obj is not None:
+        return json.loads(obj)
+
 def sendDataToIM():
 #    fileObject = open(dir_path + '/mochimugi.log', 'r')#サーバーにログを送信する準備
     fileObject = open('/var/log/mochimugi.log', 'r')#サーバーにログを送信する準備
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    prepareUrlEncode = {'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" }
+    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': nonsafe_loads(outer_temp), 'outer_pressure': nonsafe_loads(outer_pressure), 'outer_humid': nonsafe_loads(outer_humid), 'log':mochimugiLog, 'deploy' : "sandBox" })    
 
-    #   params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
-
-
-    params_IM = urllib.urlencode(prepareUrlEncode)
-    
+#    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })    
     conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
     print ("connection requested")
@@ -121,8 +121,6 @@ def sendPowerCommand():
 	#$ pip install retry
 	#from retry import retry
     logger.info("sended PowerCommand" + str(powerControlCommand))
-
-
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(GPIO_NO, GPIO.IN)
