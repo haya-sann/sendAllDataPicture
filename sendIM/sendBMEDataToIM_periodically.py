@@ -101,6 +101,7 @@ temp, pressure, humid = captureSensorData(i2c_address)
 
 i2c_address = 0x77
 outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
+data1= '{"outer_temp":outer_temp}'
 
 try:
     lightLevel =0 #init light level
