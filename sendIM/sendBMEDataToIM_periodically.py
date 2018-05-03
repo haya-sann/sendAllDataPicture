@@ -80,7 +80,7 @@ def sendDataToIM():
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
     print ("connection requested")
     response = conn.getresponse()
-    logger.info("Server respond:" str(response.status) + str(response.reason))
+    logger.info("Server respond:" + str(response.status) + str(response.reason))
     data = response.read()
     print (data)
     conn.close()
