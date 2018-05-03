@@ -71,7 +71,7 @@ def sendDataToIM():
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    prepareUrlEncode = "'c': "+str(imKey)+", 'date': "+str(d)+", 'cpu_temp':"+ str(cpu_temp)", 'temp':"+ str(temp)+", 'pressure':"+ str(pressure/100)+", 'humid': "+str(humid)+", 'lux' : "+str(lightLevel)+", 'outer_temp': "+str(outer_temp)+", 'outer_pressure': "+str(outer_pressure/100)+", 'outer_humid': "+str(outer_humid)+", 'log':str(mochimugiLog), 'deploy' : 'sandBox' "
+    prepareUrlEncode = "\'c\'': "+str(imKey)+", \''date\'': "+str(d)+", \'cpu_temp\':"+ str(cpu_temp)", \'temp\':"+ str(temp)+", \'pressure\':"+ str(pressure/100)+", \'humid\': "+str(humid)+", \'lux\' : "+str(lightLevel)+", \'outer_temp\': "+str(outer_temp)+", \'outer_pressure\': "+str(outer_pressure/100)+", \'outer_humid\': "+str(outer_humid)+", \'log\':str(mochimugiLog), \'deploy\' : \'sandBox\' "
 
     params_IM = urllib.urlencode(prepareUrlEncode)
     
