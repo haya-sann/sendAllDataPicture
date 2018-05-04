@@ -66,9 +66,9 @@ def sendDataToAmbient():
     else:
         logger.info('Connection to AbmiData failed')
 
-def nonesafe_loads(obj):
-    if obj is not None:
-        return json.loads(obj)
+# def nonesafe_loads(obj):
+#     if obj is not None:
+#         return json.loads(obj)
 
 def sendDataToIM():
 #    fileObject = open(dir_path + '/mochimugi.log', 'r')#サーバーにログを送信する準備
@@ -76,9 +76,16 @@ def sendDataToIM():
     mochimugiLog = fileObject.read()
     fileObject.close
 
+    keyValue={'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid}
 
+    urlValue="{'c': str(imKey), 'date': str(d), "
+    for value_label, value in keyValue.items():
+        if value is not None:
+            urlValue += "'" + value_label + ":" + str(value) + ","
+    urlValue += "}"
+    params_IM = urllib.urlencode(urlValue)
 
-    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': nonesafe_loads(outer_temp), 'outer_pressure': nonesafe_loads(outer_pressure), 'outer_humid': nonesafe_loads(outer_humid), 'log':mochimugiLog, 'deploy' : "sandBox" })    
+#    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': nonesafe_loads(outer_temp), 'outer_pressure': nonesafe_loads(outer_pressure), 'outer_humid': nonesafe_loads(outer_humid), 'log':mochimugiLog, 'deploy' : "sandBox" })    
 
 #    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })    
     conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")

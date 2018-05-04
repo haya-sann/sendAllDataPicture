@@ -16,6 +16,7 @@ data="{"
 for value_label, value in value.items():
     if value is not None:
         data +=  "'" + value_label+"':"+str(value)+","
+#        data += ':'.join(value_label,value)
 data += "}"
 
 print(json.dumps(data))
