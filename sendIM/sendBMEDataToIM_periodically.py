@@ -56,7 +56,7 @@ def captureSensorData(i2c_address):
         pressure = None
         humid = None
 
-    return temperature, pressure, humid
+    return temperature, pressure/100, humid
 
 def sendDataToAmbient():
     ambi = ambient.Ambient(999, ambiKey) # チャネルID、ライトキー
@@ -75,6 +75,8 @@ def sendDataToIM():
     fileObject = open('/var/log/mochimugi.log', 'r')#サーバーにログを送信する準備
     mochimugiLog = fileObject.read()
     fileObject.close
+
+
 
     params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': nonesafe_loads(outer_temp), 'outer_pressure': nonesafe_loads(outer_pressure), 'outer_humid': nonesafe_loads(outer_humid), 'log':mochimugiLog, 'deploy' : "sandBox" })    
 
