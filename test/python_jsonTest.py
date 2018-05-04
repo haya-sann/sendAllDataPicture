@@ -15,12 +15,14 @@ value={"greeting":greeting,"temperature":temperature,"pressure":pressure,"humid"
 urlValue="{"
 for value_label, value in value.items():
     if value is not None:
-        urlValue +=  "'" + value_label+"':"+str(value)+","
+        urlValue +=  "'" + value_label+"':'"+str(value)+"',"
 #        data += ':'.join(value_label,value)
 urlValue += "}"
 print urlValue
 print(json.dumps(urlValue))
-params_IM = urllib.urlencode(urlValue)
+params_IM = urllib.urlencode({'pressure':'957','greeting':'Good Day','final_greeting':'Good bye!','temperature':'23.56'})
+print params_IM
+#params_IM = urllib.urlencode(urlValue)
 
 # params_IM = urllib.urlencode(json.dumps(data))
 

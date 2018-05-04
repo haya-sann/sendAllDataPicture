@@ -82,7 +82,9 @@ def sendDataToIM():
 #    urlValue="{'c': str(imKey), 'date': str(d), "
     for value_label, value in keyValue.items():
         if value is not None:
-            urlValue += "'" + value_label + "':" + str(value) + ","
+            urlValue += "'" + value_label + "':'" + str(value) + "',"
+            #データ（value）には数字も文字もクオーテーションマークがいる
+            #最後にくっつく　,　を削除するのが大切。ダミーデータを付けた
     urlValue += "'dummy':00.00}"
     print (urlValue)
     print ("print (json.dumps(urlValue))" + json.dumps(urlValue))
