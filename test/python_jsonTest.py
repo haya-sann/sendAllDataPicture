@@ -18,7 +18,7 @@ for value_label, value in value.items():
         data +=  "'" + value_label+"':"+str(value)+","
 #        data += ':'.join(value_label,value)
 data += "}"
-
+print data
 print(json.dumps(data))
 
 
