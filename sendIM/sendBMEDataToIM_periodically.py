@@ -85,7 +85,7 @@ def sendDataToIM():
     urlValue += "'log':mochimugiLog, 'deploy' : 'sandBox'}"
     print (urlValue)
     print ("print (json.dumps(urlValue))" + json.dumps(urlValue))
-    params_IM = urllib.urlencode(urlValue)
+    params_IM = urllib.urlencode(str(urlValue)
    # params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'pressure':10.0290911903,'outer_pressure':808.463170021,'humid':41.0034365578,'outer_humid':48.618686964,'temp':27.2804967258,'lux':26.6416666667,'cpu_temp':48.312,'outer_temp':26.8605769953, 'log':mochimugiLog, 'deploy' : 'sandBox'})
 
 #    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': nonesafe_loads(outer_temp), 'outer_pressure': nonesafe_loads(outer_pressure), 'outer_humid': nonesafe_loads(outer_humid), 'log':mochimugiLog, 'deploy' : "sandBox" })    
