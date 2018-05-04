@@ -76,9 +76,10 @@ def sendDataToIM():
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    keyValue={'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid}
+    keyValue={'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid}
 
-    urlValue="{'c': str(imKey), 'date': str(d), "
+    urlValue="{"
+#    urlValue="{'c': str(imKey), 'date': str(d), "
     for value_label, value in keyValue.items():
         if value is not None:
             urlValue += "'" + value_label + "':" + str(value) + ","
