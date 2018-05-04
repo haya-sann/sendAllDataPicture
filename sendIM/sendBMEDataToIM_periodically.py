@@ -83,7 +83,7 @@ def sendDataToIM():
     for value_label, value in keyValue.items():
         if value is not None:
             urlValue += "'" + value_label + "':" + str(value) + ","
-    urlValue += "}"
+    urlValue += "'dummy':00.00}"
     print (urlValue)
     print ("print (json.dumps(urlValue))" + json.dumps(urlValue))
     params_IM = urllib.urlencode(urlValue)
