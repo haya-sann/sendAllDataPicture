@@ -12,15 +12,15 @@ final_greeting="Good bye!"
 
 value={"greeting":greeting,"temperature":temperature,"pressure":pressure,"humid":humid,"final_greeting":final_greeting}
 
-data="{"
+urlValue="{"
 for value_label, value in value.items():
     if value is not None:
-        data +=  "'" + value_label+"':"+str(value)+","
+        urlValue +=  "'" + value_label+"':"+str(value)+","
 #        data += ':'.join(value_label,value)
-data += "}"
-print data
-print(json.dumps(data))
-
+urlValue += "}"
+print urlValue
+print(json.dumps(urlValue))
+params_IM = urllib.urlencode(urlValue)
 
 # params_IM = urllib.urlencode(json.dumps(data))
 
