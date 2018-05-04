@@ -81,7 +81,7 @@ def sendDataToIM():
     urlValue="{'c': str(imKey), 'date': str(d), "
     for value_label, value in keyValue.items():
         if value is not None:
-            urlValue += "'" + value_label + ":" + str(value) + ","
+            urlValue += "'" + value_label + "':" + str(value) + ","
     urlValue += "}"
     print (urlValue)
     print ("print (json.dumps(urlValue))" + json.dumps(urlValue))
