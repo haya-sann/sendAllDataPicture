@@ -60,7 +60,7 @@ def captureSensorData(i2c_address):
 
 def sendDataToAmbient():
     ambi = ambient.Ambient(999, ambiKey) # チャネルID、ライトキー
-    r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure/100, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
+    r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
     if r.status_code == 200:
         logger.info('successfuly sended data to Ambient')
     else:
@@ -76,7 +76,7 @@ def sendDataToIM():
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog,  'deploy' : 'sandBox'}
+    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid, 'log':mochimugiLog,  'deploy' : 'sandBox'}
 
     valueToSend={}
     for value_label, value in keyValue.items():
