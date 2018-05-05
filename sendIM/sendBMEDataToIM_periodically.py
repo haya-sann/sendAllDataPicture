@@ -55,7 +55,7 @@ def captureSensorData(i2c_address):
         pressure = None
         humid = None
 
-    return temperature, pressure/100, humid
+    return temperature, pressure, humid
 
 def sendDataToAmbient():
     ambi = ambient.Ambient(999, ambiKey) # チャネルID、ライトキー
