@@ -78,23 +78,15 @@ def sendDataToIM():
 
     keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid, 'log':mochimugiLog,  'deploy' : 'sandBox'}
 
-    urlValue="{"
-#    urlValue="{'c': str(imKey), 'date': str(d), "
+    valueToSend={}
     for value_label, value in keyValue.items():
         if value is not None:
-            urlValue += "'" + value_label + "':'" + str(value) + "',"
-            #データ（value）には数字も文字もクオーテーションマークがいる
-            #最後にくっつく　,　を削除するのが大切。ダミーデータを付けた
-    urlValue += "'dummy':'00.00'}"
+            valueToSend[value_label]=value
+
     print (urlValue)
-    print ("print (json.dumps(urlValue))" + json.dumps(urlValue))
-    params_IM = urllib.urlencode(urlValue)
-#    params_IM = urllib.urlencode(json.dumps(urlValue))
-   # params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'pressure':10.0290911903,'outer_pressure':808.463170021,'humid':41.0034365578,'outer_humid':48.618686964,'temp':27.2804967258,'lux':26.6416666667,'cpu_temp':48.312,'outer_temp':26.8605769953, 'log':mochimugiLog, 'deploy' : 'sandBox'})
+    print ("print (valueToSend)" + valueToSend)
+    params_IM = urllib.urlencode(valueToSend)
 
-#    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': nonesafe_loads(outer_temp), 'outer_pressure': nonesafe_loads(outer_pressure), 'outer_humid': nonesafe_loads(outer_humid), 'log':mochimugiLog, 'deploy' : "sandBox" })    
-
-#    params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog, 'deploy' : "sandBox" })
     conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
     print ("connection requested")
