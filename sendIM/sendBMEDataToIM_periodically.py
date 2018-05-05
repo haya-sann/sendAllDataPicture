@@ -82,8 +82,7 @@ def sendDataToIM():
         if value is not None:
             valueToSend[value_label]=value
 
-    print (valueToSend)
-    print ("print (valueToSend)" + str(valueToSend))
+    logger.info("print (valueToSend)" + str(valueToSend))
     params_IM = urllib.urlencode(valueToSend)
 
     conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
@@ -91,7 +90,6 @@ def sendDataToIM():
     response = conn.getresponse()
     logger.info("Server respond:" + str(response.status) + str(response.reason))
     data = response.read()
-    print (data)
     conn.close()
 
 # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
