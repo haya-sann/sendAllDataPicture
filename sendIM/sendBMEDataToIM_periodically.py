@@ -12,7 +12,6 @@ import sys
 import ConfigParser
 import ambient #ambientにデータを送込むライブラリ
 import RPi.GPIO as GPIO
-import json
 
 GPIO_NO = 23 #PIN-16にプログラマースイッチを装着している。GPIO23に相当する
 
