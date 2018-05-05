@@ -2,7 +2,6 @@
 #coding: utf-8
 
 import httplib, urllib
-#import json
 
 greeting="Good Day"
 temperature=23.56
