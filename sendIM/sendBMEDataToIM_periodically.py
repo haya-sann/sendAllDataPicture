@@ -76,7 +76,7 @@ def sendDataToIM():
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid, 'log':mochimugiLog,  'deploy' : 'sandBox'}
+    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure/100, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure/100, 'outer_humid': outer_humid, 'log':mochimugiLog,  'deploy' : 'sandBox'}
 
     valueToSend={}
     for value_label, value in keyValue.items():
@@ -106,11 +106,9 @@ cpu_temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get
 
 i2c_address = 0x76
 temp, pressure, humid = captureSensorData(i2c_address)
-pressure = pressure/100
 
 i2c_address = 0x77
 outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
-outer_pressure=outer_pressure/100
 
 try:
     lightLevel =0 #init light level
