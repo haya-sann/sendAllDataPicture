@@ -83,7 +83,7 @@ def sendDataToIM():
         if value is not None:
             valueToSend[value_label]=value
 
-    print (urlValue)
+    print (valueToSend)
     print ("print (valueToSend)" + valueToSend)
     params_IM = urllib.urlencode(valueToSend)
 
