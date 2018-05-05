@@ -88,7 +88,6 @@ def sendDataToIM():
 
     conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
-    print ("connection requested")
     response = conn.getresponse()
     logger.info("Server respond:" + str(response.status) + str(response.reason))
     data = response.read()
@@ -114,9 +113,6 @@ try:
     lightLevel = measureLight()
 except Exception as measureLightError:
     logger.debug("Error occured in measureLight: " + str(measureLightError))
- 
-
-# logger.info("収集データ確認：" + '{:.2f}'.format(temp) +"/" + '{:.2f}'.format(pressure) +"/" + '{:.2f}'.format(humid) +"/" + '{:.2f}'.format(outer_temp) +"/" + '{:.2f}'.format(outer_pressure) +"/" + '{:.2f}'.format(outer_humid))
 
 #Send atmosphere data to AmbiData
 sendDataToAmbient()
@@ -142,8 +138,8 @@ if GPIO.input(GPIO_NO) == 0:
         time.sleep(5)
 
     except IOError:
-        logger.info('IOErrorです。デバイスが認識できません')
-    #		logger.exception('Error in read bme280: %s', err)
+        logger.info('IOError。デバイスが認識できません')
+    	logger.exception('Error in read bme280: %s', err)
     finally:
         logger.info('PowerControl設定の処理を終わりました。エラーログも確認してください')
 
