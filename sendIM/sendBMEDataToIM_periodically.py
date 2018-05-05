@@ -84,7 +84,7 @@ def sendDataToIM():
             valueToSend[value_label]=value
 
     print (valueToSend)
-    print ("print (valueToSend)" + valueToSend)
+    print ("print (valueToSend)" + str(valueToSend))
     params_IM = urllib.urlencode(valueToSend)
 
     conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
