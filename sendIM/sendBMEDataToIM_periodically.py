@@ -56,7 +56,7 @@ def captureSensorData(i2c_address):
         pressure = None
         humid = None
 
-    return temperature, pressure/100, humid
+    return temperature, pressure, humid
 
 def sendDataToAmbient():
     ambi = ambient.Ambient(999, ambiKey) # チャネルID、ライトキー
@@ -106,10 +106,11 @@ cpu_temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get
 
 i2c_address = 0x76
 temp, pressure, humid = captureSensorData(i2c_address)
+pressure = pressure/100
 
 i2c_address = 0x77
 outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
-data1= '{"outer_temp":outer_temp}'
+outer_pressure=outer_pressure/100
 
 try:
     lightLevel =0 #init light level
