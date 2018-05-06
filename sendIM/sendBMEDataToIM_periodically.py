@@ -20,7 +20,7 @@ from retry import retry
 from readBH1750 import measureLight
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
-configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
+configfile.read("/home/pi/Documents/mochimugi/kawagoe_config.conf")#絶対パスを使った
 
 archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
