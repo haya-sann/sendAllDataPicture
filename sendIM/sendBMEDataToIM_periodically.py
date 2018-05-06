@@ -142,7 +142,7 @@ if GPIO.input(GPIO_NO) == 0:
         logger.info('PowerControl設定の処理を終わりました。エラーログも確認してください')
 
 
-print("Program exit\n")
+logger.info("Checked programmer switch. Program exit\n")
 
 #send data to archive_server       
 sendDataToIM()
