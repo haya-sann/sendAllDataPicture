@@ -85,7 +85,7 @@ def sendDataToIM():
     logger.info("print (valueToSend)" + str(valueToSend))
     params_IM = urllib.urlencode(valueToSend)
 
-    conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
+    conn = httplib.HTTPSConnection(archive_server)
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
     response = conn.getresponse()
     logger.info("Server respond:" + str(response.status) + str(response.reason))
@@ -144,7 +144,7 @@ if GPIO.input(GPIO_NO) == 0:
 
 print("Program exit\n")
 
-#send data to さくらレンタルサーバー        
+#send data to archive_server       
 sendDataToIM()
 
 if GPIO.input(GPIO_NO) == 0:
