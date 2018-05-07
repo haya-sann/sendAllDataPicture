@@ -85,7 +85,7 @@ def sendDataToIM():
     #     if value is not None:
     #         valueToSend[value_label]=value
 
-    valueToSend = {'c': 'TsaJt1fR5SyN', 'cpu_temp': 50.464, 'temp': 29.744403490796685, 'deploy': 'sandBox'}
+    valueToSend = {c: TsaJt1fR5SyN, cpu_temp: 50.464, temp: 29.744403490796685, deploy: sandBox}
 
     logger.info("print (valueToSend)" + str(valueToSend))
     params_IM = urllib.urlencode(valueToSend)
