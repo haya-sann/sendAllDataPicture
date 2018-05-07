@@ -87,8 +87,12 @@ def sendDataToIM():
 
     valueToSend = {c: TsaJt1fR5SyN, cpu_temp: 50.464, temp: 29.744403490796685, deploy: sandBox}
 
+    print (valueToSend)
+
     logger.info("print (valueToSend)" + str(valueToSend))
     params_IM = urllib.urlencode(valueToSend)
+
+    print ("paramsIM:" + params_IM)
 
     conn = httplib.HTTPSConnection(archive_server)
     #conn = httplib.HTTPConnection(archive_server)
