@@ -88,7 +88,8 @@ def sendDataToIM():
     logger.info("print (valueToSend)" + str(valueToSend))
     params_IM = urllib.urlencode(valueToSend)
 
-    conn = httplib.HTTPSConnection(archive_server)
+    #conn = httplib.HTTPSConnection(archive_server)
+    conn = httplib.HTTPConnection(archive_server)
     conn.request("GET", "/IM/dev/webAPI/putDataAPI_withAuth.php?" + params_IM)
     response = conn.getresponse()
     logger.info("Server respond:" + str(response.status) + str(response.reason))
