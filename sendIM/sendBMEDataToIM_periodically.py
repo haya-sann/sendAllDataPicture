@@ -76,16 +76,14 @@ def sendDataToIM():
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    # keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'deploy' : 'sandBox'}
+    #keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'deploy' : 'sandBox'}
 
-    # #keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid, 'log':mochimugiLog,  'deploy' : 'sandBox'}
+    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid, 'log':mochimugiLog,  'deploy' : 'sandBox'}
 
-    # valueToSend={}
-    # for value_label, value in keyValue.items():
-    #     if value is not None:
-    #         valueToSend[value_label]=value
-
-    valueToSend = {'c': 'TsaJt1fR5SyN', 'cpu_temp': 50.464, 'temp': 29.744403490796685, 'deploy': 'sandBox'}
+    valueToSend={}
+    for value_label, value in keyValue.items():
+        if value is not None:
+            valueToSend[value_label]=value
 
     print (valueToSend)
 
