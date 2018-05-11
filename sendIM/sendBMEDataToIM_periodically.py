@@ -18,6 +18,7 @@ GPIO_NO = 23 #PIN-16にプログラマースイッチを装着している。GPI
 from bme280 import bmeRead
 from retry import retry
 from readBH1750 import measureLight
+from read4chAnalog import read4ch
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 #configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
@@ -117,6 +118,10 @@ try:
     lightLevel = measureLight()
 except Exception as measureLightError:
     logger.debug("Error occured in measureLight: " + str(measureLightError))
+
+values = [0.0]*4
+read4ch(values)
+print('| {0:>6,.2f} | {1:>6,.2f} | {2:>6,.2f} | {3:>6,.2f} |'.format(*values))
 
 #Send atmosphere data to AmbiData
 sendDataToAmbient()
