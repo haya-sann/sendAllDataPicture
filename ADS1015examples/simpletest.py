@@ -9,10 +9,10 @@ import Adafruit_ADS1x15
 
 
 # Create an ADS1115 ADC (16-bit) instance.
-adc = Adafruit_ADS1x15.ADS1115()
+#adc = Adafruit_ADS1x15.ADS1115()
 
 # Or create an ADS1015 ADC (12-bit) instance.
-#adc = Adafruit_ADS1x15.ADS1015()
+adc = Adafruit_ADS1x15.ADS1015()
 
 # Note you can change the I2C address from its default (0x48), and/or the I2C
 # bus by passing in these optional parameters:
@@ -39,7 +39,7 @@ while True:
     values = [0]*4
     for i in range(4):
         # Read the specified ADC channel using the previously set gain value.
-        values[i] = adc.read_adc(i, gain=GAIN)
+        values[i] = adc.read_adc(i, gain=GAIN)/4272*5.88
         # Note you can also pass in an optional data_rate parameter that controls
         # the ADC conversion time (in samples/second). Each chip has a different
         # set of allowed data rate values, see datasheet Table 9 config register
