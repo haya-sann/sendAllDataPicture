@@ -150,6 +150,8 @@ if GPIO.input(GPIO_NO) == 0:
 
 logger.info("Checked programmer switch. Program exit\n")
 
+
+
 #send data to archive_server       
 sendDataToIM()
 
