@@ -49,6 +49,6 @@ while True:
         # Each value will be a 12 or 16 bit signed integer value depending on the
         # ADC (ADS1015 = 12-bit, ADS1115 = 16-bit).
     # Print the ADC values.
-    print('| {0:0.2,>6} | {1:0.2,>6} | {2:0.2,>6} | {3:0.2,>6} |'.format(*values))
+    print('| {0:>6,0.2} | {1:>6,0.2} | {2:>6,0.2} | {3:>6,0.2} |'.format(*values))
     # Pause for half a second.
     time.sleep(0.5)
