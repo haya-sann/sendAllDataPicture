@@ -77,7 +77,7 @@ def sendDataToIM():
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid, 'log':mochimugiLog,  'deploy' : 'sandBox'}
+    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'log':mochimugiLog,  'deploy' : 'sandBox'}
 
     valueToSend={}
     for value_label, value in keyValue.items():
@@ -122,6 +122,8 @@ except Exception as measureLightError:
 values = [0.0]*4
 read4ch(values)
 logger.info('| {0:>6,.2f} | {1:>6,.2f} | {2:>6,.2f} | {3:>6,.2f} |'.format(*values))
+v0=value[0]
+v1=value[1]
 
 #Send atmosphere data to AmbiData
 sendDataToAmbient()
