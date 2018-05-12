@@ -122,8 +122,8 @@ except Exception as measureLightError:
 values = [0.0]*4
 read4ch(values)
 logger.info('| {0:>6,.2f} | {1:>6,.2f} | {2:>6,.2f} | {3:>6,.2f} |'.format(*values))
-v0=value[0]
-v1=value[1]
+v0=values[0]
+v1=values[1]
 
 #Send atmosphere data to AmbiData
 sendDataToAmbient()
