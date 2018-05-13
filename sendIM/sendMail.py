@@ -77,7 +77,6 @@ def send(from_addr, to_addr, msg):
     @:param to_addr 宛先(list)
     @:param msg メッセージ
     """
-    print(from_addr,to_addr)
 
     smtpobj = smtplib.SMTP(SMTP, PORT)
     smtpobj.ehlo()
