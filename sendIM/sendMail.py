@@ -31,9 +31,6 @@ configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/mochimugi/kawagoe_config.conf")
 from_addr = configfile.get("settings", "mailAddress")
 mailPass = configfile.get("settings", "mailPass")
-
-from_addr = from_addr
-mailPass = mailPass
  
 #SMTPサーバの設定(Gmail用)
 SMTP = "smtp.gmail.com"
