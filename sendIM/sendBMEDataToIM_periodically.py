@@ -23,7 +23,7 @@ from retry import retry
 from readBH1750 import measureLight
 from read4chAnalog import read4ch
 
-from sendMail import send
+from sendMail import send, create_message
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 #configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
