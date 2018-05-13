@@ -112,8 +112,8 @@ if __name__ == '__main__':
  
     #添付ファイル設定(text.txtファイルを添付)
     mime={'type':'text', 'subtype':'comma-separated-values'}
-    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
-#    attach_file={'name':'boot.log', 'path':'/var/log/boot.log'}
+#    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
+    attach_file={'name':'boot.log', 'path':'/var/log/boot.log'}
  
     #メッセージの作成(添付ファイルあり)
     msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
