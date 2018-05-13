@@ -73,4 +73,3 @@ fi
 sudo python /home/pi/Documents/mochimugi/sendAllDataPicture/sendIM/sendBMEDataToIM_periodically.py || ( echo python error ; my_shutdown )
 
 exit 0
-

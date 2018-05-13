@@ -28,7 +28,7 @@ logger.propagate = True
 
 #メールアカウント情報取得
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
-configfile.read("../../kawagoe_config.conf")
+configfile.read("/home/pi/Documents/mochimugi/kawagoe_config.conf")
 from_addr = configfile.get("settings", "mailAddress")
 mailPass = configfile.get("settings", "mailPass")
 
