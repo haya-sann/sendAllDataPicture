@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# rc.local
+#
 # /home/pi/Documents/mochimugi/sendAllDataPicture/waitExample_rc.local.sh
 
 
