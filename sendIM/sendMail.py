@@ -12,42 +12,29 @@ import os.path
 import datetime
 import smtplib
 import commands
+import ConfigParser
 from email import Encoders
 from email.Utils import formatdate
 from email.MIMEBase import MIMEBase
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 
-from retry import retry
+#from retry import retry
 
-from logging import getLogger, StreamHandler, handlers, Formatter, DEBUG
-logger = getLogger(__name__)
-handler = StreamHandler()
-handler.setLevel(DEBUG)
-logger.setLevel(DEBUG)
-logger.addHandler(handler)
+from __init__ import get_module_logger
+logger = get_module_logger(__name__)
 
-logger.debug('hello, program started')
+logger.propagate = True
 
-# ログ出力
-formatter = Formatter(
-    fmt="%(asctime)s:[%(name)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
-file_handler = handlers.RotatingFileHandler(
-    os.path.join(os.path.abspath(os.path.dirname(__file__)), "log", "app.log"),
-    maxBytes=50000000, backupCount=5)
-file_handler.setFormatter(formatter)
-file_handler.setLevel(DEBUG)
-logger.addHandler(file_handler)
+#メールアカウント情報取得
+configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
+configfile.read("../../kawagoe_config.conf")
+from_addr = configfile.get("settings", "mailAddress")
+mailPass = configfile.get("settings", "mailPass")
 
-
-
-#Gmailアカウント
-"""
-ADDRESS = "haya.biz@gmail.com"
-PASSWARD = "eiinxgvsmspnwkks"
-"""
-ADDRESS = "iPhone.Concier@gmail.com"
-PASSWARD = "vtaolksmyqfxcqbw"
+from_addr = from_addr
+mailPass = mailPass
+to_addr = "haya.biz@gmail.com"
 
 now = datetime.datetime.now() #ntp からのデータをアップデート
 os.system('ntpq -p')
@@ -87,7 +74,7 @@ def create_message(from_addr, to_addr, subject, body, mime=None, attach_file=Non
  
     return msg
  
-def send(from_addr, to_addrs, msg):
+def send(from_addr, to_addr, msg):
     """
     メールを送信する
     @:param from_addr 差出人
@@ -98,24 +85,11 @@ def send(from_addr, to_addrs, msg):
     smtpobj.ehlo()
     smtpobj.starttls()
     smtpobj.ehlo()
-    smtpobj.login(ADDRESS, PASSWARD)
-    smtpobj.sendmail(from_addr, to_addrs, msg.as_string())
+    smtpobj.login(from_addr, mailPass)
+    smtpobj.sendmail(from_addr, to_addr, msg.as_string())
     smtpobj.close()
 
 
-
-
-@retry()
-def sendPowerCommand():
-    os.system(powerControlCommand) #import osが必要
-        #成功するまで繰り返す
-	#retryのInstallationは
-	#$ pip install retry
-	#from retry import retry
-    logger.info("sendPowerCommand")
-    logger.debug("Beef: ")
-	
- 
 if __name__ == '__main__':
     now = datetime.datetime.now()
     hour = now.hour
@@ -126,7 +100,6 @@ if __name__ == '__main__':
     print(min)
     print(sec)
     #宛先アドレス
-    to_addr = "haya.biz@gmail.com"
  
     #件名と本文
     subject = str(hour) + ":" + str(min) + ":" + str(sec)
@@ -139,17 +112,17 @@ if __name__ == '__main__':
  
     #添付ファイル設定(text.txtファイルを添付)
     mime={'type':'text', 'subtype':'comma-separated-values'}
-    attach_file={'name':'boot.log', 'path':'/var/log/boot.log'}
+    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
+#    attach_file={'name':'boot.log', 'path':'/var/log/boot.log'}
  
     #メッセージの作成(添付ファイルあり)
-    msg = create_message(ADDRESS, to_addr, subject, body, mime, attach_file)
+    msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
  
     #メッセージ作成(添付ファイルなし)
     #msg = create_message(ADDRESS, to_addr, subject, body)
  
     #送信
-    send(ADDRESS, [to_addr], msg)
-    sendPowerCommand()
+    send(from_addr, to_addr, msg)
     time.sleep(5) #import timeが必要
-    os.system('sudo poweroff')
+
 

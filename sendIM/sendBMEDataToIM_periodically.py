@@ -1,6 +1,9 @@
 #!/usr/bin/python
 #coding: utf-8
 #このデバイス（田んぼカメラ）を外に設置する際は、サーバー上のwebAPIを正確に指すように調整するのを忘れないように
+#設置する機器の対応サーバーに応じて指定するconfig.confを切替えるのを忘れずに
+#ex: configfile.read("/home/pi/Documents/mochimugi/kawagoe_config.conf")
+
 
 import httplib, urllib
 import time
@@ -20,6 +23,8 @@ from retry import retry
 from readBH1750 import measureLight
 from read4chAnalog import read4ch
 
+from sendMail import send
+
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 #configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
 configfile.read("/home/pi/Documents/mochimugi/kawagoe_config.conf")#絶対パスを使った
@@ -30,6 +35,8 @@ userID = configfile.get("settings", "id")        #サーバーログインUser i
 key = configfile.get("settings", "key")#ThingSpeak Channel write key
 ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
+mailAddress = configfile.get("settings", "mailAddress")
+mailPass = configfile.get("settings", "mailPass")
 
 
 global_ipAddress =  commands.getoutput('hostname -I')
@@ -87,7 +94,7 @@ def sendDataToIM():
     print (valueToSend)
 
     logger.info("print (valueToSend)" + str(valueToSend))
-    params_IM = urllib.urlencode(valueToSend)
+    params_IM = urllib.urlencode(valueToSend)#最終的に送信データを用意（今回アクセスのログ含む）
 
     print ("paramsIM:" + params_IM)
 
@@ -161,6 +168,8 @@ logger.info("Checked programmer switch. Program exit\n")
 
 #send data to archive_server       
 sendDataToIM()
+
+send(fro_addr, to_addr, msg)
 
 if GPIO.input(GPIO_NO) == 0:
     print('システムを終了します')
