@@ -181,7 +181,7 @@ body = """本文:
 #添付ファイル設定(text.txtファイルを添付)
 mime={'type':'text', 'subtype':'comma-separated-values'}
 #    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
-attach_file={'name':'boot.log', 'path':'/var/log/boot.log', 'path':'/var/log/mochimugi.log' }
+attach_file={'name':'boot.log', 'path':'/var/log/boot.log', 'name':'mochimugi.log','path':'/var/log/mochimugi.log' }
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
 send(from_addr, to_addr, msg)
