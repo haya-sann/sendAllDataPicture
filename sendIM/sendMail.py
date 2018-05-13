@@ -34,9 +34,6 @@ mailPass = configfile.get("settings", "mailPass")
 
 from_addr = from_addr
 mailPass = mailPass
-
-now = datetime.datetime.now() #ntp からのデータをアップデート
-os.system('ntpq -p')
  
 #SMTPサーバの設定(Gmail用)
 SMTP = "smtp.gmail.com"
@@ -105,11 +102,10 @@ if __name__ == '__main__':
  
     #件名と本文
     subject = str(hour) + ":" + str(min) + ":" + str(sec)
-    ntpStatus = commands.getoutput('ntpq -p')
     powerControlCommand = '/usr/sbin/i2cset -y 1 0x40 40 1 i'
     body = """本文:
     電源モジュールが動作しました
-    """ + ntpStatus + "\n\nパワーコントロールモジュールに" + powerControlCommand + "を送信しました" + "\n"
+    """ + "\n\nパワーコントロールモジュールに" + powerControlCommand + "を送信しました" + "\n"
 
  
     #添付ファイル設定(text.txtファイルを添付)
