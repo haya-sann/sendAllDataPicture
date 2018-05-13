@@ -166,10 +166,23 @@ logger.info("Checked programmer switch. Program exit\n")
 
 
 
-#send data to archive_server       
+#send data to archive_server
 sendDataToIM()
 
-send(fro_addr, to_addr, msg)
+#件名と本文
+subject = "田んぼカメラから"
+body = """本文:
+ログデータを送ります
+""" + "\n"
+
+
+#添付ファイル設定(text.txtファイルを添付)
+mime={'type':'text', 'subtype':'comma-separated-values'}
+#    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
+attach_file={'name':'boot.log', 'path':'/var/log/boot.log', 'path':'/var/log/mochimugi.log' }
+ 
+msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
+send(from_addr, to_addr, msg)
 
 if GPIO.input(GPIO_NO) == 0:
     print('システムを終了します')
