@@ -160,9 +160,8 @@ if GPIO.input(GPIO_NO) == 0:
     	logger.exception('Error in read bme280: %s', err)
     finally:
         logger.info('PowerControl設定の処理を終わりました。エラーログも確認してください')
-
-
-logger.info("Checked programmer switch. Program exit\n")
+else:
+    logger.info("Programmer switch is ON. Continue to proceed\n")
 
 
 
