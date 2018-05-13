@@ -34,7 +34,6 @@ mailPass = configfile.get("settings", "mailPass")
 
 from_addr = from_addr
 mailPass = mailPass
-to_addr = "haya.biz@gmail.com"
 
 now = datetime.datetime.now() #ntp からのデータをアップデート
 os.system('ntpq -p')
@@ -102,6 +101,7 @@ if __name__ == '__main__':
     print(min)
     print(sec)
     #宛先アドレス
+    to_addr = "haya.biz@gmail.com"
  
     #件名と本文
     subject = str(hour) + ":" + str(min) + ":" + str(sec)

@@ -35,7 +35,7 @@ userID = configfile.get("settings", "id")        #サーバーログインUser i
 key = configfile.get("settings", "key")#ThingSpeak Channel write key
 ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
-mailAddress = configfile.get("settings", "mailAddress")
+from_addr = configfile.get("settings", "mailAddress")
 mailPass = configfile.get("settings", "mailPass")
 
 
@@ -168,6 +168,8 @@ logger.info("Checked programmer switch. Program exit\n")
 
 #send data to archive_server
 sendDataToIM()
+
+to_addr = "haya.biz@gmail.com"
 
 #件名と本文
 subject = "田んぼカメラから"
