@@ -96,7 +96,7 @@ def sendDataToIM():
     logger.info("print (valueToSend)" + str(valueToSend))
     params_IM = urllib.urlencode(valueToSend)#最終的に送信データを用意（今回アクセスのログ含む）
 
-    print ("paramsIM:" + params_IM)
+    logger.info ("paramsIM:" + params_IM)
 
     conn = httplib.HTTPSConnection(archive_server)
     #conn = httplib.HTTPConnection(archive_server)
