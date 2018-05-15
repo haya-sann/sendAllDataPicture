@@ -177,6 +177,7 @@ body = """ログデータを送ります。これは詳細なログです。
 #添付ファイル設定(text.txtファイルを添付)
 mime={'type':'text', 'subtype':'comma-separated-values'}
 #    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
+#ここでエンコーディングをutf8にするといいはず。
 attach_file={'name':'mochimugi.log','path':'/var/log/mochimugi.log'}
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
