@@ -91,9 +91,6 @@ def sendDataToIM():
         if value is not None:
             valueToSend[value_label]=value
 
-    print (valueToSend)
-
-    logger.info("print (valueToSend)" + str(valueToSend))
     params_IM = urllib.urlencode(valueToSend)#最終的に送信データを用意（今回アクセスのログ含む）
 
     logger.info ("paramsIM:" + params_IM)
