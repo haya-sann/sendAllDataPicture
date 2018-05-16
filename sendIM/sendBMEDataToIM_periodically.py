@@ -48,9 +48,7 @@ logger = get_module_logger(__name__)
 
 logger.propagate = True
 
-v0=0.0
-v1=0.0
-
+v0, v1, soil1, soil2, soil_temp=0.0
 
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
@@ -84,7 +82,7 @@ def sendDataToIM():
     mochimugiLog = fileObject.read()
     fileObject.close
 
-    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'deploy' : 'sandBox', 'log':mochimugiLog }
+    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : 'sandBox', 'log':mochimugiLog }
 
     valueToSend={}
     for value_label, value in keyValue.items():
@@ -128,6 +126,8 @@ read4ch(values)
 logger.info('| {0:>6,.2f} | {1:>6,.2f} | {2:>6,.2f} | {3:>6,.2f} |'.format(*values))
 v0=values[0]
 v1=values[1]
+soil1=values[2]
+soil2=values[3]
 
 #Send atmosphere data to AmbiData
 sendDataToAmbient()
