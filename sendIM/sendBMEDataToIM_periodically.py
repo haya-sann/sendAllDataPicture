@@ -48,7 +48,7 @@ logger = get_module_logger(__name__)
 
 logger.propagate = True
 
-v0, v1, soil1, soil2, soil_temp=0.0
+v0=v1=soil1=soil2=soil_temp=0.0
 
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
