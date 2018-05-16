@@ -25,7 +25,7 @@ from read4chAnalog import read4ch
 
 from sendMail import send, create_message
 
-import w1_DS18B20
+from w1_DS18B20 import soil_temp
 
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
@@ -132,7 +132,7 @@ v1=values[1]
 soil1=values[2]
 soil2=values[3]
 
-soil_temp = w1_DS18B20
+soil_temp = soil_temp()
 
 #Send atmosphere data to AmbiData
 sendDataToAmbient()

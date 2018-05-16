@@ -12,8 +12,8 @@ logger = get_module_logger(__name__)
 
 logger.propagate = True
 
-
-sensor = W1ThermSensor()
-celsius = sensor.get_temperature()
-logger.info('土の温度は：'.celsius)
-return celsius
+def soil_temp():
+    sensor = W1ThermSensor()
+    celsius = sensor.get_temperature()
+    logger.info('土の温度は：'.celsius)
+    return celsius
