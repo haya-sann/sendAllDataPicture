@@ -25,6 +25,9 @@ from read4chAnalog import read4ch
 
 from sendMail import send, create_message
 
+import w1_DS18B20
+
+
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 #configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
 configfile.read("/home/pi/Documents/mochimugi/kawagoe_config.conf")#絶対パスを使った
@@ -128,6 +131,8 @@ v0=values[0]
 v1=values[1]
 soil1=values[2]
 soil2=values[3]
+
+soil_temp = w1_DS18B20
 
 #Send atmosphere data to AmbiData
 sendDataToAmbient()
