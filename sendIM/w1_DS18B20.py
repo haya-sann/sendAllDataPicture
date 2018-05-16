@@ -5,6 +5,15 @@
 
 from w1thermsensor import W1ThermSensor
 
+#from logging import getLogger
+
+from __init__ import get_module_logger
+logger = get_module_logger(__name__)
+
+logger.propagate = True
+
+
 sensor = W1ThermSensor()
 celsius = sensor.get_temperature()
+logger.info('土の温度は：'.celsius)
 return celsius
