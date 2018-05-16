@@ -15,5 +15,5 @@ logger.propagate = True
 def read_soil_temp():
     sensor = W1ThermSensor()
     celsius = sensor.get_temperature()
-    logger.info('土の温度は：'.celsius)
+    logger.info('土の温度は：' + str(celsius))
     return celsius
