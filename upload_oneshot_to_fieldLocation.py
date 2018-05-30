@@ -10,8 +10,8 @@ import logging
 import ConfigParser
 
 hourToBegin = 1 #カメラを動作開始させる時刻
-hourToStop = 24 #カメラを完全休止させる時刻
-everyMinutes = 2 #何分おきに撮影するのかをセット
+hourToStop = 20 #カメラを完全休止させる時刻
+everyMinutes = 60 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser()
 configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
@@ -25,9 +25,7 @@ dir_path = '/home/pi/Documents/field_location/'+ put_directory
 
 def send_ftps(file_name):
 		print("accessing"+ archive_server)
-		print("ID:"+ userID)
-		print("Pass"+ pw)
-		
+
 		_ftps = FTP_TLS(archive_server)
 		_ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
 		_ftps.login(userID, pw)
@@ -35,7 +33,6 @@ def send_ftps(file_name):
 		_file = open(dir_path + '/' +file_name, 'rb') #target file. 次のステップでアップロード成功したら削除した方がよ$
 		#SD Memoryがパンクする恐れがあるので、次のステップでアップロードが成功したらファイルは削除するように、改良 $
 
-#		_ftps.cwd('/home/users/0/ciao.jp-kawagoesatoyama/web/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
 		_ftps.cwd('/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
 		_ftps.storbinary('STOR ' + file_name, _file)
 		_file.close()
