@@ -11,7 +11,7 @@ import ConfigParser
 
 hourToBegin = 1 #カメラを動作開始させる時刻
 hourToStop = 20 #カメラを完全休止させる時刻
-everyMinutes = 60 #何分おきに撮影するのかをセット
+everyMinutes = 2 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser()
 configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
