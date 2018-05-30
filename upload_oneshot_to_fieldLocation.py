@@ -10,7 +10,7 @@ import logging
 import ConfigParser
 
 hourToBegin = 1 #カメラを動作開始させる時刻
-hourToStop = 19 #カメラを完全休止させる時刻
+hourToStop = 24 #カメラを完全休止させる時刻
 everyMinutes = 10 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser()
