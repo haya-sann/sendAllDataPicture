@@ -35,7 +35,8 @@ def send_ftps(file_name):
 		_file = open(dir_path + '/' +file_name, 'rb') #target file. 次のステップでアップロード成功したら削除した方がよ$
 		#SD Memoryがパンクする恐れがあるので、次のステップでアップロードが成功したらファイルは削除するように、改良 $
 
-		_ftps.cwd('/home/users/0/ciao.jp-kawagoesatoyama/web/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+#		_ftps.cwd('/home/users/0/ciao.jp-kawagoesatoyama/web/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+		_ftps.cwd('/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
 		_ftps.storbinary('STOR ' + file_name, _file)
 		_file.close()
 		_ftps.quit()
