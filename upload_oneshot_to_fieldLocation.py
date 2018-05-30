@@ -49,7 +49,7 @@ def capture_send():
 				break
 			elif everyMinutes - (now.minute % everyMinutes) >7:#、5分以上待つなら取りあえず撮影して終わる
 				print('指定時間まで7分以上ありますので、テスト撮影して指定時刻5分前に再起動します')
-				file_name = '電源投入時テスト_' + now.strftime('%Y%m%d%H%M') + '.jpg'
+				file_name = 'PowerOnTest_' + now.strftime('%Y%m%d%H%M') + '.jpg'
 				break
 		print('保存ファイル名；' + file_name)
 		picamera.capture(dir_path+'/'+file_name)
