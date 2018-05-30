@@ -25,6 +25,9 @@ dir_path = '/home/pi/Documents/field_location/'+ put_directory
 
 def send_ftps(file_name):
 		print("accessing"+ archive_server)
+		print("ID:"+ userID)
+		print("Pass"+ pw)
+		
 		_ftps = FTP_TLS(archive_server)
 		_ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
 		_ftps.login(userID, pw)
