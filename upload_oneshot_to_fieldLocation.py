@@ -11,7 +11,7 @@ import ConfigParser
 
 hourToBegin = 1 #カメラを動作開始させる時刻
 hourToStop = 24 #カメラを完全休止させる時刻
-everyMinutes = 10 #何分おきに撮影するのかをセット
+everyMinutes = 2 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser()
 configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
@@ -20,7 +20,7 @@ archive_server = configfile.get("settings","ftpsHost")  #サーバーのドメ�
 pw = configfile.get("settings","password")	  #ログインパスワード
 userID = configfile.get("settings","id")		#サーバーログインUser id
 
-put_directory  = 'daily_timelapse' #Both Local and Remote Server has same directory
+put_directory  = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
 dir_path = '/home/pi/Documents/field_location/'+ put_directory
 
 def send_ftps(file_name):
@@ -35,7 +35,7 @@ def send_ftps(file_name):
 		_file = open(dir_path + '/' +file_name, 'rb') #target file. 次のステップでアップロード成功したら削除した方がよ$
 		#SD Memoryがパンクする恐れがあるので、次のステップでアップロードが成功したらファイルは削除するように、改良 $
 
-		_ftps.cwd('/home/field_location/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+		_ftps.cwd('/home/users/0/ciao.jp-kawagoesatoyama/web/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
 		_ftps.storbinary('STOR ' + file_name, _file)
 		_file.close()
 		_ftps.quit()
