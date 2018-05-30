@@ -31,7 +31,7 @@ spi.open(0, 0)
 #spi.max_speed_hz = 10000
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
-configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
+configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 
 archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
@@ -41,10 +41,7 @@ ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
 
 sleep = 180 # how many seconds to sleep between posts to the channel
-<<<<<<< HEAD
-=======
 key = 'ThingSpeak Key' #Put your Thingspeak Channel Key here'  # Thingspeak channel to update
->>>>>>> a121c2ce669fbc49df150a07fa21c13e6b769731
 
 PORT1=23
 PORT2=24

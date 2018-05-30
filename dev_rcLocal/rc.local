@@ -23,6 +23,6 @@ sudo sh -c "tail /var/log/daemon.log -n 50 > /var/log/tracelog.log"
 sudo sh -c "echo '=============================' >> /var/log/tracelog.log"
 sudo sh -c "tail /var/log/boot.log -n 50 >> /var/log/tracelog.log"
 
-/home/pi/Documents/mochimugi/sendAllDataPicture/waitExample_rc.local.sh
+/home/pi/Documents/field_location/sendAllDataPicture/waitExample_rc.local.sh
 
 exit 0

@@ -3,7 +3,7 @@
 
 # IMに全データ＋logの最終20行分を送信
 put_directory = 'daily_timelapseSandbox' 
-dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
+dir_path = '/home/pi/Documents/field_location/'+ put_directory
 
 import logging
 logger = logging.getLogger(__name__)
@@ -22,14 +22,14 @@ logger.debug("dir_path is set to : " + dir_path + "(just for debugging)")
 
 
 
-logger.debug(dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む')
-total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
+logger.debug(dir_path + '/'+ 'field_location.logからこれまでのログを読込む')
+total_lines = sum(1 for line in open(dir_path + '/'+ 'field_location.log'))
 logger.debug("Total lines : " + str(total_lines))
 
-fileObject = open(dir_path + '/'+ 'mochimugi.log', 'r')
+fileObject = open(dir_path + '/'+ 'field_location.log', 'r')
 logger.debug('Opened log file')
 readBuffer = fileObject.readlines()
-last20linesLog = '## Last 20 lines from mochimugi.log ##' + '\n'#init string
+last20linesLog = '## Last 20 lines from field_location.log ##' + '\n'#init string
 if total_lines-20 < 0:
     startLine = 0
 startLine = total_lines-20

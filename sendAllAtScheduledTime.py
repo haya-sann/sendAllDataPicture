@@ -31,20 +31,17 @@ import ConfigParser
 import socket
 import commands
 
-<<<<<<< HEAD
-=======
 deploy = "sandBox"
 #deploy = "distribution"
 
 chanell = 1454
 readKey= ac5dae26e4e9edfa
->>>>>>> bdc5d8f66c81f69080464ff5cedc2e6b0edcfec6
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
-configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
+configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 
 archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
@@ -54,13 +51,13 @@ ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
 
 put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
-dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
+dir_path = '/home/pi/Documents/field_location/'+ put_directory
 
 
 global_ipAddress =  commands.getoutput('hostname -I')
 print "Global IP Address is : %s" % global_ipAddress
 
-logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
+logging.basicConfig(filename=dir_path + '/'+ 'field_location.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
 logging.warning('Global IP Address:%s', global_ipAddress)
 
 
@@ -74,9 +71,9 @@ def sendLog_ftps(file_name):
     _file = open(dir_path + '/' + file_name, 'rb')
 
     timeStamp = datetime.datetime.now()
-    logfile_name = 'mochimugi' + timeStamp.strftime('%Y%m%d%H%M') + '.log'
+    logfile_name = 'field_location' + timeStamp.strftime('%Y%m%d%H%M') + '.log'
 
-    _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+    _ftps.cwd('/home/field_location/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
     _ftps.storbinary('STOR ' + logfile_name, _file)
     _file.close()
     _ftps.quit()
@@ -92,7 +89,7 @@ def send_ftps(file_name):
     _file = open(dir_path + '/' + file_name, 'rb') #target file. 次のステップでアップロード成功したら削除した方がよ$
     #SD Memoryがパンクする恐れがあるので、次のステップでアップロードが成功したらファイルは削除するように、改良するべきか？
 
-    _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+    _ftps.cwd('/home/field_location/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
     _ftps.storbinary('STOR ' + file_name, _file)
     _file.close()
     _ftps.quit()
@@ -372,11 +369,7 @@ if __name__ == '__main__':
         hour = now.hour
         print "現在時刻は" + str(now)
 
-<<<<<<< HEAD
-        if hour >= hourToBegin and hour < hourToStop: #動作は止める時刻になる前まで
-=======
         if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
->>>>>>> bdc5d8f66c81f69080464ff5cedc2e6b0edcfec6
             capture_send() #撮影した写真をサーバーに送信
 
         now = datetime.datetime.now()
@@ -395,20 +388,6 @@ if __name__ == '__main__':
                 # x = 5   #テストのために5分のスリープを指定
         print ("Deepsleep in " + str(x) + "minutes")
         x = x / 5
-<<<<<<< HEAD
-        powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 10 ' + str(x) + ' i' #10秒後にシャットダウン、最後のパラメーター×5分後に起動
-        print '電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':10秒後にシャットダウン、最後のパラメーター×5分後に起動'
-        logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
-
-        temperature, pressure, humid = readData()
-        print 'This is return value of temperature: %-6.2f ℃' % (temperature)
-        print 'This is return value of pressure: %7.2f hPa' % (pressure)
-        print 'This is return value of Humidity: %6.2f ％' % (humid)
-        #Calculate CPU temperature of Raspberry Pi in Degrees C
-        temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
-        lightLevel = measureLight()
-        print "Light Level : {:3.2f} lx".format(lightLevel)
-=======
         powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x40 40 ' + str(x) + ' i' #40秒後にシャットダウン、最後のパラメーター×5分後に起動
         print '電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動'
         logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
@@ -417,7 +396,6 @@ if __name__ == '__main__':
         #Calculate CPU temperature of Raspberry Pi in Degrees C
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
         lightLevel = measureLight()
->>>>>>> bdc5d8f66c81f69080464ff5cedc2e6b0edcfec6
         #get voltage data from MCP3002
         # ch0
         resp = spi.xfer2([0x68, 0x00])
@@ -426,12 +404,6 @@ if __name__ == '__main__':
         # ch1
         resp = spi.xfer2([0x78, 0x00])
         voltage_ch2 = ((resp[0] << 8) + resp[1]) & 0x3ff
-<<<<<<< HEAD
-        print "Ch1 Voltage=" + str(voltage_ch1) + "/",
-        print str(round((voltage_ch1 / 38.75), 3)), "Ch2 Voltage=",
-        print str(voltage_ch2) + "/" + str(round((voltage_ch2 / 38.75), 3))
-=======
->>>>>>> bdc5d8f66c81f69080464ff5cedc2e6b0edcfec6
 
         voltage_ch1 = voltage_ch1 / 38.75
         voltage_ch2 = voltage_ch2 / 38.75
@@ -455,18 +427,14 @@ if __name__ == '__main__':
             print 'successfuly sended data to Ambient'
             #
             #IMに全データ＋logの最終20行分を送信
-            print dir_path + '/'+ 'mochimugi.logからこれまでのログを読込む'
-            total_lines = sum(1 for line in open(dir_path + '/'+ 'mochimugi.log'))
-<<<<<<< HEAD
-            print total_lines
-=======
+            print dir_path + '/'+ 'field_location.logからこれまでのログを読込む'
+            total_lines = sum(1 for line in open(dir_path + '/'+ 'field_location.log'))
             #print total_lines
->>>>>>> bdc5d8f66c81f69080464ff5cedc2e6b0edcfec6
          
-            fileObject = open(dir_path + '/'+ 'mochimugi.log', 'r')
+            fileObject = open(dir_path + '/'+ 'field_location.log', 'r')
             print 'Opened log file'
             readBuffer = fileObject.readlines()
-            last20linesLog = '## Last 20 lines from mochimugi.log ##' + '\n'#init string
+            last20linesLog = '## Last 20 lines from field_location.log ##' + '\n'#init string
             if total_lines-20 < 0:
                 startLine = 0
             startLine = total_lines-20
@@ -494,7 +462,7 @@ if __name__ == '__main__':
             print "connection failed"
 
         logging.shutdown()#ログ動作を終結させる
-        sendLog_ftps('mochimugi.log') #ログを送信、
+        sendLog_ftps('field_location.log') #ログを送信、
         #Programスイッチがオン（==1）になっているときは、パワーコントロールモジュールに電源オフ、再起動時間のセットをしない
         if GPIO.input(PORT1) == 0: #デバッグ中はコメントアウト
             GPIO.cleanup() # <- GPIOポートを開放

@@ -2,7 +2,7 @@
 #coding: utf-8
 #このデバイス（田んぼカメラ）を外に設置する際は、サーバー上のwebAPIを正確に指すように調整するのを忘れないように
 #設置する機器の対応サーバーに応じて指定するconfig.confを切替えるのを忘れずに
-#ex: configfile.read("/home/pi/Documents/mochimugi/kawagoe_config.conf")
+#ex: configfile.read("/home/pi/Documents/field_location/kawagoe_config.conf")
 
 
 import httplib, urllib
@@ -29,8 +29,8 @@ from w1_DS18B20 import read_soil_temp
 
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
-#configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
-configfile.read("/home/pi/Documents/mochimugi/kawagoe_config.conf")#絶対パスを使った
+#configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
+configfile.read("/home/pi/Documents/field_location/kawagoe_config.conf")#絶対パスを使った
 
 archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
@@ -80,12 +80,12 @@ def sendDataToAmbient():
 #         return json.loads(obj)
 
 def sendDataToIM():
-#    fileObject = open(dir_path + '/mochimugi.log', 'r')#サーバーにログを送信する準備
-    fileObject = open('/var/log/mochimugi.log', 'r')#サーバーにログを送信する準備
-    mochimugiLog = fileObject.read()
+#    fileObject = open(dir_path + '/field_location.log', 'r')#サーバーにログを送信する準備
+    fileObject = open('/var/log/field_location.log', 'r')#サーバーにログを送信する準備
+    field_locationLog = fileObject.read()
     fileObject.close
 
-    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : 'sandBox', 'log':mochimugiLog }
+    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : 'sandBox', 'log':field_locationLog }
 
     valueToSend={}
     for value_label, value in keyValue.items():
@@ -183,7 +183,7 @@ body = """ログデータを送ります。これは詳細なログです。
 mime={'type':'text', 'subtype':'comma-separated-values'}
 #    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
 #ここでエンコーディングをutf8にするといいはず。
-attach_file={'name':'mochimugi.log','path':'/var/log/mochimugi.log'}
+attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
 send(from_addr, to_addr, msg)

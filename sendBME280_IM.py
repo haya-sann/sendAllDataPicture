@@ -44,7 +44,7 @@ pictureContrast = 10
 DEPLOY_SWITCH = "sandBox"
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
-configfile.read("/home/pi/Documents/mochimugi/config.conf")#絶対パスを使った
+configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 
 archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
@@ -59,14 +59,14 @@ elif DEPLOY_SWITCH == "sandBox":
     put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
 
 
-dir_path = '/home/pi/Documents/mochimugi/'+ put_directory
+dir_path = '/home/pi/Documents/field_location/'+ put_directory
 
 global_ipAddress = commands.getoutput('hostname -I')
 
 streamHandler.setFormatter(formatter)
 streamHandler.setLevel(logging.DEBUG)
 
-fileHandler = logging.FileHandler(dir_path + '/'+ 'mochimugi.log', mode='a', encoding=None, delay=0)
+fileHandler = logging.FileHandler(dir_path + '/'+ 'field_location.log', mode='a', encoding=None, delay=0)
 fileHandler.setFormatter(formatter)
 fileHandler.setLevel(logging.DEBUG)
 logger.addHandler(streamHandler)
@@ -83,7 +83,7 @@ try:
 except :
     logger.debug("failed update rc.local file")
 
-# logging.basicConfig(filename=dir_path + '/'+ 'mochimugi.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
+# logging.basicConfig(filename=dir_path + '/'+ 'field_location.log', level=logging.NOTSET, format='%(asctime)s %(message)s')
 # logging.warning('logging.warning:Global IP Address:%s', global_ipAddress)
 
 def sendLog_ftps(file_name):
@@ -100,11 +100,11 @@ def sendLog_ftps(file_name):
         #'rb' means binarymode
         logger.info("File opened : " + dir_path + '/' + file_name)
         _timeStamp = datetime.datetime.now()
-        logfile_name = 'mochimugi' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
+        logfile_name = 'field_location' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
         logger.info('Logging file on the server is : ' + logfile_name)
 
-        _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-        logger.info('Success : Change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
+        _ftps.cwd('/home/field_location/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+        logger.info('Success : Change directory to: /home/field_location/www/seasonShots/' + put_directory)
 
         _ftps.storbinary('STOR ' + logfile_name, _file)
 
@@ -139,8 +139,8 @@ def send_ftps(file_name): #エラー処理 will be raise to main()
         _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
         # アップロードが成功したらファイルは削除。2017/06/23
 
-        _ftps.cwd('/home/mochimugi/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-        logger.info('change directory to: /home/mochimugi/www/seasonShots/' + put_directory)
+        _ftps.cwd('/home/field_location/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+        logger.info('change directory to: /home/field_location/www/seasonShots/' + put_directory)
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
         _ftps.quit()
@@ -509,7 +509,7 @@ if __name__ == '__main__':
         memo = localFile_name
 
         time.sleep(5)
-        logfile_name = sendLog_ftps('mochimugi.log') #ログを送信、
+        logfile_name = sendLog_ftps('field_location.log') #ログを送信、
 
         try:
             d = datetime.datetime.today()

@@ -22,7 +22,7 @@ esac
 echo "Now current directory is set : "$DIRPATH
 
 #ログを生成する
-LOGFILE="/home/pi/Documents/mochimugi/${DIRPATH}/mochimugi.log"
+LOGFILE="/home/pi/Documents/field_location/${DIRPATH}/field_location.log"
 readonly PROCNAME=${0##*/}
 
 function log() {
@@ -139,7 +139,7 @@ waitForPing || ( echo connectSoracom error ; my_shutdown2 )
 log "Sakura server is online"
 
 log "update all files in sendAllDataPicture with git pull"
-cd /home/pi/Documents/mochimugi/sendAllDataPicture
+cd /home/pi/Documents/field_location/sendAllDataPicture
 git checkout master | tee -a ${LOGFILE} #|| log ("Error occured in git. Update failed")
 git status | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
 git pull | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
@@ -151,6 +151,6 @@ if [ "$_IP" ]; then
 fi
 
 #sendAll_IM.pyに環境変数DEPLOYを送るためにはsudoでは機能しない
-python /home/pi/Documents/mochimugi/sendAllDataPicture/sendAll_IM.py || ( echo python error ; my_shutdown )
+python /home/pi/Documents/field_location/sendAllDataPicture/sendAll_IM.py || ( echo python error ; my_shutdown )
 
 exit 0

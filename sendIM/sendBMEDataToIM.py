@@ -25,7 +25,7 @@ logger.setLevel(logging.DEBUG)
 streamHandler.setFormatter(formatter)
 streamHandler.setLevel(logging.DEBUG)
 
-fileHandler = logging.FileHandler(dir_path + '/mochimugi.log', mode='a', encoding=None, delay=0)
+fileHandler = logging.FileHandler(dir_path + '/field_location.log', mode='a', encoding=None, delay=0)
 fileHandler.setFormatter(formatter)
 fileHandler.setLevel(logging.DEBUG)
 logger.addHandler(streamHandler)

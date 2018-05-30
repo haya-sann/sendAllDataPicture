@@ -2,7 +2,7 @@
 #
 # rc.local
 #
-# /home/pi/Documents/mochimugi/sendAllDataPicture/waitExample_rc.local.sh
+# /home/pi/Documents/field_location/sendAllDataPicture/waitExample_rc.local.sh
 
 
 export DEPLOY="sandBox"
@@ -17,9 +17,9 @@ esac
 echo "Now current directory is set : "$DIRPATH
 
 #ログを生成する
-#LOGFILE="/home/pi/Documents/mochimugi/${DIRPATH}/mochimugi.log"
+#LOGFILE="/home/pi/Documents/field_location/${DIRPATH}/field_location.log"
 
-LOGFILE="/var/log/mochimugi.log" #ログファイルは標準のログ置き場に
+LOGFILE="/var/log/field_location.log" #ログファイルは標準のログ置き場に
 
 readonly PROCNAME=${0##*/}
 
@@ -31,7 +31,7 @@ log "***** above-mentioned is previously log  *****"
 log "Started logging to : "$LOGFILE
 log "rc.local 更新：2017年06月10日（土）11時44分"
 
-cd /home/pi/Documents/mochimugi/sendAllDataPicture
+cd /home/pi/Documents/field_location/sendAllDataPicture
 #git pull | tee -a ${LOGFILE} #add text
 git pull | tee ${LOGFILE} 
 
@@ -70,6 +70,6 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
-sudo python /home/pi/Documents/mochimugi/sendAllDataPicture/sendIM/sendBMEDataToIM_periodically.py || ( echo python error ; my_shutdown )
+sudo python /home/pi/Documents/field_location/sendAllDataPicture/sendIM/sendBMEDataToIM_periodically.py || ( echo python error ; my_shutdown )
 
 exit 0
