@@ -16,7 +16,7 @@ everyMinutes = 10 #何分おきに撮影するのかをセット
 configfile = ConfigParser.SafeConfigParser()
 configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 
-archive_server = configfile.get("settings","host")  #サーバーのドメイン名
+archive_server = configfile.get("settings","ftpsHost")  #サーバーのドメイン名
 pw = configfile.get("settings","password")	  #ログインパスワード
 userID = configfile.get("settings","id")		#サーバーログインUser id
 
