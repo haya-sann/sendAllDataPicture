@@ -1,6 +1,8 @@
 #!/usr/bin/python
 #coding: utf-8
 
+import datetime # datetimeモジュールのインポート
+
 import ConfigParser
 from ftplib import FTP_TLS
 
