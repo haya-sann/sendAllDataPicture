@@ -26,6 +26,13 @@ from read4chAnalog import read4ch
 from sendMail import send, create_message
 
 from w1_DS18B20 import read_soil_temp
+from ftps import sendLog_ftps
+
+
+try:
+    DEPLOY_SWITCH = os.environ['DEPLOY']
+except: #rc.localからexportされて送られるはずのDEPLYがない場合は
+    DEPLOY_SWITCH = "sandBox"
 
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
@@ -43,11 +50,15 @@ from_addr = configfile.get("settings", "mailAddress")
 mailPass = configfile.get("settings", "mailPass")
 
 
+if DEPLOY_SWITCH == "distribution":
+    put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
+elif DEPLOY_SWITCH == "sandBox":
+    put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
+
 global_ipAddress =  commands.getoutput('hostname -I')
 dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情報
 
-
-from __init__ import get_module_logger
+from __init__ import get_module_logger #log保存先は/var/log/field_location.log
 logger = get_module_logger(__name__)
 
 logger.propagate = True
@@ -81,12 +92,9 @@ def sendDataToAmbient():
 #         return json.loads(obj)
 
 def sendDataToIM():
-#    fileObject = open(dir_path + '/field_location.log', 'r')#サーバーにログを送信する準備
-    fileObject = open('/var/log/field_location.log', 'r')#サーバーにログを送信する準備
-    field_locationLog = fileObject.read()
-    fileObject.close
+    #keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : 'sandBox', 'log':field_locationLog }
 
-    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : 'sandBox', 'log':field_locationLog }
+    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : 'sandBox' }
 
     valueToSend={}
     for value_label, value in keyValue.items():
@@ -170,6 +178,9 @@ else:
 
 #send data to host_IM
 sendDataToIM()
+
+file_name = "field_location.log"
+sendLog_ftps(file_name, put_directory)
 
 to_addr = "haya.biz@gmail.com"
 
