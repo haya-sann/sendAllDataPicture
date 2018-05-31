@@ -47,12 +47,13 @@ except: #rc.localからexportされて送られるはずのDEPLYがない場合�
 
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 23 #カメラを完全休止させる時刻
-everyMinutes = 60 #何分おきに撮影するのかをセット
+everyMinutes = 4 #何分おきに撮影するのかをセット
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/field_location/config.conf")#Localに置いたconfig.confファイルへの絶対パスを使った
 
-archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
+host_IM = configfile.get("settings", "host")
+archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
 userID = configfile.get("settings", "id")        #サーバーログインUser id
 key = configfile.get("settings", "key")#ThingSpeak Channel write key
@@ -79,13 +80,13 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("これは新しいsendAll_IM.py. ver1.4.3 Added second BME280 2017/06/30 01:30改修")
+logger.info("これは新しいsendAll_IM.py. ver1.5.1 Added second 2018/05/31 01:30改修")
 logger.info("設定動作開始時刻："+str(hourToBegin)+"時、　終了時刻："+str(hourToStop)+ "時")
 
 try:
     import rcLocalUpdate
     rcLocalUpdate.updateRCLocal()
-    logger.info("Successfully updated rc.local file")
+    logger.info("Successfully copied updated rc.local file")
 except :
     logger.debug("failed update rc.local file")
 
@@ -109,7 +110,7 @@ def sendLog_ftps(file_name):
         logfile_name = 'field_location' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
         logger.info('Logging file on the server is : ' + logfile_name)
 
-        _ftps.cwd('/home/field_location/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+        _ftps.cwd('/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
         logger.info('Success : Change directory to: /home/field_location/www/seasonShots/' + put_directory)
 
         _ftps.storbinary('STOR ' + logfile_name, _file)
@@ -145,8 +146,8 @@ def send_ftps(file_name): #エラー処理 will be raise to main()
         _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
         # アップロードが成功したらファイルは削除。2017/06/23
 
-        _ftps.cwd('/home/field_location/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-        logger.info('change directory to: /home/field_location/www/seasonShots/' + put_directory)
+        _ftps.cwd('/seasonShots/' + put_directory) #アップロード先ディレクトリに移動.ロリポップの場合、webルートに入ってくる
+        logger.info('change directory to: /seasonShots/' + put_directory)
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
         _ftps.quit()
@@ -524,7 +525,7 @@ if __name__ == '__main__':
 
             params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'sensor_temp' : sensor_temp, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : memo, 'log' : logfile_name, 'deploy' : DEPLOY_SWITCH})
 
-            conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
+            conn = httplib.HTTPSConnection(host_IM)
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
             #/IM/im_build/webAPI/putDataAPI_withAuth.php にはさくらサーバー内のMySQL Databaseへのアクセス情報が書かれている
             #DEPLOY_SWITCHに"sandBox"と書いてあれば、putDataAPI_withAuth.phpが自動判別してsandBoxサーバーにデータを送る

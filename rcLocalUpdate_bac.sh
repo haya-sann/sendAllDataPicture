@@ -55,8 +55,8 @@ gpio -g mode $PORT2 out
 if [ `gpio -g read $PORT1` -eq 1 ] ; then #シングルクオートの``が大切
   log "program switch is ON"
   gpio -g write $PORT2 1
-#   crontab < /home/pi/crontab
-#   echo -e "\e[42;31mcrontab enabled\e[m"
+  crontab < /home/pi/crontab
+  echo -e "\e[42;31mcrontab enabled\e[m"
   exit 0
 fi
 
@@ -64,9 +64,8 @@ log "PROGRAM SWITCH is off. Now system start normally"
 
 function waitForPing() {
     # Wait for Network to be available.
-    #please specify target server
 for i in {1..5};
-    do ping -c1 ciao-kawagoesatoyama.ssl-lolipop.jp &> /dev/null && (ntpq -p | tee -a ${LOGFILE}) && break; 
+    do ping -c1 mochimugi.sakura.ne.jp &> /dev/null && (ntpq -p | tee -a ${LOGFILE}) && break; 
     # server reached, update time
     echo -n .
     done
@@ -137,7 +136,7 @@ echo -e "\e[42;31mppp is up and running\e[m"
 log "ppp is up and running"
 
 waitForPing || ( echo connectSoracom error ; my_shutdown2 )
-log "Server is online"
+log "Sakura server is online"
 
 log "update all files in sendAllDataPicture with git pull"
 cd /home/pi/Documents/field_location/sendAllDataPicture

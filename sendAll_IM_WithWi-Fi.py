@@ -583,4 +583,3 @@ if __name__ == '__main__':
         logger.info("I2C command success: " + str(i) + " time retry. System will powerdown and reboot imedeately")
         call('sudo poweroff', shell=True)
         logger.debug("system will poweroff after 4 minutes, and reboot immediately")
-
