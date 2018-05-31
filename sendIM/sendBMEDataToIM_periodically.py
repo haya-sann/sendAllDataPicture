@@ -30,9 +30,10 @@ from w1_DS18B20 import read_soil_temp
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 #configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
-configfile.read("/home/pi/Documents/field_location/kawagoe_config.conf")#絶対パスを使った
+configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 
-archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
+host_IM = configfile.get("settings", "host")
+archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
 userID = configfile.get("settings", "id")        #サーバーログインUser id
 key = configfile.get("settings", "key")#ThingSpeak Channel write key
@@ -96,8 +97,8 @@ def sendDataToIM():
 
     logger.info ("paramsIM:" + params_IM)
 
-    conn = httplib.HTTPSConnection(archive_server)
-    #conn = httplib.HTTPConnection(archive_server)
+    conn = httplib.HTTPSConnection(host_IM)
+    #conn = httplib.HTTPConnection(host_IM)
     conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
     response = conn.getresponse()
     logger.info("Server respond:" + str(response.status) + str(response.reason))
@@ -167,7 +168,7 @@ else:
 
 
 
-#send data to archive_server
+#send data to host_IM
 sendDataToIM()
 
 to_addr = "haya.biz@gmail.com"
