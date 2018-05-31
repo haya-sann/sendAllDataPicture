@@ -145,8 +145,8 @@ def send_ftps(file_name): #エラー処理 will be raise to main()
         _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
         # アップロードが成功したらファイルは削除。2017/06/23
 
-        _ftps.cwd('/home/field_location/www/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-        logger.info('change directory to: /home/field_location/www/seasonShots/' + put_directory)
+        _ftps.cwd('/seasonShots/' + put_directory) #アップロード先ディレクトリに移動.ロリポップの場合、webルートに入ってくる
+        logger.info('change directory to: /seasonShots/' + put_directory)
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
         _ftps.quit()
