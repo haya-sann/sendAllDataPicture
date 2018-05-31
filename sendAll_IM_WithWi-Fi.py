@@ -85,7 +85,7 @@ logger.info("設定動作開始時刻："+str(hourToBegin)+"時、　終了時�
 try:
     import rcLocalUpdate
     rcLocalUpdate.updateRCLocal()
-    logger.info("Successfully updated rc.local file")
+    logger.info("Successfully copied updated rc.local file")
 except :
     logger.debug("failed update rc.local file")
 
