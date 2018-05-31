@@ -85,10 +85,10 @@ else:
 		print ("Deepsleep in " + str(x) + "minutes")
 x = x / 5
 powerMonagementModule_controlCommand = '/usr/sbin/i2cset -y 1 0x30 40 ' + str(x) + ' i' #30秒後にシャットダウン、最後のパラメーター×5分後に起動
-print('電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + ':10秒後にシャットダウン、最後のパラメーター×5分後に起動')
+print('電源モジュールにコマンド送信：' + powerMonagementModule_controlCommand + str(x) +'秒後にシャットダウン、最後のパラメーター×5分後に起動')
 logging.basicConfig(filename=dir_path + '/'+ 'field_location.log',level=logging.DEBUG,format='%(asctime)s %(message)s')
 logging.info('Power Management command:'  + powerMonagementModule_controlCommand)
 send_ftps('field_location.log')
 os.system(powerMonagementModule_controlCommand)#シャットダウンコマンドはログをとってから
 time.sleep(5)
-os.system('sudo poweroff')
+os.system('poweroff')
