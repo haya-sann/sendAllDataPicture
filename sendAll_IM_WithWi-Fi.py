@@ -52,7 +52,7 @@ everyMinutes = 4 #何分おきに撮影するのかをセット
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/field_location/config.conf")#Localに置いたconfig.confファイルへの絶対パスを使った
 
-archive_server = configfile.get("settings", "host")  #サーバーのドメイン名
+archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
 userID = configfile.get("settings", "id")        #サーバーログインUser id
 key = configfile.get("settings", "key")#ThingSpeak Channel write key
