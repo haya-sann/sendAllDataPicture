@@ -1,6 +1,10 @@
 #!/usr/bin/python
 #coding: utf-8
 
+import ConfigParser
+from ftplib import FTP_TLS
+
+
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/field_location/config.conf")#Localに置いたconfig.confファイルへの絶対パスを使った
 
