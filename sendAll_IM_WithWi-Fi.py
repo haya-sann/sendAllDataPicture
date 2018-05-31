@@ -79,7 +79,7 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.info('logging.warning:Global IP Address:%s', global_ipAddress)
 logger.info("dir_path is set to : " + dir_path + "(just for debugging)")
-logger.info("これは新しいsendAll_IM.py. ver1.4.3 Added second BME280 2017/06/30 01:30改修")
+logger.info("これは新しいsendAll_IM.py. ver1.5.1 Added second 2018/05/31 01:30改修")
 logger.info("設定動作開始時刻："+str(hourToBegin)+"時、　終了時刻："+str(hourToStop)+ "時")
 
 try:
