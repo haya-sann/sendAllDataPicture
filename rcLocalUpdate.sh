@@ -70,7 +70,7 @@ for i in {1..5};
     # server reached, update time
     echo -n .
     done
-[ $i = 5 ] && ( echo Can not reach Sakura Server  | tee -a ${LOGFILE} ; my_shutdown2)
+[ $i = 5 ] && ( echo Can not reach  Server  | tee -a ${LOGFILE} ; my_shutdown2)
 return 0
 }
 
@@ -131,7 +131,7 @@ echo -e "\e[42;31mcrontab is disabled\e[m"
 log "crontab is off"
 
 #まず、USBモデムがsora.comに接続できるのを待つ。失敗すると4分待って再起動させる。
-waitForPPP || ( echo connectSoracom error ; my_shutdown2 )
+#waitForPPP || ( echo connectSoracom error ; my_shutdown2 )
 
 echo -e "\e[42;31mppp is up and running\e[m"
 log "ppp is up and running"
@@ -152,6 +152,6 @@ if [ "$_IP" ]; then
 fi
 
 #sendAll_IM.pyに環境変数DEPLOYを送るためにはsudoでは機能しない
-python /home/pi/Documents/field_location/sendAllDataPicture/sendAll_IM.py || ( echo python error ; my_shutdown )
+python /home/pi/Documents/field_location/sendAllDataPicture/sendIM/sendBMEDataToIM_periodically.py || ( echo python error ; my_shutdown )
 
 exit 0
