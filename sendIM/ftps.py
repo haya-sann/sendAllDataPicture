@@ -37,8 +37,8 @@ def sendLog_ftps(file_name, put_directory):
         logfile_name = 'field_location' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
         logger.info('Logging file on the server is : ' + logfile_name)
 
-        _ftps.cwd('/seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-        logger.info('Success : Change directory to: /home/field_location/www/seasonShots/' + put_directory)
+        _ftps.cwd('seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+        logger.info('Success : Change directory to: seasonShots/'  + put_directory)
 
         _ftps.storbinary('STOR ' + logfile_name, _file)
 
