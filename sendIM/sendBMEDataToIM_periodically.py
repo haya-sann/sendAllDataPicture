@@ -160,7 +160,7 @@ GPIO.setup(GPIO_NO, GPIO.IN)
 
 if GPIO.input(GPIO_NO) == 0:
     try:
-        powerControlCommand = '/usr/sbin/i2cset -y 1 0x40 60 1 i'
+        powerControlCommand = '/usr/sbin/i2cset -y 1 0x40 60 11 i'
 
 
         sendPowerCommand()
