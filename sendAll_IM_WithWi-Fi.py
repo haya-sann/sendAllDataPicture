@@ -52,6 +52,7 @@ everyMinutes = 4 #何分おきに撮影するのかをセット
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/field_location/config.conf")#Localに置いたconfig.confファイルへの絶対パスを使った
 
+host_IM = configfile.get("settings", "host")
 archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
 userID = configfile.get("settings", "id")        #サーバーログインUser id
@@ -524,7 +525,7 @@ if __name__ == '__main__':
 
             params_IM = urllib.urlencode({'c': str(imKey), 'date': str(d), 'temp': temp, 'temperature': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'sensor_temp' : sensor_temp, 'v0' : voltage_ch1, 'v1' : voltage_ch2, 'memo' : memo, 'log' : logfile_name, 'deploy' : DEPLOY_SWITCH})
 
-            conn = httplib.HTTPSConnection("mochimugi.sakura.ne.jp")
+            conn = httplib.HTTPSConnection(host_IM)
             conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
             #/IM/im_build/webAPI/putDataAPI_withAuth.php にはさくらサーバー内のMySQL Databaseへのアクセス情報が書かれている
             #DEPLOY_SWITCHに"sandBox"と書いてあれば、putDataAPI_withAuth.phpが自動判別してsandBoxサーバーにデータを送る
