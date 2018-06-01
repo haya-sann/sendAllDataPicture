@@ -80,9 +80,9 @@ localFile_name = ""
 pictureBrightness =55
 pictureContrast = 10
 
-hourToBegin = 0 #カメラを動作開始させる時刻
+hourToBegin = 1 #カメラを動作開始させる時刻
 hourToStop = 24 #カメラを完全休止させる時刻
-everyMinutes = 4 #何分おきに撮影するのかをセット
+everyMinutes = 10 #何分おきに撮影するのかをセット
 
 
 v0=v1=soil1=soil2=soil_temp=0.0
