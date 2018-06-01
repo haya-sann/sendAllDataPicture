@@ -43,8 +43,10 @@ logger = get_module_logger(__name__)
 
 logger.propagate = True
 
+sys.path.append('..')   # sys.pathを追加する
+
 try:
-    from .. import rcLocalUpdate #ここは要注意
+    import rcLocalUpdate #ここは要注意
     rcLocalUpdate.updateRCLocal()
     logger.info("Successfully copied updated rc.local file")
 except :
