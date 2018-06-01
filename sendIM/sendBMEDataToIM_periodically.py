@@ -3,7 +3,7 @@
 #このデバイス（田んぼカメラ）を外に設置する際は、サーバー上のwebAPIを正確に指すように調整するのを忘れないように
 #設置する機器の対応サーバーに応じて指定するconfig.confの中身を対応するサーバー情報に書き換えるのを忘れずに
 #ex: configfile.read("/home/pi/Documents/field_location/config.conf")
-#rc.localが修正されていれば、この中でアップデートを行う。rcLocalUpdate.shという中間ファイルを経由して、これを/etc/rc.localに上書きする仕組み
+#rc.localを修正したければ、この中でアップデートを行う。rcLocalUpdate.shという中間ファイルを経由して、これを/etc/rc.localに上書きする仕組み
 #したがって、rc.localを書き直したければ、rcLocalUpdate.shを更新してやれば良い。
 
 import httplib, urllib
@@ -35,6 +35,13 @@ try:
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
     DEPLOY_SWITCH = "sandBox"
 
+
+try:
+    import ../rcLocalUpdate
+    rcLocalUpdate.updateRCLocal()
+    logger.info("Successfully copied updated rc.local file")
+except :
+    logger.debug("failed update rc.local file")
 
 
 global_ipAddress =  commands.getoutput('hostname -I')
