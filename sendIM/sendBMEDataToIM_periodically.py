@@ -28,6 +28,7 @@ from sendMail import send, create_message
 
 from w1_DS18B20 import read_soil_temp
 from ftps import sendLog_ftps
+from ftps import send_ftps
 import picamera
 
 try:
@@ -242,19 +243,16 @@ try:
     powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 ' + str(timeToOff) + ' ' + str(x) + ' i'
     #40秒後に電源オフ、最後のパラメーター×5分後に起動
 
-    #logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
-    timeToWait = datetime.timedelta(minutes=x*5)
-    wakeupTime = now + timeToWait #起動時刻算出
-    logger.info(timeToWait + "分後の" +wakeupTime + "に起動します")
+    logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
+    # timeToWait = datetime.timedelta(minutes=x*5)
+    # wakeupTime = now + timeToWait #起動時刻算出
+    # logger.info(timeToWait + "分後の" +wakeupTime + "に起動します")
 
 except Exception as e:
     logger.debug("Fail in camera caputer :" + str(e))
 
 #send data to host_IM
 sendDataToIM()
-
-file_name = "field_location.log"
-sendLog_ftps(file_name, put_directory)
 
 to_addr = "haya.biz@gmail.com"
 
@@ -274,7 +272,8 @@ attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
 send(from_addr, to_addr, msg)
 
-
+file_name = "field_location.log"
+sendLog_ftps(file_name, put_directory)
 
 #Programスイッチが入っているときはパワースイッチコントロールを送らずに終了
 GPIO.setmode(GPIO.BCM)
