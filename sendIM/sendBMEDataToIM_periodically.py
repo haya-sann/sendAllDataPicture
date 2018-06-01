@@ -148,7 +148,7 @@ def capture_send():
             captureFile_name = 'PowerOnTest_' + now.strftime('%Y%m%d%H%M') + '.jpg'
             break
     logger.info('写真の保存ファイル名；' + captureFile_name)
-    picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
+#    picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
     time.sleep(2) #これも入れ忘れてた　2017/06/14　12:59
     picamera.brightness = pictureBrightness #標準の50よりほんの少し明るめに
     picamera.contrast = pictureContrast 
@@ -225,7 +225,7 @@ try:
 
     if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
         logger.info("Will call [capture_send] at " + str(now))
-        # localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
+        localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
 
     now = datetime.datetime.now()
     hour = now.hour
