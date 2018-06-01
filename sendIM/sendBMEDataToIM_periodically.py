@@ -82,7 +82,7 @@ pictureContrast = 10
 
 hourToBegin = 1 #カメラを動作開始させる時刻
 hourToStop = 24 #カメラを完全休止させる時刻
-everyMinutes = 10 #何分おきに撮影するのかをセット
+everyMinutes = 20 #何分おきに撮影するのかをセット
 
 
 v0=v1=soil1=soil2=soil_temp=0.0
@@ -145,7 +145,7 @@ def capture_send():
             break
         elif everyMinutes - (now.minute % everyMinutes) > 7:#7分より多く待つなら取りあえず撮影して終わる
             logger.info('指定時間まで7分以上ありますので、テスト撮影して指定時刻5分前に再起動します')
-            captureFile_name = '電源投入時テスト_' + now.strftime('%Y%m%d%H%M') + '.jpg'
+            captureFile_name = 'PowerOnTest_' + now.strftime('%Y%m%d%H%M') + '.jpg'
             break
     logger.info('写真の保存ファイル名；' + captureFile_name)
     picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
