@@ -28,7 +28,8 @@ from sendMail import send, create_message
 
 from w1_DS18B20 import read_soil_temp
 from ftps import sendLog_ftps
-
+import picamera
+from cameraTimedCapture import capture_send
 
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
