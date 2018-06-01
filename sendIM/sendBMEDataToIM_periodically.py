@@ -37,11 +37,11 @@ except: #rc.localからexportされて送られるはずのDEPLYがない場合�
 
 
 try:
-    import ../rcLocalUpdate
+    from .. import rcLocalUpdate #ここは要注意
     rcLocalUpdate.updateRCLocal()
     logger.info("Successfully copied updated rc.local file")
 except :
-    logger.debug("failed update rc.local file")
+    logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
 
 
 global_ipAddress =  commands.getoutput('hostname -I')
