@@ -9,7 +9,7 @@ from __init__ import get_module_logger #log保存先は/var/log/field_location.l
 logger = get_module_logger(__name__)
 
 logger.propagate = True
-
+picamera = picamera.PiCamera()
 
 def capture_send(everyMinutes):
     logger.info('Waiting for shooting time')
