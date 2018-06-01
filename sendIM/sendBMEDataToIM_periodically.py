@@ -1,8 +1,8 @@
 #!/usr/bin/python
 #coding: utf-8
 #このデバイス（田んぼカメラ）を外に設置する際は、サーバー上のwebAPIを正確に指すように調整するのを忘れないように
-#設置する機器の対応サーバーに応じて指定するconfig.confを切替えるのを忘れずに
-#ex: configfile.read("/home/pi/Documents/field_location/kawagoe_config.conf")
+#設置する機器の対応サーバーに応じて指定するconfig.confの中身を対応するサーバー情報に書き換えるのを忘れずに
+#ex: configfile.read("/home/pi/Documents/field_location/config.conf")
 
 
 import httplib, urllib
@@ -164,6 +164,7 @@ if GPIO.input(GPIO_NO) == 0:
 
 
         sendPowerCommand()
+        logger.info('PowerControl設定正常終了。')
         time.sleep(5)
 
     except IOError:
