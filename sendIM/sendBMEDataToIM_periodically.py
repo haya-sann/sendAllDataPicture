@@ -67,7 +67,7 @@ if DEPLOY_SWITCH == "distribution":
 elif DEPLOY_SWITCH == "sandBox":
     put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
 
-
+logger.info("資料の保存先は：" + put_directory)
 
 v0=v1=soil1=soil2=soil_temp=0.0
 
