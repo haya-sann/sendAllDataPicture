@@ -158,7 +158,7 @@ def capture_send():
     picamera.capture(captureFile_name)
     
     try:
-        send_ftps(captureFile_name)
+        send_ftps(captureFile_name, put_directory)
         logger.info("File is sended with no error. Delete " + captureFile_name + " on Ras Pi")
         os.remove(captureFile_name)
         return captureFile_name

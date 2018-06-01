@@ -62,7 +62,7 @@ def sendLog_ftps(file_name, put_directory):
         _ftps.quit()
         raise
 
-def send_ftps(file_name): #エラー処理 will be raise to main()
+def send_ftps(file_name, put_directory): #エラー処理 will be raise to main()
     try:
         logger.info("ftps accessing"+ archive_server)
         _ftps = FTP_TLS(archive_server)
