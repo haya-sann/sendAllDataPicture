@@ -140,7 +140,7 @@ def capture_send():
         now = datetime.datetime.now()
         if now.minute % everyMinutes == 0: #指定毎分時になると撮影
 #        if now.minute % everyMinutes <= 7: #指定毎分時、過ぎた場合は7分以内なら正常撮影
-            logger.info('指定時間になりました')
+            logger.info('指定時間になりました:' + now.minute)
             captureFile_name = now.strftime('%Y%m%d%H%M') + '.jpg'
             break
         elif everyMinutes - (now.minute % everyMinutes) > 7:#7分より多く待つなら取りあえず撮影して終わる
