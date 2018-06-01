@@ -35,15 +35,6 @@ try:
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
     DEPLOY_SWITCH = "sandBox"
 
-
-try:
-    from .. import rcLocalUpdate #ここは要注意
-    rcLocalUpdate.updateRCLocal()
-    logger.info("Successfully copied updated rc.local file")
-except :
-    logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
-
-
 global_ipAddress =  commands.getoutput('hostname -I')
 dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情報
 
@@ -52,6 +43,12 @@ logger = get_module_logger(__name__)
 
 logger.propagate = True
 
+try:
+    from .. import rcLocalUpdate #ここは要注意
+    rcLocalUpdate.updateRCLocal()
+    logger.info("Successfully copied updated rc.local file")
+except :
+    logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 #configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
