@@ -77,6 +77,7 @@ logger.info("資料の保存先は：" + put_directory)
 
 #カメラ撮影準備
 localFile_name = ""
+pictureBrightness =55
 pictureContrast = 10
 
 hourToBegin = 0 #カメラを動作開始させる時刻
@@ -148,12 +149,12 @@ def capture_send():
     logger.info('写真の保存ファイル名；' + captureFile_name)
     picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
     time.sleep(2) #これも入れ忘れてた　2017/06/14　12:59
-#    picamera.brightness = 55 #標準の50よりほんの少し明るめに
+    picamera.brightness = pictureBrightness #標準の50よりほんの少し明るめに
     picamera.contrast = pictureContrast 
-#標準の50よりほんの少しコントラストを強めに
+    #標準の50よりほんの少しコントラストを強めに
     logger.info("brightness:"+str(picamera.brightness)+" ,contrast:"+str(picamera.contrast))
     # picamera.annotate_background = picamera.Color('black')
-    picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S') + " , Contrast : " + str(picamera.contrast)
+#    picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S') + " , Contrast : " + str(picamera.contrast)
     picamera.rotation = 180
     picamera.capture(captureFile_name)
     
