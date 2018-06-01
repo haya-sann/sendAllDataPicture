@@ -10,8 +10,8 @@
 #結構重要な変更。一晩悩んだ。
 #次に起動するプログラムにDEPLOY情報を継承する #変数代入の＝の前後の空白を入れてはいけない#
 
-export DEPLOY="sandBox"
-#export DEPLOY="distribution"
+#export DEPLOY="sandBox"
+export DEPLOY="distribution"
 
 #case文でsandBoxに送るか、本番環境に送るかを選択する。
 case "$DEPLOY" in
@@ -142,7 +142,7 @@ log "Server is online"
 
 log "update all files in sendAllDataPicture with git pull"
 cd /home/pi/Documents/field_location/sendAllDataPicture
-git checkout master | tee -a ${LOGFILE} #|| log ("Error occured in git. Update failed")
+git checkout addPicture | tee -a ${LOGFILE} #|| log ("Error occured in git. Update failed")
 git status | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
 git pull | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
 
