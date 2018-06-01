@@ -45,7 +45,6 @@ logger.propagate = True
 
 
 try:
-    sys.path.append('..')   # sys.pathを追加する#ここは要注意。一つ上のディレクトリを検索対象にする
     import rcLocalUpdate 
     rcLocalUpdate.updateRCLocal()
     logger.info("Successfully copied updated rc.local file")
