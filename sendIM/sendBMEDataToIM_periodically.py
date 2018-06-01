@@ -163,6 +163,7 @@ def capture_send():
         send_ftps(captureFile_name, put_directory)
         logger.info("File is sended with no error. Delete " + captureFile_name + " on Ras Pi")
         os.remove(captureFile_name)
+        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
         return captureFile_name
 
     except:
