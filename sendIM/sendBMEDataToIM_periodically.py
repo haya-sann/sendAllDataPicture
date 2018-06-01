@@ -36,6 +36,16 @@ except: #rc.localからexportされて送られるはずのDEPLYがない場合�
     DEPLOY_SWITCH = "sandBox"
 
 
+
+global_ipAddress =  commands.getoutput('hostname -I')
+dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情報
+
+from __init__ import get_module_logger #log保存先は/var/log/field_location.log
+logger = get_module_logger(__name__)
+
+logger.propagate = True
+
+
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 #configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
@@ -50,19 +60,14 @@ imKey = configfile.get("settings", "imKey")
 from_addr = configfile.get("settings", "mailAddress")
 mailPass = configfile.get("settings", "mailPass")
 
+logger.info("公開先は：" + DEPLOY_SWITCH)
 
 if DEPLOY_SWITCH == "distribution":
     put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
 elif DEPLOY_SWITCH == "sandBox":
     put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
 
-global_ipAddress =  commands.getoutput('hostname -I')
-dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情報
 
-from __init__ import get_module_logger #log保存先は/var/log/field_location.log
-logger = get_module_logger(__name__)
-
-logger.propagate = True
 
 v0=v1=soil1=soil2=soil_temp=0.0
 
