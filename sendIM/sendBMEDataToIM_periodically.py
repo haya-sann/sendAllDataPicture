@@ -74,6 +74,15 @@ elif DEPLOY_SWITCH == "sandBox":
 
 logger.info("資料の保存先は：" + put_directory)
 
+#カメラ撮影準備
+localFile_name = ""
+pictureContrast = 10
+
+hourToBegin = 0 #カメラを動作開始させる時刻
+hourToStop = 24 #カメラを完全休止させる時刻
+everyMinutes = 4 #何分おきに撮影するのかをセット
+
+
 v0=v1=soil1=soil2=soil_temp=0.0
 
 def captureSensorData(i2c_address):
@@ -105,7 +114,7 @@ def sendDataToAmbient():
 def sendDataToIM():
     #keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : 'sandBox', 'log':field_locationLog }
 
-    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : DEPLOY_SWITCH }
+    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : DEPLOY_SWITCH, 'memo' : localFile_name}
 
     valueToSend={}
     for value_label, value in keyValue.items():
@@ -166,27 +175,47 @@ def sendPowerCommand():
 	#from retry import retry
     logger.info("sended PowerCommand" + str(powerControlCommand))
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(GPIO_NO, GPIO.IN)
+#指定時間を待って写真を撮影する
+try:
+    # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
+    picamera = picamera.PiCamera()
+    picamera.resolution = (1920, 1080) #HD Quality Size=1.5MB、研究材料としては最低限これくらいはほしい。稲穂の様子はこ$
+    #picamera.resolution = (1024, 768) # こちらは554KBで済む
+    # Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
+    time.sleep(2)
 
-if GPIO.input(GPIO_NO) == 0:
-    try:
-        powerControlCommand = '/usr/sbin/i2cset -y 1 0x40 60 1 i'
+    now = datetime.datetime.now()
+    hour = now.hour
 
+    if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
+        localFile_name = capture_send(everyMinutes) #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
 
-        sendPowerCommand()
-        logger.info('PowerControl設定正常終了。')
-        time.sleep(5)
+    now = datetime.datetime.now()
+    hour = now.hour
+    minute = now.minute
+    if hour < hourToBegin -1:
+        x = 60 * hourToBegin - (hour * 60 + minute)
+    elif hour >= hourToStop: #停止設定時刻になったら深夜24時までストップさせる
+                            #ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
+                            #運用時に注意： hourToBegin を深夜0時以降にセットすること
+        x = 1440 - (hour*60 + minute)
+    else:
+        x = everyMinutes -5 -(minute % everyMinutes)    #毎撮影時刻の5分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く必要がある
+        if x <0:
+            x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
+            # x = 5   #テストのために5分のスリープを指定
+    x = x / 5
+    timeToOff = 40
+    powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 ' + str(timeToOff) + ' ' + str(x) + ' i'
+    #40秒後に電源オフ、最後のパラメーター×5分後に起動
 
-    except IOError:
-        logger.info('IOError。デバイスが認識できません')
-    	logger.exception('Error in read bme280: %s', err)
-    finally:
-        logger.info('PowerControl設定の処理を終わりました。エラーログも確認してください')
-else:
-    logger.info("Programmer switch is ON. Continue to proceed\n")
+    #logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後にシャットダウン、最後のパラメーター×5分後に起動')
+    timeToWait = datetime.timedelta(minutes=x*5)
+    wakeupTime = now + timeToWait #起動時刻算出
+    logger.info(timeToWait + "分後の" +wakeupTime + "に起動します")
 
-
+except Exception as e:
+    logger.debug("Fail in camera caputer :" + str(e))
 
 #send data to host_IM
 sendDataToIM()
@@ -212,8 +241,27 @@ attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
 send(from_addr, to_addr, msg)
 
-if GPIO.input(GPIO_NO) == 0:
-    print('システムを終了します')
-    os.system('sudo poweroff')
 
-GPIO.cleanup()
+
+#Programスイッチが入っているときはパワースイッチコントロールを送らずに終了
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(GPIO_NO, GPIO.IN)
+
+if GPIO.input(GPIO_NO) == 0:
+    logger.info("Program switch is OFF")
+    try:
+        sendPowerCommand()
+        logger.info('PowerControl設定正常終了。'+ str(powerControlCommand))
+        time.sleep(5)
+
+    except IOError:
+        logger.info('IOError。デバイスが認識できません')
+    	logger.exception('Error in read bme280: %s', err)
+    finally:
+        logger.info('PowerControl設定の処理を終わりました。電源を落とします。エラーログも確認してください')
+        print('システムを終了します')
+        os.system('sudo poweroff')
+        GPIO.cleanup()
+
+else:
+    logger.info("Programmer switch is ON. Continue to proceed\n")

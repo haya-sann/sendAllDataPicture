@@ -62,7 +62,7 @@ def sendLog_ftps(file_name, put_directory):
         _ftps.quit()
         raise
 
-def send_ftps(file_name, dir_path): #エラー処理 will be raise to main()
+def send_ftps(file_name): #エラー処理 will be raise to main()
     try:
         logger.info("ftps accessing"+ archive_server)
         _ftps = FTP_TLS(archive_server)
@@ -70,7 +70,7 @@ def send_ftps(file_name, dir_path): #エラー処理 will be raise to main()
         _ftps.login(userID, pw)
         _ftps.prot_p() #データ接続をセキュアにする
 
-        _file = open(dir_path + '/' + file_name, 'rb') #'rb'means read as binary mode.
+        _file = open(file_name, 'rb') #'rb'means read as binary mode.
         # アップロードが成功したらファイルは削除。2017/06/23
 
         _ftps.cwd('/seasonShots/' + put_directory) #アップロード先ディレクトリに移動.ロリポップの場合、webルートに入ってくる
