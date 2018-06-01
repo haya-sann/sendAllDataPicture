@@ -131,11 +131,11 @@ crontab < /home/pi/crontab_off #disable crontab
 echo -e "\e[42;31mcrontab is disabled\e[m"
 log "crontab is off"
 
-#まず、USBモデムがsora.comに接続できるのを待つ。失敗すると4分待って再起動させる。
-#waitForPPP || ( echo connectSoracom error ; my_shutdown2 )
+まず、USBモデムがsora.comに接続できるのを待つ。失敗すると4分待って再起動させる。
+waitForPPP || ( echo connectSoracom error ; my_shutdown2 )
 
-# echo -e "\e[42;31mppp is up and running\e[m"
-# log "ppp is up and running"
+echo -e "\e[42;31mppp is up and running\e[m"
+log "ppp is up and running"
 
 # waitForPing || ( echo connectSoracom error ; my_shutdown2 )
 log "Server is online"
