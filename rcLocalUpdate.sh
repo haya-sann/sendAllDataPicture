@@ -22,7 +22,8 @@ esac
 echo "Now current directory is set : "$DIRPATH
 
 #ログを生成する
-LOGFILE="/home/pi/Documents/field_location/${DIRPATH}/field_location.log"
+LOGFILE="/var/log/field_location.log"
+#LOGFILE="/home/pi/Documents/field_location/${DIRPATH}/field_location.log"
 readonly PROCNAME=${0##*/}
 
 function log() {
