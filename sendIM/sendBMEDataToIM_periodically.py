@@ -163,7 +163,6 @@ def capture_send():
         send_ftps(captureFile_name, put_directory)
         logger.info("File is sended with no error. Delete " + captureFile_name + " on Ras Pi")
         os.remove(captureFile_name)
-        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
         return captureFile_name
 
     except:
@@ -226,7 +225,11 @@ try:
 
     if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
         logger.info("Will call [capture_send] at " + str(now))
-#        localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
+        localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
+
+    #サーバー内で圧縮プログラムを動かす
+    os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
+    logger.info("Kicked loadThumsPhotos.php")
 
     now = datetime.datetime.now()
     hour = now.hour
