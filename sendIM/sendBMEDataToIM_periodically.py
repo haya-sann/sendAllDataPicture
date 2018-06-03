@@ -226,10 +226,9 @@ try:
     if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
         logger.info("Will call [capture_send] at " + str(now))
         localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
-
-    #サーバー内で圧縮プログラムを動かす
-    os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
-    logger.info("Kicked loadThumsPhotos.php")
+        #サーバー内で圧縮プログラムを動かす
+        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
+        logger.info("Kicked loadThumsPhotos.php")
 
     now = datetime.datetime.now()
     hour = now.hour
