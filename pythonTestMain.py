@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # coding:UTF-8
 
-import PyWork.Prism
-# from PyWork.Prism import *
 
-# main-routine
-p1 = PyWork.Prism.Prism(10, 20,30)
-print p1.content()
+x=65.6
+x = int(x / 5)
+timeToOff = 40
+powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 ' + str(timeToOff) + ' ' + str(x) + ' i'
+#40秒後に電源オフ、最後のパラメーター×5分後に起動
+
+print('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後にシャットダウン、最後のパラメーター' +str(x*5) + '分後に起動')
+
 
