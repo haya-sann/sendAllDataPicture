@@ -250,7 +250,7 @@ try:
     powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 ' + str(timeToOff) + ' ' + str(x) + ' i'
     #40秒後に電源オフ、最後のパラメーター×5分後に起動
 
-    logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + ':40秒後にシャットダウン、最後のパラメーター' +str(x*5) + '分後に起動')
+    logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + '（' + str(timeToOff) + '秒後にシャットダウン、' + str(x*5) + '分後に起動）')
     # timeToWait = datetime.timedelta(minutes=x*5)
     # wakeupTime = now + timeToWait #起動時刻算出
     # logger.info(timeToWait + "分後の" +wakeupTime + "に起動します")
