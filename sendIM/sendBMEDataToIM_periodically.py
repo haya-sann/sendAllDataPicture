@@ -280,9 +280,10 @@ try:
 except Exception as e:
     logger.debug("Fail in camera caputer :" + str(e))
 
+#ログをまとめてサーバーにftps送信する
+#ftpsの中でログを正常に送れれば、ログファイルはクリアされる
 file_name = "field_location.log"
 sendLog_ftps(file_name, put_directory)
-#ログをftpsの中で正常に送れれば、ログファイルはクリアされる
 
 #Programスイッチが入っているときはパワースイッチコントロールを送らずに終了
 GPIO.setmode(GPIO.BCM)
