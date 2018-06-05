@@ -205,25 +205,6 @@ sendDataToAmbient()
 #send data to host_IM
 sendDataToIM()
 
-to_addr = "haya.biz@gmail.com"
-
-#件名と本文
-subject = "田んぼカメラから"
-body = """ログデータを送ります。これは詳細なログです。
-ログはconsoleアプリで読んでください。
-""" + "\n"
-
-
-#添付ファイル設定(text.txtファイルを添付)
-mime={'type':'text', 'subtype':'comma-separated-values'}
-#    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
-#ここでエンコーディングをutf8にするといいはず。
-attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
- 
-msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
-send(from_addr, to_addr, msg)
-
-
 @retry()
 def sendPowerCommand():
     os.system(powerControlCommand) #import osが必要
@@ -279,6 +260,23 @@ try:
 
 except Exception as e:
     logger.debug("Fail in camera caputer :" + str(e))
+
+#ログのメール送信
+to_addr = "haya.biz@gmail.com"
+#件名と本文
+subject = "田んぼカメラから"
+body = """ログデータを送ります。これは詳細なログです。
+ログはconsoleアプリで読んでください。
+""" + "\n"
+
+#添付ファイル設定(text.txtファイルを添付)
+mime={'type':'text', 'subtype':'comma-separated-values'}
+#    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
+#ここでエンコーディングをutf8にするといいはず。
+attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
+ 
+msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
+send(from_addr, to_addr, msg)
 
 #ログをまとめてサーバーにftps送信する
 #ftpsの中でログを正常に送れれば、ログファイルはクリアされる
