@@ -226,7 +226,8 @@ try:
     now = datetime.datetime.now()
     hour = now.hour
 
-    if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
+    if hour >= 5 and hour <= 19: #写真撮影は5時から19時まで
+#    if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
         logger.info("Will call [capture_send] at " + str(now))
         localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
         #サーバー内で圧縮プログラムを動かす
