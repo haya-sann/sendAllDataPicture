@@ -247,7 +247,7 @@ try:
                             #運用時に注意： hourToBegin を深夜0時以降にセットすること
         x = 1440 - (hour*60 + minute)
     else:
-        logger.info('[3]を実行中')
+        logger.info('[3]、すなわち、稼働時間内標準プロセスを実行中')
         x = everyMinutes -5 -(minute % everyMinutes)    #毎撮影時刻の5分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く必要がある
         if x <0:
             x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
