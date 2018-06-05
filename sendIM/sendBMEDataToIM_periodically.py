@@ -80,7 +80,7 @@ localFile_name = ""
 pictureBrightness =55
 pictureContrast = 10
 
-hourToBegin = 3 #カメラを動作開始させる時刻
+hourToBegin = 0 #カメラを動作開始させる時刻
 hourToStop = 24 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
@@ -238,12 +238,16 @@ try:
     hour = now.hour
     minute = now.minute
     if hour < hourToBegin -1:
+        logger.info('[1]を実行中')
         x = 60 * hourToBegin - (hour * 60 + minute)
-    elif hour >= hourToStop: #停止設定時刻になったら深夜24時までストップさせる
+    elif hour >= hourToStop: 
+        logger.info('[2]を実行中')
+        #停止設定時刻になったら深夜24時までストップさせる
                             #ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
                             #運用時に注意： hourToBegin を深夜0時以降にセットすること
         x = 1440 - (hour*60 + minute)
     else:
+        logger.info('[3]を実行中')
         x = everyMinutes -5 -(minute % everyMinutes)    #毎撮影時刻の5分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く必要がある
         if x <0:
             x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
