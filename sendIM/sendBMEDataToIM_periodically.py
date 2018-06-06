@@ -77,7 +77,7 @@ logger.info("資料の保存先は：" + put_directory)
 
 #カメラ撮影準備
 localFile_name = ""
-pictureBrightness =75
+pictureBrightness =60
 pictureContrast = 30
 # pictureBrightness =55
 # pictureContrast = 10
