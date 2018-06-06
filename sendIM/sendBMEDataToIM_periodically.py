@@ -77,8 +77,10 @@ logger.info("資料の保存先は：" + put_directory)
 
 #カメラ撮影準備
 localFile_name = ""
-pictureBrightness =55
-pictureContrast = 10
+pictureBrightness =75
+pictureContrast = 30
+# pictureBrightness =55
+# pictureContrast = 10
 
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
