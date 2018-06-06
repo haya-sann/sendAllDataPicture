@@ -83,7 +83,7 @@ pictureContrast = 30
 # pictureContrast = 10
 
 hourToBegin = 5 #カメラを動作開始させる時刻
-hourToStop = 24 #カメラを完全休止させる時刻
+hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット
 
 
@@ -104,7 +104,7 @@ def captureSensorData(i2c_address):
     return temperature, pressure, humid
 
 def sendDataToAmbient():
-    ambi = ambient.Ambient(999, ambiKey) # チャネルID、ライトキー
+    ambi = ambient.Ambient(1454, ambiKey) # チャネルID、ライトキー
     r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
     if r.status_code == 200:
         logger.info('successfuly sended data to Ambient')
