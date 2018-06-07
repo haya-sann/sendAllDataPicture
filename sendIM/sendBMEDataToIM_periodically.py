@@ -49,6 +49,7 @@ try:
     import rcLocalUpdate 
     rcLocalUpdate.updateRCLocal()
     logger.info("Successfully copied updated rc.local file")
+    print ("Successfully copied updated rc.local file")
 except :
     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
 
