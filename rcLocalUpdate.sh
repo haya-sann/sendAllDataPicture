@@ -13,6 +13,10 @@
 export DEPLOY="sandBox"
 #export DEPLOY="distribution"
 
+#pullするgitリポジトリのブランチをセット
+gitBranch="homeSimulator"
+#gitBranch="master"
+
 #case文でsandBoxに送るか、本番環境に送るかを選択する。
 case "$DEPLOY" in
 "sandBox" )  DIRPATH="daily_timelapseSandbox" ;;
@@ -32,7 +36,7 @@ function log() {
 }
 echo "***** above-mentioned is previous log  *****" | tee -a ${LOGFILE}
 log "Started logging to : "$LOGFILE
-echo "***** rc.local ver. 1.2 更新：2017/06/13　01:14  *****" | tee -a ${LOGFILE}
+echo "***** rc.local ver. 1.3 更新：2018/06/07　13:14  *****" | tee -a ${LOGFILE}
 
 #
 #Soracomのドングルppp接続またはネットワーク接続rc.local
@@ -142,7 +146,7 @@ log "Server is online"
 
 log "update all files in sendAllDataPicture with git pull"
 cd /home/pi/Documents/field_location/sendAllDataPicture
-git checkout homeSimulator | tee -a ${LOGFILE} #|| log ("Error occured in git. Update failed")
+git checkout $gitBranch | tee -a ${LOGFILE} #|| log ("Error occured in git. Update failed")
 git status | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
 git pull | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
 
