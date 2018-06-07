@@ -17,6 +17,9 @@ export DEPLOY="sandBox"
 gitBranch="homeSimulator"
 #gitBranch="master"
 
+#ドングルを付けた環境下？
+network="SoracomPPP"
+
 #case文でsandBoxに送るか、本番環境に送るかを選択する。
 case "$DEPLOY" in
 "sandBox" )  DIRPATH="daily_timelapseSandbox" ;;
@@ -137,7 +140,7 @@ log "crontab is off"
 
 # まず、USBモデムがsora.comに接続できるのを待つ。失敗すると4分待って再起動させる。
 
-if [$network is "SoracomPPP"]; then
+if [${network}="SoracomPPP"]; then
   waitForPPP || ( echo connectSoracom error ; my_shutdown2 )
 
   echo -e "\e[42;31mppp is up and running\e[m"
