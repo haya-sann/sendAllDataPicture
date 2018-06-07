@@ -280,6 +280,9 @@ to_addr = "haya.biz@gmail.com"
 subject = "田んぼカメラから"
 body = """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
+
+サイトはこちら：https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
+
 """ + "\n"
 
 #添付ファイル設定(text.txtファイルを添付)
