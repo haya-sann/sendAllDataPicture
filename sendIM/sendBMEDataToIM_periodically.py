@@ -57,6 +57,7 @@ configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 
 host_IM = configfile.get("settings", "host")
+print (host_IM)
 archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
 userID = configfile.get("settings", "id")        #サーバーログインUser id
