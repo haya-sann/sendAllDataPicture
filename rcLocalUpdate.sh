@@ -61,14 +61,14 @@ gpio -g mode $PORT2 out
 
 
 if [ `gpio -g read $PORT1` -eq 1 ] ; then #シングルクオートの``が大切
-  log "program switch is ON"
+  echo program switch is ON  | tee -a ${LOGFILE}
   gpio -g write $PORT2 1
 #   crontab < /home/pi/crontab
 #   echo -e "\e[42;31mcrontab enabled\e[m"
   exit 0
 fi
 
-log "PROGRAM SWITCH is off. Now system start normally"
+echo PROGRAM SWITCH is off. Now system start normally  | tee -a ${LOGFILE}
 
 function waitForPing() {
     # Wait for Network to be available.
@@ -138,7 +138,8 @@ crontab < /home/pi/crontab_off #disable crontab
 echo -e "\e[42;31mcrontab is disabled\e[m"
 log "crontab is off"
 
-# まず、USBモデムがsora.comに接続できるのを待つ。失敗すると4分待って再起動させる。
+# まず、network="SoracomPPP"の指定があるかどうかチェック。
+#USBモデムがsora.comに接続できるのを待つ。失敗すると4分待って再起動させる。
 
 if [${network}="SoracomPPP"]; then
   waitForPPP || ( echo connectSoracom error ; my_shutdown2 )
