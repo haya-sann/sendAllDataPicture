@@ -284,7 +284,7 @@ except Exception as e:
 #ログのメール送信
 to_addr = "haya.biz@gmail.com"
 #件名と本文
-subject = "田んぼカメラから"
+subject = "田んぼカメラから：" + DEPLOY_SWITCH
 body = """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
 
