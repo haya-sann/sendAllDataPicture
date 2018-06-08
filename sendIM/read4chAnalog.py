@@ -5,6 +5,11 @@
 
 # Import the ADS1x15 module.
 import Adafruit_ADS1x15
+from __init__ import get_module_logger
+logger = get_module_logger(__name__) 
+
+logger.propagate = False
+#logger.propagate = True
 
 # Create an ADS1115 ADC (16-bit) instance.
 #adc = Adafruit_ADS1x15.ADS1115()
