@@ -102,7 +102,8 @@ def measureLight():
             break
         except Exception as error_inMeasureLight:
             logger.debug("Error during sensing light data: " + str(error_inMeasureLight) + " / " + str(lightSense) + " times trial")
-            return lightLevel = None
+            lightLevel = None
+            return lightLevel
     else:
         logger.debug("Error during sensing light data after : " + str(lightSense) +" times trial")
 
