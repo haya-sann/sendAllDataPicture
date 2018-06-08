@@ -67,8 +67,8 @@ imKey = configfile.get("settings", "imKey")
 from_addr = configfile.get("settings", "mailAddress")
 mailPass = configfile.get("settings", "mailPass")
 
-ambiChannel = 1454 #サンドボックスチャネル
-#ambiChannel = 999 #本番チャネル
+ambiChannel = configfile.get("settings", "ambiChannel") #サンドボックスチャネル
+#ambiChannel = 999:本番チャネル、1454:サンドボックス
 print ambiKey
 
 logger.info("公開先は：" + DEPLOY_SWITCH)
@@ -248,7 +248,6 @@ try:
 
 except Exception as e:
     logger.debug("Fail in camera caputer :" + str(e))
-
 
 now = datetime.datetime.now()
 hour = now.hour
