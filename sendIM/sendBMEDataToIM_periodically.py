@@ -217,7 +217,7 @@ sendDataToAmbient()
 #send data to host_IM
 sendDataToIM()
 
-@retry()
+@retry(exceptions=Exception, tries=3, delay=2)
 def sendPowerCommand():
     os.system(powerControlCommand) #import osが必要
         #成功するまで繰り返す
