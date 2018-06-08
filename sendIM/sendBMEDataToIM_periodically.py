@@ -312,7 +312,6 @@ if GPIO.input(GPIO_NO) == 0:
 
     except IOError:
         logger.info('IOError。デバイスが認識できません')
-    	logger.exception('Error in read bme280: %s', err)
     finally:
         logger.info('PowerControl設定の処理を終わりました。電源を落とします。エラーログも確認してください')
         print('システムを終了します')
