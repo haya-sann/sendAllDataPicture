@@ -41,12 +41,6 @@ def read4ch(values):
             values[i] = adc.read_adc(i, gain=GAIN)*5.88/267
     except Exception as error_in_Read4ChData:
         logger.debug("Error during sensing 4ch analog data: " + str(error_in_Read4ChData) + " / ")
-        for i in range(4):
-            # Read the specified ADC channel using the previously set gain value.
-            values[i] = None
-
-
-
         # Note you can also pass in an optional data_rate parameter that controls
         # the ADC conversion time (in samples/second). Each chip has a different
         # set of allowed data rate values, see datasheet Table 9 config register
