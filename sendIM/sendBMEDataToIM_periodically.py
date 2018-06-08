@@ -89,7 +89,7 @@ pictureContrast = 30
 
 hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
-everyMinutes = 60 #何分おきに撮影するのかをセット
+everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値をセット
 
 
 v0=v1=soil1=soil2=soil_temp=0.0
@@ -238,12 +238,12 @@ try:
     now = datetime.datetime.now()
     hour = now.hour
 
-    if hour >= 5 and hour <= 19: #写真撮影は5時から19時まで
-#    if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
+#    if hour >= 5 and hour <= 19: #写真撮影は5時から19時まで
+    if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
         logger.info("Will call [capture_send] at " + str(now))
         localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
         #サーバー内で圧縮プログラムを動かす
-        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
+        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_sandBox.php')
         logger.info("Kicked loadThumsPhotos.php")
 
 except Exception as e:
@@ -252,27 +252,32 @@ except Exception as e:
 now = datetime.datetime.now()
 hour = now.hour
 minute = now.minute
-if hour < hourToBegin -1:
-    logger.info('[1]を実行中')
-    x = 60 * hourToBegin - (hour * 60 + minute)
-elif hour >= hourToStop: 
-    logger.info('[2]を実行中')
-    #停止設定時刻になったら深夜24時までストップさせる
-                        #ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
-                        #運用時に注意： hourToBegin を深夜0時以降にセットすること
-    x = 1440 - (hour*60 + minute)
-else:
-    logger.info('[3]、すなわち、稼働時間内標準プロセスを実行中')
-    x = everyMinutes -5 -(minute % everyMinutes)    #毎撮影時刻の5分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く必要がある
-    logger.info('計算結果 X=' + str(x))
-    if x <0:
-        x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
-        # x = 5   #テストのために5分のスリープを指定
-if x > 55:
-    x = 55 #電源モジュールは負の値は指定できない（のではないかな？）
+x = everyMinutes -3 -(minute % everyMinutes)    #毎撮影時刻の3分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く
+
+
+
+
+# if hour < hourToBegin -1:
+#     logger.info('[1]を実行中')
+#     x = 60 * hourToBegin - (hour * 60 + minute)
+# elif hour >= hourToStop: 
+#     logger.info('[2]を実行中')
+#     #停止設定時刻になったら深夜24時までストップさせる
+#                         #ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
+#                         #運用時に注意： hourToBegin を深夜0時以降にセットすること
+#     x = 1440 - (hour*60 + minute)
+# else:
+#     logger.info('[3]、すなわち、稼働時間内標準プロセスを実行中')
+#     x = everyMinutes -5 -(minute % everyMinutes)    #毎撮影時刻の5分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く必要がある
+#     logger.info('計算結果 X=' + str(x))
+#     if x <0:
+#         x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
+#         # x = 5   #テストのために5分のスリープを指定
+# if x > 55:
+#     x = 55 #電源モジュールは負の値は指定できない（のではないかな？）
 
 x = int(x / 5)
-timeToOff = 40
+timeToOff = 40 #電源オフまでの秒数を指定
 powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 ' + str(timeToOff) + ' ' + str(x) + ' i'
 #40秒後に電源オフ、最後のパラメーター×5分後に起動
 
