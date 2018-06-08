@@ -10,15 +10,14 @@
 #結構重要な変更。一晩悩んだ。
 #次に起動するプログラムにDEPLOY情報を継承する #変数代入の＝の前後の空白を入れてはいけない#
 
+#Soracomドングルを付けた環境下かどうかは自動判定する
+
 export DEPLOY="sandBox"
 #export DEPLOY="distribution"
 
 #pullするgitリポジトリのブランチをセット
 gitBranch="homeSimulator"
 #gitBranch="master"
-
-#ドングルを付けた環境下？
-network="SoracomPPP"
 
 #case文でsandBoxに送るか、本番環境に送るかを選択する。
 case "$DEPLOY" in
@@ -83,7 +82,7 @@ return 0
 }
 
 function waitForPPP() {
-  echo waiting for ppp connection
+  echo "waiting for ppp connection"
   for i in {1..30}
   do
     [ -e /sys/class/net/ppp0/carrier ] && break
@@ -141,7 +140,10 @@ log "crontab is off"
 # まず、network="SoracomPPP"の指定があるかどうかチェック。
 #USBモデムがsora.comに接続できるのを待つ。失敗すると4分待って再起動させる。
 
-if [${network}="SoracomPPP"]; then
+
+if [ -e /sys/class/net/wlan0/carrier ];then
+  	echo "Wi-Fi found"  | tee -a ${LOGFILE}
+else
   waitForPPP || ( echo connectSoracom error ; my_shutdown2 )
 
   echo -e "\e[42;31mppp is up and running\e[m"
