@@ -202,7 +202,11 @@ v1=values[1]
 soil1=values[2]
 soil2=values[3]
 
-soil_temp = read_soil_temp()
+try:
+    soil_temp = read_soil_temp()
+except Exception as error_soilTemperature:
+    logger.debug("Error occured in measure soil temperature" + str(error_soilTemperature))
+
 
 #Send atmosphere data to AmbiData
 sendDataToAmbient()
