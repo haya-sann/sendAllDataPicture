@@ -246,40 +246,41 @@ try:
         os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
         logger.info("Kicked loadThumsPhotos.php")
 
-    now = datetime.datetime.now()
-    hour = now.hour
-    minute = now.minute
-    if hour < hourToBegin -1:
-        logger.info('[1]を実行中')
-        x = 60 * hourToBegin - (hour * 60 + minute)
-    elif hour >= hourToStop: 
-        logger.info('[2]を実行中')
-        #停止設定時刻になったら深夜24時までストップさせる
-                            #ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
-                            #運用時に注意： hourToBegin を深夜0時以降にセットすること
-        x = 1440 - (hour*60 + minute)
-    else:
-        logger.info('[3]、すなわち、稼働時間内標準プロセスを実行中')
-        x = everyMinutes -5 -(minute % everyMinutes)    #毎撮影時刻の5分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く必要がある
-        logger.info('計算結果 X=' + str(x))
-        if x <0:
-            x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
-            # x = 5   #テストのために5分のスリープを指定
-    if x > 55:
-        x = 55 #電源モジュールは負の値は指定できない（のではないかな？）
-
-    x = int(x / 5)
-    timeToOff = 40
-    powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 ' + str(timeToOff) + ' ' + str(x) + ' i'
-    #40秒後に電源オフ、最後のパラメーター×5分後に起動
-
-    logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + '（' + str(timeToOff) + '秒後にシャットダウン、' + str(x*5) + '分後に起動）')
-    # timeToWait = datetime.timedelta(minutes=x*5)
-    # wakeupTime = now + timeToWait #起動時刻算出
-    # logger.info(timeToWait + "分後の" +wakeupTime + "に起動します")
-
 except Exception as e:
     logger.debug("Fail in camera caputer :" + str(e))
+
+
+now = datetime.datetime.now()
+hour = now.hour
+minute = now.minute
+if hour < hourToBegin -1:
+    logger.info('[1]を実行中')
+    x = 60 * hourToBegin - (hour * 60 + minute)
+elif hour >= hourToStop: 
+    logger.info('[2]を実行中')
+    #停止設定時刻になったら深夜24時までストップさせる
+                        #ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
+                        #運用時に注意： hourToBegin を深夜0時以降にセットすること
+    x = 1440 - (hour*60 + minute)
+else:
+    logger.info('[3]、すなわち、稼働時間内標準プロセスを実行中')
+    x = everyMinutes -5 -(minute % everyMinutes)    #毎撮影時刻の5分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く必要がある
+    logger.info('計算結果 X=' + str(x))
+    if x <0:
+        x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
+        # x = 5   #テストのために5分のスリープを指定
+if x > 55:
+    x = 55 #電源モジュールは負の値は指定できない（のではないかな？）
+
+x = int(x / 5)
+timeToOff = 40
+powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 ' + str(timeToOff) + ' ' + str(x) + ' i'
+#40秒後に電源オフ、最後のパラメーター×5分後に起動
+
+logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + '（' + str(timeToOff) + '秒後にシャットダウン、' + str(x*5) + '分後に起動）')
+# timeToWait = datetime.timedelta(minutes=x*5)
+# wakeupTime = now + timeToWait #起動時刻算出
+# logger.info(timeToWait + "分後の" +wakeupTime + "に起動します")
 
 #ログのメール送信
 to_addr = "haya.biz@gmail.com"
