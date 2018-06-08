@@ -245,7 +245,7 @@ try:
         localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
         #サーバー内で圧縮プログラムを動かす
         os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_sandBox.php')
-        logger.info("Kicked loadThumsPhotos.php")
+        logger.info("Kicked loadThumsPhotos_Sandbox.php")
 
 except Exception as e:
     logger.debug("Fail in camera caputer :" + str(e))
@@ -260,6 +260,10 @@ while True:
     if now.minute % everyMinutes == 0: #指定毎分時になると実行
         logger.info('指定時間になりました:' + str(everyMinutes) + "分ごとに測定中")
         break
+    elif everyMinutes - (now.minute % everyMinutes) > 7:#7分より多く待つなら取りあえず測定＆送信して終わる
+        logger.info('指定時間まで7分以上ありますので、測定して指定時刻5分前に再起動します')
+        break
+
 
 # if hour < hourToBegin -1:
 #     logger.info('[1]を実行中')
