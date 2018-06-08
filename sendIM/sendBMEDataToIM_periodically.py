@@ -58,7 +58,6 @@ configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 
 host_IM = configfile.get("settings", "host")
-print (host_IM)
 archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
 userID = configfile.get("settings", "id")        #サーバーログインUser id
@@ -67,6 +66,10 @@ ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
 from_addr = configfile.get("settings", "mailAddress")
 mailPass = configfile.get("settings", "mailPass")
+
+ambiChannel = 1454 #サンドボックスチャネル
+#ambiChannel = 999 #本番チャネル
+print ambiKey
 
 logger.info("公開先は：" + DEPLOY_SWITCH)
 
@@ -106,7 +109,7 @@ def captureSensorData(i2c_address):
     return temperature, pressure, humid
 
 def sendDataToAmbient():
-    ambi = ambient.Ambient(1454, ambiKey) # チャネルID、ライトキー
+    ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
     r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
     if r.status_code == 200:
         logger.info('successfuly sended data to Ambient')
