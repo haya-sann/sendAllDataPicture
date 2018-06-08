@@ -87,7 +87,7 @@ pictureContrast = 30
 # pictureBrightness =55
 # pictureContrast = 10
 
-hourToBegin = 5 #カメラを動作開始させる時刻
+hourToBegin = 1 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値をセット
 
@@ -147,7 +147,7 @@ def capture_send():
         now = datetime.datetime.now()
         if now.minute % everyMinutes == 0: #指定毎分時になると撮影
 #        if now.minute % everyMinutes <= 7: #指定毎分時、過ぎた場合は7分以内なら、待ちきれないので正常撮影
-            logger.info('指定時間になりました:' + str(now.minute) + "分ごと撮影")
+            logger.info('指定時間になりました:' + str(everyMinutes) + "分ごと撮影")
             captureFile_name = now.strftime('%Y%m%d%H%M') + '.jpg'
             break
         elif everyMinutes - (now.minute % everyMinutes) > 7:#7分より多く待つなら取りあえず撮影して終わる
@@ -254,8 +254,11 @@ hour = now.hour
 minute = now.minute
 x = everyMinutes -3 -(minute % everyMinutes)    #毎撮影時刻の3分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く
 
-
-
+logger.info('Waiting for periodic time')
+while True:
+    if now.minute % everyMinutes == 0: #指定毎分時になると実行
+        logger.info('指定時間になりました:' + str(everyMinutes) + "分ごとに測定中")
+        break
 
 # if hour < hourToBegin -1:
 #     logger.info('[1]を実行中')
