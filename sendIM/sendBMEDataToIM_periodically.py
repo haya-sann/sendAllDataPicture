@@ -250,19 +250,18 @@ try:
 except Exception as e:
     logger.debug("Fail in camera caputer :" + str(e))
 
-now = datetime.datetime.now()
-hour = now.hour
-minute = now.minute
-x = everyMinutes -3 -(minute % everyMinutes)    #毎撮影時刻の3分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く
-
 logger.info('Waiting for periodic time')
 while True:
+    now = datetime.datetime.now()
     if now.minute % everyMinutes == 0: #指定毎分時になると実行
         logger.info('指定時間になりました:' + str(everyMinutes) + "分ごとに測定中")
         break
     elif everyMinutes - (now.minute % everyMinutes) > 7:#7分より多く待つなら取りあえず測定＆送信して終わる
         logger.info('指定時間まで7分以上ありますので、測定して指定時刻5分前に再起動します')
         break
+
+now = datetime.datetime.now()
+x = everyMinutes -3 -(now.minute % everyMinutes)    #毎撮影時刻の3分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く
 
 
 # if hour < hourToBegin -1:
