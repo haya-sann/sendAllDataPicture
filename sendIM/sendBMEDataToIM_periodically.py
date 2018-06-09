@@ -261,7 +261,7 @@ while True:
         break
 
 now = datetime.datetime.now()
-x = everyMinutes -3 -(now.minute % everyMinutes)    #毎撮影時刻の3分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く
+x = everyMinutes -4 -(now.minute % everyMinutes)    #毎撮影時刻の4分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く
 
 
 # if hour < hourToBegin -1:
