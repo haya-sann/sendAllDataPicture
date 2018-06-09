@@ -244,8 +244,8 @@ try:
         logger.info("Will call [capture_send] at " + str(now))
         localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
         #サーバー内で圧縮プログラムを動かす
-        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_Sandbox.php')
-        logger.info("Kicked loadThumsPhotos_Sandbox.php")
+        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_sandBox.php')
+        logger.info("Kicked loadThumbPhotos_sandBox.php")
 
 except Exception as e:
     logger.debug("Fail in camera caputer :" + str(e))
