@@ -89,7 +89,7 @@ pictureContrast = 30
 
 hourToBegin = 1 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
-everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値をセット
+everyMinutes = 15 #何分おきに撮影するのかをセット。5~60の値をセット
 
 
 v0=v1=soil1=soil2=soil_temp=0.0
