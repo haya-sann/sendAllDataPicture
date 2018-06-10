@@ -67,7 +67,7 @@ def send_ftps(file_name, put_directory): #エラー処理 will be raise to main(
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
         _ftps.quit()
-        logger.info("Upload finished with no error to: /seasonShots/" + put_directory "/" + file_name)
+        logger.info("Upload finished with no error to: /seasonShots/" + put_directory + "/" + file_name)
 
     except Exception as e:
         logger.debug("send(picture)_ftps error. :" + str(e))
