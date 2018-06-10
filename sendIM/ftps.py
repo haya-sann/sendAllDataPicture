@@ -22,7 +22,6 @@ logger.propagate = True
 
 def sendLog_ftps(file_name, put_directory):
     try:
-        logger.info("Sending log with ftps to server : "+ archive_server)
         _ftps = FTP_TLS(archive_server)
         _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
     #    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
@@ -32,13 +31,10 @@ def sendLog_ftps(file_name, put_directory):
 
         _file = open('/var/log/' + file_name, 'rb') #'r' means read as text mode
         #'rb' means binarymode
-        logger.info("File opened : " + '/var/log/' + file_name)
         _timeStamp = datetime.datetime.now()
         logfile_name = 'field_location' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
-        logger.info('Logging file on the server is : ' + logfile_name)
 
         _ftps.cwd('seasonShots/' + put_directory) #アップロード先ディレクトリに移動
-        logger.info('Success : Change directory to: seasonShots/'  + put_directory)
 
         logger.info("Upload finished:" + put_directory + "/" +logfile_name + " with no error. Will clear log file.")
 
@@ -59,7 +55,6 @@ def sendLog_ftps(file_name, put_directory):
 
 def send_ftps(file_name, put_directory): #エラー処理 will be raise to main()
     try:
-        logger.info("ftps accessing"+ archive_server)
         _ftps = FTP_TLS(archive_server)
         _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
         _ftps.login(userID, pw)
@@ -69,11 +64,10 @@ def send_ftps(file_name, put_directory): #エラー処理 will be raise to main(
         # アップロードが成功したらファイルは削除。2017/06/23
 
         _ftps.cwd('/seasonShots/' + put_directory) #アップロード先ディレクトリに移動.ロリポップの場合、webルートに入ってくる
-        logger.info('change directory to: /seasonShots/' + put_directory)
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
         _ftps.quit()
-        logger.info("Upload finished with no error")
+        logger.info("Upload finished with no error to: /seasonShots/" + put_directory "/" + file_name)
 
     except Exception as e:
         logger.debug("send(picture)_ftps error. :" + str(e))
