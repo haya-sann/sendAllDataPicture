@@ -40,17 +40,12 @@ def sendLog_ftps(file_name, put_directory):
         _ftps.cwd('seasonShots/' + put_directory) #アップロード先ディレクトリに移動
         logger.info('Success : Change directory to: seasonShots/'  + put_directory)
 
+        logger.info("Upload finished:" + put_directory + "/" +logfile_name + " with no error. Will clear log file.")
+
         _ftps.storbinary('STOR ' + logfile_name, _file)
 
-        # process = Popen(ftps_storeCommand, shell=True, stdout=PIPE, stderr=PIPE)
-        # output, err = process.communicate()
-
-        # for line in _file:
-        #     print line
-        
         _file.close()
         _ftps.quit()
-        logger.info("Upload finished and closed Log file, with no error. Clear log file.")
         #log送信正常終了なので、中身をクリアする
         with open('/var/log/' + file_name, "w") as f:
             f.write("pload finished with no error. Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
