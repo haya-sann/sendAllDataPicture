@@ -193,7 +193,7 @@ i2c_address = 0x77
 outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
 
 try:
-    lightLevel =0 #init light level
+    lightLevel = None #init light level
     lightLevel = measureLight()
 except Exception as measureLightError:
     logger.debug("Error occured in measureLight: " + str(measureLightError))
