@@ -155,7 +155,7 @@ def capture_send():
             captureFile_name = 'PowerOnTest_' + now.strftime('%Y%m%d%H%M') + '.jpg'
             break
     logger.info('写真の保存ファイル名；' + captureFile_name)
-    logger.info("2018/06/06　14:01 写真が眠いのでpicamera.start_previewを再度入れてみた")
+    # logger.info("2018/06/06　14:01 写真が眠いのでpicamera.start_previewを再度入れてみた")
     # picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
     # time.sleep(2) #これも入れ忘れてた　2017/06/14　12:59
     # picamera.stop_preview() #これを入れないといつまでも画面に写真が表示されたままになる
