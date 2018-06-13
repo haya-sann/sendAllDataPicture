@@ -176,6 +176,57 @@ def capture_send():
     except:
         logger.info("Failed file transfer in send_ftps。そのまま何もしない")
 
+@retry(exceptions=Exception, tries=3, delay=2)
+def sendPowerCommand():
+    os.system(powerControlCommand) #import osが必要
+        #成功するまで繰り返す
+	#retryのInstallationは
+	#$ pip install retry
+	#from retry import retry
+    logger.info("sended PowerCommand" + str(powerControlCommand))
+
+
+if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
+    logger.info("Will call [capture_send] at " + str(now))
+    try:
+        # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
+        picamera = picamera.PiCamera()
+        picamera.resolution = (1920, 1080) #HD Quality Size=1.5MB、研究材料としては最低限これくらいはほしい。稲穂の様子はこ$
+        #picamera.resolution = (1024, 768) # こちらは554KBで済む
+        picamera.brightness = pictureBrightness #標準の50よりほんの少し明るめに
+        picamera.contrast = pictureContrast 
+
+        time.sleep(2)
+    # Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
+        
+        localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
+    #サーバー内で圧縮プログラムを動かす
+    if (DEPLOY_SWITCH == "sandBox"):
+        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
+        logger.info("Kicked loadThumbPhotos_sandBox.php")
+    else:
+        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
+        logger.info("Kicked loadThumbPhotos.php")
+
+
+
+    except Exception as e:
+        logger.debug("Fail in camera caputer :" + str(e))
+
+else:
+    logger.info("Out of service time: No picture was taken")
+
+
+logger.info('Waiting for periodic time')
+while True:
+    now = datetime.datetime.now()
+    if now.minute % everyMinutes == 0: #指定毎分時になると実行
+        logger.info('指定時間になりました:' + str(everyMinutes) + "分ごとに測定中")
+        break
+    elif everyMinutes - (now.minute % everyMinutes) > 7:#7分より多く待つなら取りあえず測定＆送信して終わる
+        logger.info('指定時間まで7分以上ありますので、測定して指定時刻5分前に再起動します')
+        break
+
 
 # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
 d = datetime.datetime.today()
@@ -217,75 +268,12 @@ sendDataToAmbient()
 #send data to host_IM
 sendDataToIM()
 
-@retry(exceptions=Exception, tries=3, delay=2)
-def sendPowerCommand():
-    os.system(powerControlCommand) #import osが必要
-        #成功するまで繰り返す
-	#retryのInstallationは
-	#$ pip install retry
-	#from retry import retry
-    logger.info("sended PowerCommand" + str(powerControlCommand))
-
-#指定時間を待って写真を撮影する
-try:
-    # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
-    picamera = picamera.PiCamera()
-    picamera.resolution = (1920, 1080) #HD Quality Size=1.5MB、研究材料としては最低限これくらいはほしい。稲穂の様子はこ$
-    #picamera.resolution = (1024, 768) # こちらは554KBで済む
-    picamera.brightness = pictureBrightness #標準の50よりほんの少し明るめに
-    picamera.contrast = pictureContrast 
-
-    time.sleep(2)
-# Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
-    
-    now = datetime.datetime.now()
-    hour = now.hour
-
-#    if hour >= 5 and hour <= 19: #写真撮影は5時から19時まで
-    if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
-        logger.info("Will call [capture_send] at " + str(now))
-        localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
-        #サーバー内で圧縮プログラムを動かす
-        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_sandBox.php')
-        logger.info("Kicked loadThumbPhotos_sandBox.php")
-    else:
-        logger.info("Out of service time: No picture was taken")
-
-except Exception as e:
-    logger.debug("Fail in camera caputer :" + str(e))
-
-logger.info('Waiting for periodic time')
-while True:
-    now = datetime.datetime.now()
-    if now.minute % everyMinutes == 0: #指定毎分時になると実行
-        logger.info('指定時間になりました:' + str(everyMinutes) + "分ごとに測定中")
-        break
-    elif everyMinutes - (now.minute % everyMinutes) > 7:#7分より多く待つなら取りあえず測定＆送信して終わる
-        logger.info('指定時間まで7分以上ありますので、測定して指定時刻5分前に再起動します')
-        break
-
+#指定時間を待って写真を撮影したあと、測定する。写真撮影時間外の場合は特定だけしてデータを送る
 now = datetime.datetime.now()
 x = everyMinutes -4 -(now.minute % everyMinutes)    #毎撮影時刻の4分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く
 
-
-# if hour < hourToBegin -1:
-#     logger.info('[1]を実行中')
-#     x = 60 * hourToBegin - (hour * 60 + minute)
-# elif hour >= hourToStop: 
-#     logger.info('[2]を実行中')
-#     #停止設定時刻になったら深夜24時までストップさせる
-#                         #ここはちょっとおかしい。もし、開始時刻として深夜〇時以前が指定されていると、狂う
-#                         #運用時に注意： hourToBegin を深夜0時以降にセットすること
-#     x = 1440 - (hour*60 + minute)
-# else:
-#     logger.info('[3]、すなわち、稼働時間内標準プロセスを実行中')
-#     x = everyMinutes -5 -(minute % everyMinutes)    #毎撮影時刻の5分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く必要がある
-#     logger.info('計算結果 X=' + str(x))
-#     if x <0:
-#         x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
-#         # x = 5   #テストのために5分のスリープを指定
-# if x > 55:
-#     x = 55 #電源モジュールは負の値は指定できない（のではないかな？）
+if x < 0:
+    x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
 
 x = int(x / 5)
 timeToOff = 40 #電源オフまでの秒数を指定
