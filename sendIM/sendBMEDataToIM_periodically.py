@@ -141,6 +141,7 @@ def sendDataToIM():
     logger.info("Server respond:" + str(response.status) + str(response.reason))
     data = response.read()
     conn.close()
+
 def capture_send():
     logger.info('Waiting for shooting time')
     while True:
@@ -185,7 +186,8 @@ def sendPowerCommand():
 	#from retry import retry
     logger.info("sended PowerCommand" + str(powerControlCommand))
 
-
+now = datetime.datetime.now()
+hour = now.hour
 if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
     logger.info("Will call [capture_send] at " + str(now))
     try:
