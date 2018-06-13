@@ -248,6 +248,8 @@ try:
         #サーバー内で圧縮プログラムを動かす
         os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_sandBox.php')
         logger.info("Kicked loadThumbPhotos_sandBox.php")
+    else:
+        logger.info("Out of service time: No picture was taken")
 
 except Exception as e:
     logger.debug("Fail in camera caputer :" + str(e))
