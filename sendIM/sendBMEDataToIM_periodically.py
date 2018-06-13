@@ -156,8 +156,6 @@ def capture_send():
             break
     logger.info('写真の保存ファイル名；' + captureFile_name)
     logger.info("2018/06/06　14:01 写真が眠いのでpicamera.start_previewを再度入れてみた")
-    picamera.brightness = pictureBrightness #標準の50よりほんの少し明るめに
-    picamera.contrast = pictureContrast 
     picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
     time.sleep(2) #これも入れ忘れてた　2017/06/14　12:59
     # picamera.stop_preview() #これを入れないといつまでも画面に写真が表示されたままになる
@@ -233,9 +231,12 @@ try:
     picamera = picamera.PiCamera()
     picamera.resolution = (1920, 1080) #HD Quality Size=1.5MB、研究材料としては最低限これくらいはほしい。稲穂の様子はこ$
     #picamera.resolution = (1024, 768) # こちらは554KBで済む
-    # Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
-    time.sleep(2)
+    picamera.brightness = pictureBrightness #標準の50よりほんの少し明るめに
+    picamera.contrast = pictureContrast 
 
+    time.sleep(2)
+# Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
+    
     now = datetime.datetime.now()
     hour = now.hour
 
