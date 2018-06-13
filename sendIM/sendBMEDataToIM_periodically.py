@@ -201,12 +201,12 @@ if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻にな
         
         localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
     #サーバー内で圧縮プログラムを動かす
-    if (DEPLOY_SWITCH == "sandBox"):
-        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
-        logger.info("Kicked loadThumbPhotos_sandBox.php")
-    else:
-        os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
-        logger.info("Kicked loadThumbPhotos.php")
+        if (DEPLOY_SWITCH == "sandBox"):
+            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
+            logger.info("Kicked loadThumbPhotos_sandBox.php")
+        else:
+            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
+            logger.info("Kicked loadThumbPhotos.php")
 
 
 
