@@ -143,7 +143,7 @@ def sendDataToIM():
     data = response.read()
     conn.close()
 
-def capture_send():
+def capturePicture():
     logger.info('Waiting for shooting time')
     while True:
         now = datetime.datetime.now()
@@ -168,15 +168,7 @@ def capture_send():
     picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S') + " , Brightness : " + str(picamera.brightness) + " , Contrast : " + str(picamera.contrast) + " , Sharpness : " + str(picamera.sharpness) + " / With preview."
     picamera.rotation = 180
     picamera.capture(captureFile_name)
-    
-    try:
-        send_ftps(captureFile_name, put_directory)
-        logger.info("File is sended with no error. Delete " + captureFile_name + " on Ras Pi")
-        os.remove(captureFile_name)
-        return captureFile_name
-
-    except:
-        logger.info("Failed file transfer in send_ftps。そのまま何もしない")
+    return captureFile_name
 
 @retry(exceptions=Exception, tries=3, delay=2)
 def sendPowerCommand():
@@ -190,7 +182,7 @@ def sendPowerCommand():
 now = datetime.datetime.now()
 hour = now.hour
 if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
-    logger.info("Will call [capture_send] at " + str(now))
+    logger.info("Will call [capturePicture] at " + str(now))
     try:
         # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
         picamera = picamera.PiCamera()
@@ -203,7 +195,7 @@ if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻にな
         time.sleep(2)
     # Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
         
-        localFile_name = capture_send() #写真撮影し、結果をサーバーに送信、送信ファイル名を受け取る
+        localFile_name = capturePicture() #写真撮影し、ファイル名を受け取る
     #サーバー内で圧縮プログラムを動かす
         if (DEPLOY_SWITCH == "sandBox"):
             os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
@@ -220,6 +212,13 @@ if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻にな
 else:
     logger.info("Out of service time: No picture was taken")
 
+try:
+    send_ftps(localFile_name, put_directory)
+    logger.info("File is sended with no error. Delete " + captureFile_name + " on Ras Pi")
+    os.remove(localFile_name)
+
+except:
+    logger.info("Failed file transfer in send_ftps。そのまま何もしない")
 
 logger.info('Waiting for periodic time')
 while True:
