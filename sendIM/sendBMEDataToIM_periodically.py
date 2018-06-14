@@ -81,7 +81,7 @@ elif DEPLOY_SWITCH == "sandBox":
 logger.info("資料の保存先は：" + put_directory)
 
 #カメラ撮影準備
-localFile_name = ""
+localFile_name = None
 pictureBrightness =55
 pictureContrast = 10
 # pictureBrightness =55
@@ -157,7 +157,7 @@ def takePicture():
             captureFile_name = 'PowerOnTest_' + now.strftime('%Y%m%d%H%M') + '.jpg'
             break
     logger.info('写真の保存ファイル名；' + captureFile_name)
-    logger.info("2018/06/06　14:01 写真が眠いのでpicamera.start_previewを再度入れてみた")
+    logger.info("2018/06/06　14:01 写真が眠いのでpicamera.start_previewを再度入れてみた。これはいるのか、いらないのか、検証終わったらfix")
     picamera.start_preview() #あれ？　これ入れてなかったよ。これがないと露出調整がうまくいかないんじゃ？　2017/06/14
     time.sleep(2) #これも入れ忘れてた　2017/06/14　12:59
     picamera.stop_preview() #これを入れないといつまでも画面に写真が表示されたままになる
@@ -196,15 +196,6 @@ if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻にな
     # Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
         
         localFile_name = takePicture() #写真撮影し、ファイル名を受け取る
-    #サーバー内で圧縮プログラムを動かす
-        if (DEPLOY_SWITCH == "sandBox"):
-            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
-            logger.info("Kicked loadThumbPhotos_sandBox.php")
-        else:
-            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
-            logger.info("Kicked loadThumbPhotos.php")
-
-
 
     except Exception as e:
         logger.debug("Fail in camera caputer :" + str(e))
@@ -213,9 +204,17 @@ else:
     logger.info("Out of service time: No picture was taken")
 
 try:
-    send_ftps(localFile_name, put_directory)
-    logger.info("File is sended with no error. Delete " + captureFile_name + " on Ras Pi")
-    os.remove(localFile_name)
+    if localFile_name is not None:
+        send_ftps(localFile_name, put_directory)
+        logger.info("File is sended with no error. Delete " + captureFile_name + " on Ras Pi")
+        os.remove(localFile_name)
+        #サーバー内で圧縮プログラムを動かす
+        if (DEPLOY_SWITCH == "sandBox"):
+            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
+            logger.info("Kicked loadThumbPhotos_sandBox.php")
+        else:
+            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
+            logger.info("Kicked loadThumbPhotos.php")
 
 except:
     logger.info("Failed file transfer in send_ftps。そのまま何もしない")
