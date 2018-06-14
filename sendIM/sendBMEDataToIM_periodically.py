@@ -203,22 +203,6 @@ if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻にな
 else:
     logger.info("Out of service time: No picture was taken")
 
-try:
-    if localFile_name is not None:
-        send_ftps(localFile_name, put_directory)
-        logger.info("File is sended with no error. Delete " + localFile_name + " on Ras Pi")
-        os.remove(localFile_name)
-        #サーバー内で圧縮プログラムを動かす
-        if (DEPLOY_SWITCH == "sandBox"):
-            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
-            logger.info("Kicked loadThumbPhotos_sandBox.php")
-        else:
-            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
-            logger.info("Kicked loadThumbPhotos.php")
-
-except Exception as e:
-    logger.debug("Failed file transfer in send_ftps。" + str(e))
-
 logger.info('Waiting for periodic time')
 while True:
     now = datetime.datetime.now()
@@ -270,7 +254,24 @@ sendDataToAmbient()
 #send data to host_IM
 sendDataToIM()
 
-#指定時間を待って写真を撮影したあと、測定する。写真撮影時間外の場合は特定だけしてデータを送る
+#もろもろのデータ送信が終わったので撮影しておいた写真を送信する
+try:
+    if localFile_name is not None:
+        send_ftps(localFile_name, put_directory)
+        logger.info("File is sended with no error. Delete " + localFile_name + " on Ras Pi")
+        os.remove(localFile_name)
+        #サーバー内で圧縮プログラムを動かす
+        if (DEPLOY_SWITCH == "sandBox"):
+            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
+            logger.info("Kicked loadThumbPhotos_sandBox.php")
+        else:
+            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
+            logger.info("Kicked loadThumbPhotos.php")
+
+except Exception as e:
+    logger.debug("Failed file transfer in send_ftps。" + str(e))
+
+
 now = datetime.datetime.now()
 x = everyMinutes -4 -(now.minute % everyMinutes)    #毎撮影時刻の4分前までに何分あるかを算出、単にminを引くのではなく、（現在時刻／everuminute）の余りを求めて引く
 
