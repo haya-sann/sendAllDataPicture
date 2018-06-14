@@ -216,8 +216,8 @@ try:
             os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
             logger.info("Kicked loadThumbPhotos.php")
 
-except:
-    logger.info("Failed file transfer in send_ftps。そのまま何もしない")
+except Exception as e:
+    logger.debug("Failed file transfer in send_ftps。" + str(e))
 
 logger.info('Waiting for periodic time')
 while True:
