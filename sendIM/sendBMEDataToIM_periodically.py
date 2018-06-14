@@ -206,7 +206,7 @@ else:
 try:
     if localFile_name is not None:
         send_ftps(localFile_name, put_directory)
-        logger.info("File is sended with no error. Delete " + captureFile_name + " on Ras Pi")
+        logger.info("File is sended with no error. Delete " + localFile_name + " on Ras Pi")
         os.remove(localFile_name)
         #サーバー内で圧縮プログラムを動かす
         if (DEPLOY_SWITCH == "sandBox"):
