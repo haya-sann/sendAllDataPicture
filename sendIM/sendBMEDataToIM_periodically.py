@@ -143,7 +143,7 @@ def sendDataToIM():
     data = response.read()
     conn.close()
 
-def capturePicture():
+def takePicture():
     logger.info('Waiting for shooting time')
     while True:
         now = datetime.datetime.now()
@@ -182,7 +182,7 @@ def sendPowerCommand():
 now = datetime.datetime.now()
 hour = now.hour
 if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
-    logger.info("Will call [capturePicture] at " + str(now))
+    logger.info("Will call [takePicture] at " + str(now))
     try:
         # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
         picamera = picamera.PiCamera()
@@ -195,7 +195,7 @@ if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻にな
         time.sleep(2)
     # Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
         
-        localFile_name = capturePicture() #写真撮影し、ファイル名を受け取る
+        localFile_name = takePicture() #写真撮影し、ファイル名を受け取る
     #サーバー内で圧縮プログラムを動かす
         if (DEPLOY_SWITCH == "sandBox"):
             os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
