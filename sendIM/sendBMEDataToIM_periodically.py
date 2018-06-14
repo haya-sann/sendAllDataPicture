@@ -86,6 +86,7 @@ pictureBrightness =55
 pictureContrast = 10
 # pictureBrightness =55
 # pictureContrast = 10
+pictureSharpness = 20
 
 hourToBegin = 1 #カメラを動作開始させる時刻
 hourToStop = 24 #カメラを完全休止させる時刻
@@ -197,6 +198,7 @@ if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻にな
         #picamera.resolution = (1024, 768) # こちらは554KBで済む
         picamera.brightness = pictureBrightness #標準の50よりほんの少し明るめに
         picamera.contrast = pictureContrast 
+        picamera.sharpness = pictureSharpness
 
         time.sleep(2)
     # Camera warm-up time、Whiteバランスをとるための猶予時間。これがないと色が青白くて使い物にならない
