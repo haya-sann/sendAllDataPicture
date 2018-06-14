@@ -260,10 +260,11 @@ try:
         send_ftps(localFile_name, put_directory)
         logger.info("File is sended with no error. Delete " + localFile_name + " on Ras Pi")
         os.remove(localFile_name)
+        logger.info("File removed: " + localFile_name + " on Ras Pi")
         #サーバー内で圧縮プログラムを動かす
         if (DEPLOY_SWITCH == "sandBox"):
             os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
-            logger.info("Kicked loadThumbPhotos_sandBox.php")
+            logger.info('Kicked loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
         else:
             os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
             logger.info("Kicked loadThumbPhotos.php")
