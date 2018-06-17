@@ -43,8 +43,8 @@ def sendLog_ftps(file_name, put_directory):
         _file.close()
         _ftps.quit()
         #log送信正常終了なので、中身をクリアする
-        with open('/var/log/' + file_name, "w") as f:
-            f.write("■Upload finished with no error. Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
+        with open('/var/log/' + file_name, 'w', 'utf-8') as f:
+            f.write("Upload finished with no error. Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
             f.close()
         return logfile_name
     except Exception as e:
