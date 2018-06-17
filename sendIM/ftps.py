@@ -43,7 +43,7 @@ def sendLog_ftps(file_name, put_directory):
         _ftps.storbinary('STOR ' + logfile_name, _file)
 
         _file.close()
-        _ftps.quit()
+##        _ftps.quit() ##変なエラーが起きるので、これをコメントアウト
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf-8') as f:
             f.write("アップロード終了 with no error. Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
