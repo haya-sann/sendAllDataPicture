@@ -143,9 +143,10 @@ log "crontab is off"
 
 if [ -e /sys/class/net/wlan0/carrier ];then
   	echo "Wi-Fi found"  | tee -a ${LOGFILE}
+else if [ -e /sys/class/net/eth0/carrier ];then
+    echo "Ethernet connected" | tee -a ${LOGFILE}
 else
   waitForPPP || ( echo connectSoracom error ; my_shutdown2 )
-
   echo -e "\e[42;31mppp is up and running\e[m"
   log "ppp is up and running"
 fi
