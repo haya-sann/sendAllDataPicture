@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#coding: utf-8
+#coding: utf_8
 #このデバイス（田んぼカメラ）を外に設置する際は、サーバー上のwebAPIを正確に指すように調整するのを忘れないように
 #設置する機器の対応サーバーに応じて指定するconfig.confの中身を対応するサーバー情報に書き換えるのを忘れずに
 #ex: configfile.read("/home/pi/Documents/field_location/config.conf")
