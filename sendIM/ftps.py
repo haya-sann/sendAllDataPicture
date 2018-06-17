@@ -2,10 +2,10 @@
 #coding: utf-8
 
 import datetime # datetimeモジュールのインポート
+import codecs
 
 import ConfigParser
 from ftplib import FTP_TLS
-
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/field_location/config.conf")#Localに置いたconfig.confファイルへの絶対パスを使った
@@ -21,7 +21,6 @@ logger = get_module_logger(__name__)
 logger.propagate = True
 
 def sendLog_ftps(file_name, put_directory):
-    import codecs
     try:
         _ftps = FTP_TLS(archive_server)
         _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
@@ -39,15 +38,15 @@ def sendLog_ftps(file_name, put_directory):
 
         logger.info("Upload finished:" + put_directory + "/" +logfile_name + " with no error. Will clear log file.")
 
-##        _ftps.storlines('STOR ' + logfile_name, _file)
+#        _ftps.storlines('STOR ' + logfile_name, _file)
         _ftps.storbinary('STOR ' + logfile_name, _file)
 
         _file.close()
-##        _ftps.quit() ##変なエラーが起きるので、これをコメントアウト
+#        _ftps.quit() ##変なエラーが起きるので、これをコメントアウト
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf-8') as f:
             f.write("アップロード終了 with no error. Log cleared at: " + _timeStamp.strftime('%Y%m%d%H%M') + "\n")
-            f.close()
+#            f.close() #with openの場合、これは不要らしい。
         return logfile_name
     except Exception as e:
         logger.debug("sendLog_ftps error. :" + str(e))
