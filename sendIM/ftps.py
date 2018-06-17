@@ -45,7 +45,7 @@ def sendLog_ftps(file_name, put_directory):
 #        _ftps.quit() ##変なエラーが起きるので、これをコメントアウト
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf-8') as f:
-            f.write(codecs.BOM_UTF8)
+#            f.write(codecs.BOM_UTF8)
             f.write(unicode (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime(u'%Y%m%d%H%M') + u'\n'.encode('utf-8','ignore','utf-8')))
 #            f.close() #with openの場合、これは不要らしい。
         return logfile_name
