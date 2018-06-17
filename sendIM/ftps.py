@@ -39,8 +39,8 @@ def sendLog_ftps(file_name, put_directory):
 
         logger.info("Upload finished:" + put_directory + "/" +logfile_name + " with no error. Will clear log file.")
 
-        _ftps.storlines('STOR ' + logfile_name, _file)
-##        _ftps.storbinary('STOR ' + logfile_name, _file)
+##        _ftps.storlines('STOR ' + logfile_name, _file)
+        _ftps.storbinary('STOR ' + logfile_name, _file)
 
         _file.close()
         _ftps.quit()
