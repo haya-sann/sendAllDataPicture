@@ -7,7 +7,7 @@ def get_module_logger(modname):
     logger.addHandler(handler)
     logger.setLevel(logging.DEBUG)
 
-    fileHandler = logging.FileHandler('/var/log/field_location.log', mode='a', encoding=None, delay=0)
+    fileHandler = logging.FileHandler('/var/log/field_location.log', mode='a', encoding='utf-8', delay=0)
 
 
     fileHandler.setFormatter(formatter)
