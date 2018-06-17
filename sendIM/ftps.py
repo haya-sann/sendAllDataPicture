@@ -30,7 +30,7 @@ def sendLog_ftps(file_name, put_directory):
         _ftps.prot_p() #データ接続をセキュアにするには、
         #ユーザが prot_p() メソッドを呼び出してそれを明示的に要求しなければなりません。
 
-        _file = codecs.open('/var/log/' + file_name, 'r', 'utf-8') #'r' means read as text mode
+        _file = open('/var/log/' + file_name, 'rb') #'r' means read as text mode
         #'rb' means binarymode
         _timeStamp = datetime.datetime.now()
         logfile_name = 'field_location' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
