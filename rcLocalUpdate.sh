@@ -143,7 +143,7 @@ log "crontab is off"
 
 if [ -e /sys/class/net/wlan0/carrier ];then
   	echo "Wi-Fi found"  | tee -a ${LOGFILE}
-else if [ -e /sys/class/net/eth0/carrier ];then
+elif [ -e /sys/class/net/eth0/carrier ];then
     echo "Ethernet connected" | tee -a ${LOGFILE}
 else
   waitForPPP || ( echo connectSoracom error ; my_shutdown2 )
