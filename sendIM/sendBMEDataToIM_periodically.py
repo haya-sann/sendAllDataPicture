@@ -249,10 +249,16 @@ except Exception as error_soilTemperature:
 
 
 #Send atmosphere data to AmbiData
-sendDataToAmbient()
+try:
+    sendDataToAmbient()
+except Exception as error_SendToAmbi:
+    logger.info("Error occured while sending AmbiData" + str(error_SendToAmbi))
 
 #send data to host_IM
-sendDataToIM()
+try:
+    sendDataToIM()
+except Exceptionas error_SendIM
+    logger.info("Error occured while sending data to IM" + str(error_SendIM))
 
 #もろもろのデータ送信が終わったので撮影しておいた写真を送信する
 try:
