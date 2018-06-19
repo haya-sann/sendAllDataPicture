@@ -257,7 +257,7 @@ except Exception as error_SendToAmbi:
 #send data to host_IM
 try:
     sendDataToIM()
-except Exceptionas error_SendIM
+except Exceptionas error_SendIM:
     logger.info("Error occured while sending data to IM" + str(error_SendIM))
 
 #もろもろのデータ送信が終わったので撮影しておいた写真を送信する
