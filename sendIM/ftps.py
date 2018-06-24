@@ -21,7 +21,7 @@ logger = get_module_logger(__name__)
 logger.propagate = True
 
 def sendLog_ftps(file_name, put_directory):
-        logger.info("BOM_UTF8対応対策済みftps.py:2018/06/20")
+    logger.info("BOM_UTF8対応対策済みftps.py:2018/06/20")
     try:
         _ftps = FTP_TLS(archive_server)
         _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
