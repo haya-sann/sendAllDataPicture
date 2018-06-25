@@ -22,40 +22,28 @@ logger.propagate = True
 
 def sendLog_ftps(file_name, put_directory):
     logger.info("BOM_UTF8対応対策済みftps.py:2018/06/20")
-    try:
-        _ftps = FTP_TLS(archive_server)
-        _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
-    #    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
-        _ftps.login(userID, pw)
-        _ftps.prot_p() #データ接続をセキュアにするには、
-        #ユーザが prot_p() メソッドを呼び出してそれを明示的に要求しなければなりません。
+    _ftps = FTP_TLS(archive_server)
+    _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
+#    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
+    _ftps.login(userID, pw)
+    _ftps.prot_p() #データ接続をセキュアにするには、
+    #ユーザが prot_p() メソッドを呼び出してそれを明示的に要求しなければなりません。
 
-        _file = open('/var/log/' + file_name, 'rb') #'r' means read as text mode
-        #'rb' means binarymode
-        _timeStamp = datetime.datetime.now()
-        logfile_name = 'field_location' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
+    _file = open('/var/log/' + file_name, 'rb') #'r' means read as text mode
+    #'rb' means binarymode
+    _timeStamp = datetime.datetime.now()
+    logfile_name = 'field_location' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
 
-        _ftps.cwd('seasonShots/' + put_directory) #アップロード先ディレクトリに移動
+    _ftps.cwd('seasonShots/' + put_directory) #アップロード先ディレクトリに移動
 
-        logger.info("Upload finished:" + put_directory + "/" +logfile_name + " with no error. Will clear log file.")
+    logger.info("Upload finished:" + put_directory + "/" +logfile_name + " with no error. Will clear log file.")
 
 #        _ftps.storlines('STOR ' + logfile_name, _file)
-        _ftps.storbinary('STOR ' + logfile_name, _file)
+    _ftps.storbinary('STOR ' + logfile_name, _file)
 
-        _file.close()
+    _file.close()
 #        _ftps.quit() ##変なエラーが起きるので、これをコメントアウト
-        #log送信正常終了なので、中身をクリアする
-        with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
-#            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
-            f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
-#            f.write(unicode ((u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime(u'%Y%m%d%H%M') + u'\n').encode('utf_8','ignore'),'utf_8'))
-#            f.close() #with openの場合、これは不要らしい。
-        return logfile_name
-    except Exception as e:
-        logger.debug("sendLog_ftps error. :" + str(e))
-        _file.close()
-        _ftps.quit()
-        raise
+    return _timeStamp
 
 def send_ftps(file_name, put_directory): #エラー処理 will be raise to main()
     try:
