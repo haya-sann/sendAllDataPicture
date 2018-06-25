@@ -314,7 +314,11 @@ mime={'type':'text', 'subtype':'comma-separated-values'}
 attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
-send(from_addr, to_addr, msg)
+try:
+    send(from_addr, to_addr, msg)
+    logger.info("Successfully sended mail to " + to_addr)
+except Exception as e:
+        logger.debug("send mail error. :" + str(e))
 
 #ログをまとめてサーバーにftps送信する
 #ログを正常に送れれば、ログファイルはクリアされる
