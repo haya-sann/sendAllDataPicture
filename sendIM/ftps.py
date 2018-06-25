@@ -2,7 +2,7 @@
 #coding: utf_8
 
 import datetime # datetimeモジュールのインポート
-import codecs
+
 
 import ConfigParser
 from ftplib import FTP_TLS

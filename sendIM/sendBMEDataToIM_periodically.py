@@ -14,6 +14,7 @@ import os
 import commands
 import sys
 import ConfigParser
+import codecs
 import ambient #ambientにデータを送込むライブラリ
 import RPi.GPIO as GPIO
 PYTHONIOENCODING = 'utf_8'
