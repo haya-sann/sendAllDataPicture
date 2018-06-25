@@ -304,6 +304,11 @@ body = """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
 
 サイトはこちら：https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
+データのグラフは
+https://ambidata.io/ch/channel.html?id=1454
+生データは
+https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/index.html
+
 
 """ + "\n"
 
