@@ -14,6 +14,7 @@ import os
 import commands
 import sys
 import ConfigParser
+import codecs
 import ambient #ambientにデータを送込むライブラリ
 import RPi.GPIO as GPIO
 PYTHONIOENCODING = 'utf_8'
@@ -303,6 +304,13 @@ body = """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
 
 サイトはこちら：https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
+データのグラフは
+https://ambidata.io/ch/channel.html?id=1454
+生データは
+https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/sandBox_2.html
+本番データは
+https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/index.html
+
 
 """ + "\n"
 
@@ -313,12 +321,31 @@ mime={'type':'text', 'subtype':'comma-separated-values'}
 attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
-send(from_addr, to_addr, msg)
+try:
+    send(from_addr, to_addr, msg)
+    logger.info("Successfully sended mail to " + to_addr)
+except Exception as e:
+        logger.debug("send mail error. :" + str(e))
 
 #ログをまとめてサーバーにftps送信する
-#ftpsの中でログを正常に送れれば、ログファイルはクリアされる
+#ログを正常に送れれば、ログファイルはクリアされる
 file_name = "field_location.log"
-sendLog_ftps(file_name, put_directory)
+try:
+    _timeStamp = sendLog_ftps(file_name, put_directory)
+
+    #log送信正常終了なので、中身をクリアする
+    with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
+#            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
+        f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
+    f.close()
+except Exception as e:
+        logger.debug("sendLog_ftps error. :" + str(e))
+        f.close()
+
+
+#            f.write(unicode ((u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime(u'%Y%m%d%H%M') + u'\n').encode('utf_8','ignore'),'utf_8'))
+#            f.close() #with openの場合、これは不要らしい。
+
 
 #Programスイッチが入っているときはパワースイッチコントロールを送らずに終了
 GPIO.setmode(GPIO.BCM)
