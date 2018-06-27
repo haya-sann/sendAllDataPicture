@@ -111,6 +111,7 @@ def captureSensorData(i2c_address):
     return temperature, pressure, humid
 
 def sendDataToAmbient():
+    logger.info('Trying to send data to Ambient')
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
     r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
     if r.status_code == 200:
