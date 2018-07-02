@@ -32,14 +32,14 @@ def sendLog_ftps(file_name, put_directory):
     _file = open('/var/log/' + file_name, 'rb') #'r' means read as text mode
     #'rb' means binarymode
     _timeStamp = datetime.datetime.now()
-    logfile_name = 'field_location' + _timeStamp.strftime('%Y%m%d%H%M') + '.log'
+    logfile_name = 'field_location' + _timeStamp.strftime('%Y%m%d%H%M') + '.txt'
 
     _ftps.cwd('seasonShots/' + put_directory) #アップロード先ディレクトリに移動
 
 #        _ftps.storlines('STOR ' + logfile_name, _file)
     _ftps.storbinary('STOR ' + logfile_name, _file)
 
-    logger.info("Upload finished:" + put_directory + "/" +logfile_name +  "from " + file_name + " with no error. Will clear log file.")
+    logger.info("Upload finished:" + put_directory + "/" +logfile_name +  " from " + file_name + " with no error. Will clear log file.")
 
     _file.close()
 #        _ftps.quit() ##変なエラーが起きるので、これをコメントアウト
