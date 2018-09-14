@@ -12,12 +12,12 @@
 
 #Soracomドングルを付けた環境下かどうかは自動判定する
 
-export DEPLOY="sandBox"
-#export DEPLOY="distribution"
+#export DEPLOY="sandBox"
+export DEPLOY="distribution"
 
 #pullするgitリポジトリのブランチをセット
-gitBranch="homeSimulator"
-#gitBranch="master"
+#gitBranch="homeSimulator"
+gitBranch="master"
 
 #case文でsandBoxに送るか、本番環境に送るかを選択する。
 case "$DEPLOY" in
