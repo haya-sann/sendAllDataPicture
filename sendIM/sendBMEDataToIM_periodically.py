@@ -62,7 +62,7 @@ host_IM = configfile.get("settings", "host")
 archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのドメイン名
 pw = configfile.get("settings", "password")      #ログインパスワード
 userID = configfile.get("settings", "id")        #サーバーログインUser id
-key = configfile.get("settings", "key")#ThingSpeak Channel write key
+key = configfile.get("settings", "key")#ThingSpeak Channel write key, not in service
 ambiKey = configfile.get("settings", "ambiKey")
 imKey = configfile.get("settings", "imKey")
 from_addr = configfile.get("settings", "mailAddress")
@@ -90,8 +90,8 @@ pictureContrast = 10
 pictureSharpness = 20
 
 hourToBegin = 5 #カメラを動作開始させる時刻
-hourToStop = 20 #カメラを完全休止させる時刻
-everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値をセット
+hourToStop = 19 #カメラを完全休止させる時刻
+everyMinutes = 10 #何分おきに撮影するのかをセット。5~60の値をセット
 
 
 v0=v1=soil1=soil2=soil_temp=0.0
