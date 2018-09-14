@@ -168,7 +168,7 @@ def takePicture():
     logger.info("brightness:"+str(picamera.brightness)+" ,contrast:"+str(picamera.contrast) + " , Sharpness : " + str(picamera.sharpness))
     picamera.annotate_background = True
     # picamera.annotate_background = picamera.Color('black')
-    picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S') + " , Brightness : " + str(picamera.brightness) + " , Contrast : " + str(picamera.contrast) + " , Sharpness : " + str(picamera.sharpness) + " / With preview."
+    picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S')  #+ " , Brightness : " + str(picamera.brightness) + " , Contrast : " + str(picamera.contrast) + " , Sharpness : " + str(picamera.sharpness) + " / With preview."
     picamera.rotation = 180
     picamera.capture(captureFile_name)
     return captureFile_name
