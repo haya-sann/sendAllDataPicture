@@ -63,14 +63,14 @@ archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのド
 pw = configfile.get("settings", "password")      #ログインパスワード
 userID = configfile.get("settings", "id")        #サーバーログインUser id
 key = configfile.get("settings", "key")#ThingSpeak Channel write key, not in service
+ambiChannel = configfile.get("settings", "ambiChannel") #サンドボックスチャネル
 ambiKey = configfile.get("settings", "ambiKey")
+ambiChannelSandbox = configfile.get("settings", "ambiChannelSandbox") #サンドボックスチャネル
+ambiKeySandbox = configfile.get("settings", "ambiKeySandbox")
 imKey = configfile.get("settings", "imKey")
 from_addr = configfile.get("settings", "mailAddress")
 mailPass = configfile.get("settings", "mailPass")
 
-ambiChannel = configfile.get("settings", "ambiChannel") #サンドボックスチャネル
-#ambiChannel = 999:本番チャネル、1454:サンドボックス
-print ambiKey
 
 logger.info("公開先は：" + DEPLOY_SWITCH)
 
@@ -78,6 +78,8 @@ if DEPLOY_SWITCH == "distribution":
     put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
 elif DEPLOY_SWITCH == "sandBox":
     put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
+    ambiKey = ambiKeySandbox
+    ambiChannel = ambiChannelSandbox
 
 logger.info("資料の保存先は：" + put_directory)
 
@@ -90,8 +92,8 @@ pictureContrast = 10
 pictureSharpness = 20
 
 hourToBegin = 5 #カメラを動作開始させる時刻
-hourToStop = 19 #カメラを完全休止させる時刻
-everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値をセット
+hourToStop = 23 #カメラを完全休止させる時刻
+everyMinutes = 10 #何分おきに撮影するのかをセット。5~60の値をセット
 
 
 v0=v1=soil1=soil2=soil_temp=0.0
