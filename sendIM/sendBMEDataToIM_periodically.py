@@ -307,10 +307,12 @@ body = """ログデータを送ります。これは詳細なログです。
 
 サイトはこちら：https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
 データのグラフは
-https://ambidata.io/ch/channel.html?id=1454
+https://ambidata.io/ch/channel.html?id=1454 (サンドボックス)
+https://ambidata.io/ch/channel.html?id=999 (本番)
 生データは
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/sandBox_2.html
-本番データは
+https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/index.html (本番データ)
+まとめのホームページは
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/index.html
 
 
