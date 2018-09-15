@@ -6,6 +6,8 @@
 #rc.localを修正したければ、この中でアップデートを行う。rcLocalUpdate.shという中間ファイルを経由して、これを/etc/rc.localに上書きする仕組み
 #したがって、rc.localを書き直したければ、rcLocalUpdate.shを更新してやれば良い。
 
+#todo:マシンのIPアドレスを見て、データの送り先を本番か、サンドボックスかに切替える
+
 import httplib, urllib
 import time
 import datetime # datetimeモジュールのインポート
