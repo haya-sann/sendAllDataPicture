@@ -93,7 +93,7 @@ pictureContrast = 10
 # pictureContrast = 10
 pictureSharpness = 20
 
-hourToBegin = 5 #カメラを動作開始させる時刻
+hourToBegin = 1 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 10 #何分おきに撮影するのかをセット。5~60の値をセット
 
