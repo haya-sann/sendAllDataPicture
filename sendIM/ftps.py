@@ -2,7 +2,7 @@
 #coding: utf_8
 
 import datetime # datetimeモジュールのインポート
-
+import os
 
 import ConfigParser
 from ftplib import FTP_TLS
@@ -32,6 +32,7 @@ def sendLog_ftps(file_name, put_directory):
     _file = open('/var/log/' + file_name, 'rb') #'r' means read as text mode
     #'rb' means binarymode
     _timeStamp = datetime.datetime.now()
+    file_name = os.path.basename(file_name)#get fileName
     logfile_name = _timeStamp.strftime('%Y%m%d%H%M') + file_name + '.txt' #changed name space
 
     _ftps.cwd('seasonShots/' + put_directory) #アップロード先ディレクトリに移動
