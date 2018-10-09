@@ -307,7 +307,7 @@ subject = "田んぼカメラから：" + DEPLOY_SWITCH
 body = """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
 
-サイトはこちら：https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
+スライドショーはこちら：https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
 データのグラフは
 https://ambidata.io/ch/channel.html?id=1454 (サンドボックス)
 https://ambidata.io/ch/channel.html?id=999 (本番)
@@ -325,6 +325,8 @@ mime={'type':'text', 'subtype':'comma-separated-values'}
 #    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
 #ここでエンコーディングをutf8にするといいはず。
 attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
+attach_file={'name':'boot.log','path':'/var/log/boot.log'}
+
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
 try:
