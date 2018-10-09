@@ -187,7 +187,7 @@ def sendPowerCommand():
 now = datetime.datetime.now()
 hour = now.hour
 if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
-    logger.info("Will call [takePicture] at " + str(now))
+    logger.info("Will call [takePicture] at every " + str(everyMinutes) + "minutes." )
     try:
         # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
         picamera = picamera.PiCamera()
