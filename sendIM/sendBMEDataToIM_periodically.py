@@ -356,6 +356,14 @@ except Exception as e:
     logger.debug("send boot.log ftps error . :" + str(e))
 
 
+file_name = "unattended-upgrades/unattended-upgrades.log"
+try:
+    _timeStamp = sendLog_ftps(file_name, put_directory)
+
+except Exception as e:
+    logger.debug("send unattended-upgrades.log ftps error . :" + str(e))
+
+
 #            f.write(unicode ((u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime(u'%Y%m%d%H%M') + u'\n').encode('utf_8','ignore'),'utf_8'))
 #            f.close() #with openの場合、これは不要らしい。
 
