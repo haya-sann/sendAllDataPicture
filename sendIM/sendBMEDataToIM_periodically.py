@@ -324,11 +324,11 @@ https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/index.html
 mime={'type':'text', 'subtype':'comma-separated-values'}
 #    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
 #ここでエンコーディングをutf8にするといいはず。
-attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
-attach_file={'name':'boot.log','path':'/var/log/boot.log'}
+attach_file1={'name':'field_location.log','path':'/var/log/field_location.log'}
+attach_file2={'name':'boot.log','path':'/var/log/boot.log'}
 
  
-msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
+msg = create_message(from_addr, to_addr, subject, body, mime, attach_file1, attach_file2)
 try:
     send(from_addr, to_addr, msg)
     logger.info("Successfully sended mail to " + to_addr)
