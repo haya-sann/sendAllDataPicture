@@ -32,7 +32,7 @@ def sendLog_ftps(file_name, put_directory):
     _file = open('/var/log/' + file_name, 'rb') #'r' means read as text mode
     #'rb' means binarymode
     _timeStamp = datetime.datetime.now()
-    logfile_name = 'field_location' + _timeStamp.strftime('%Y%m%d%H%M') + '.txt'
+    logfile_name = _timeStamp.strftime('%Y%m%d%H%M') + file_name + '.txt' #changed name space
 
     _ftps.cwd('seasonShots/' + put_directory) #アップロード先ディレクトリに移動
 
