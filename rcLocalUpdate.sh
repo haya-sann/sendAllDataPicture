@@ -39,6 +39,7 @@ function log() {
 echo "***** above-mentioned is previous log  *****" | tee -a ${LOGFILE}
 log "Started logging to : "$LOGFILE
 echo "***** rc.local ver. 1.3 更新：2018/06/07　13:14  *****" | tee -a ${LOGFILE}
+systemctl list-unit-files --state=enabled --no-pager | tee -a ${LOGFILE}
 
 #
 #Soracomのドングルppp接続またはネットワーク接続rc.local
