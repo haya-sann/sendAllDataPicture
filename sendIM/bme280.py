@@ -190,8 +190,7 @@ def setup():
 
 	except IOError as err:
 		logger.info(str(err) + '発生 BME280が認識できません')
-#		logger.exception('Error in read bme280: %s', err)
-		pass
+#		pass
 
 if __name__ == '__main__':
 	try:
