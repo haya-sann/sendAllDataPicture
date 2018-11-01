@@ -18,6 +18,7 @@ import sys
 import ConfigParser
 import codecs
 import ambient #ambientにデータを送込むライブラリ
+#詳しい説明は https://ambidata.io/refs/python/
 import RPi.GPIO as GPIO
 PYTHONIOENCODING = 'utf_8'
 GPIO_NO = 23 #PIN-16にプログラマースイッチを装着している。GPIO23に相当する
@@ -117,6 +118,9 @@ def sendDataToAmbient():
     logger.info('Trying to send data to Ambient')
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
     r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
+
+    logger.info('error Message:='+ str(r.error_message))
+    
     if r.status_code == 200:
         logger.info('successfuly sended data to Ambient')
     else:
