@@ -57,7 +57,8 @@ def bmeRead(reg_i2c_address):
     try:
         setup()
     except IOError:
-        raise
+        pass
+#        raise
 
     get_calib_param()
     readData()
