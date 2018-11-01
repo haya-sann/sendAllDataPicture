@@ -37,8 +37,8 @@ if __name__ == '__main__':
 	if argLength == 2:
 		i2c_address = int(sys.argv[1],16)
 	else:
-		print 'Please specify i2c_address. Assuming default 0x76'
-		print 'Ex:python bme280.py 0x77'
+		print ('Please specify i2c_address. Assuming default 0x76')
+		print ('Ex:python bme280.py 0x77')
 
 
 #bus = SMBus(bus_number) #元はこうなっていた。
@@ -53,7 +53,7 @@ t_fine = 0.0
 def bmeRead(reg_i2c_address):
     global i2c_address
     i2c_address = reg_i2c_address
-    print 'i2cのアドレスとして' + hex(i2c_address) +'がセットされました'
+    print ('i2cのアドレスとして' + hex(i2c_address) +'がセットされました')
     try:
         setup()
     except IOError:
@@ -195,11 +195,11 @@ def setup():
 
 if __name__ == '__main__':
 	try:
-		print ''
+		print ('')
 		temperature, pressure,humid = bmeRead(i2c_address)
-		print "temp : %-6.2f ℃" % (temperature) 
-		print "from main program; pressure : %7.2f hPa" % (pressure/100)
-		print "hum : %6.2f ％" % (humid)
+		print ("temp : %-6.2f ℃" % (temperature) )
+		print ("from main program; pressure : %7.2f hPa" % (pressure/100))
+		print ("hum : %6.2f ％" % (humid))
 
 	except KeyboardInterrupt:
 		pass
