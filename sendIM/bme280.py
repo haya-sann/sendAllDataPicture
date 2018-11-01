@@ -181,7 +181,7 @@ def setup():
 		writeReg(0xF2,ctrl_hum_reg)
 		writeReg(0xF4,ctrl_meas_reg)
 		writeReg(0xF5,config_reg)
-		logger.info('BME280（I2C:{:#x}）の読取り処理を終了しました'.format(i2c_address))
+		logger.info('BME280（I2C:{:#x}）の読取り処理を正常に終了しました'.format(i2c_address))
 
 	except (KeyError, ValueError) as err:
 		logger.exception('Error in read bme280: %s', err)
@@ -189,7 +189,7 @@ def setup():
 
 
 	except IOError as err:
-		logger.info('IOErrorです。アドレス、' + str(err) + 'のデバイス BME280が認識できません')
+		logger.info(str(err) + '発生 BME280が認識できません')
 #		logger.exception('Error in read bme280: %s', err)
 		pass
 
