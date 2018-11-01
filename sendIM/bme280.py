@@ -185,10 +185,12 @@ def setup():
 
 	except (KeyError, ValueError) as err:
 		logger.exception('Error in read bme280: %s', err)
+		pass
 
 
 	except IOError as err:
 		logger.info(str(err) + ' BME280が見つかりません')
+		pass
 
 if __name__ == '__main__':
 	try:
