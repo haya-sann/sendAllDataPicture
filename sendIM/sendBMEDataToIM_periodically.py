@@ -233,7 +233,7 @@ print ('データ取得時刻 == %s : %s\n' % (d, type(d))) # Microsecond(10^-6s
 cpu_temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
 
 i2c_address = 0x76
-temp, pressure, humid = captureSensorData(i2c_address)
+temperature, pressure, humid = captureSensorData(i2c_address)
 
 i2c_address = 0x77
 outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
