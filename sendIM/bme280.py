@@ -189,7 +189,7 @@ def setup():
 
 
 	except IOError as err:
-		logger.info(str(err) + ' BME280が見つかりません')
+#		logger.info(str(err) + ' BME280が見つかりません')
 		pass
 
 if __name__ == '__main__':
