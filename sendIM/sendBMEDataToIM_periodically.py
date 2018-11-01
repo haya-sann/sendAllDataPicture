@@ -19,6 +19,7 @@ import ConfigParser
 import codecs
 import ambient #ambientにデータを送込むライブラリ
 #詳しい説明は https://ambidata.io/refs/python/
+import requests
 import RPi.GPIO as GPIO
 PYTHONIOENCODING = 'utf_8'
 GPIO_NO = 23 #PIN-16にプログラマースイッチを装着している。GPIO23に相当する
