@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#coding: utf_8
+#coding: utf-8
 #このデバイス（田んぼカメラ）を外に設置する際は、サーバー上のwebAPIを正確に指すように調整するのを忘れないように
 #設置する機器の対応サーバーに応じて指定するconfig.confの中身を対応するサーバー情報に書き換えるのを忘れずに
 #ex: configfile.read("/home/pi/Documents/field_location/config.conf")
@@ -100,6 +100,13 @@ hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 10 #何分おきに撮影するのかをセット。5~60の値をセット
 
 v0=v1=soil1=soil2=soil_temp=0.0
+temperature = None
+pressure = None
+humid = None
+outer_temp = None
+outer_humid = None
+outer_pressure = None
+
 
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
@@ -109,9 +116,6 @@ def captureSensorData(i2c_address):
     except IOError as e:
         logger.info("デバイスが見つかりません　：" + str(e))
         #sys.exit(False)
-        temperature = None
-        pressure = None
-        humid = None
 
     return temperature, pressure, humid
 
@@ -119,24 +123,18 @@ def sendDataToAmbient():
     logger.info('Trying to send data to Ambient')
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
     try:
-        r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
+        r = ambi.send({"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
         if r.status_code == 200:
             logger.info('successfuly sended data to Ambient')
         else:
             logger.info('Connection to AbmiData failed')
-
-    except requests.exceptions.RequestException as ambi_error:
-        logger.info('Error encountered: '+ str(ambi_error)
-
-
-# def nonesafe_loads(obj):
-#     if obj is not None:
-#         return json.loads(obj)
+    except requests.exceptions.RequestExceptions as e:
+        logger.info('Error encounterd : '+ str(e))
 
 def sendDataToIM():
     #keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : 'sandBox', 'log':field_locationLog }
 
-    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : DEPLOY_SWITCH, 'memo' : localFile_name}
+    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : DEPLOY_SWITCH, 'memo' : localFile_name}
 
     valueToSend={}
     for value_label, value in keyValue.items():
