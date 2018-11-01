@@ -119,10 +119,10 @@ def sendDataToAmbient():
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
     try:
         r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
-            if r.status_code == 200:
-                logger.info('successfuly sended data to Ambient')
-            else:
-                logger.info('Connection to AbmiData failed')
+        if r.status_code == 200:
+            logger.info('successfuly sended data to Ambient')
+        else:
+            logger.info('Connection to AbmiData failed')
 
     except requests.exceptions.RequestException as ambi_error:
         logger.info('Error encountered: '+ str(ambi_error)
