@@ -53,7 +53,7 @@ t_fine = 0.0
 def bmeRead(reg_i2c_address):
     global i2c_address
     i2c_address = reg_i2c_address
-    print ('i2cのアドレスとして' + hex(i2c_address) +'がセットされました')
+    print ('i2cアドレス' + hex(i2c_address) +'のセンサーを計測中')
     try:
         setup()
     except IOError:
@@ -190,7 +190,7 @@ def setup():
 
 	except IOError as err:
 		logger.info(str(err) + '発生 BME280が認識できません')
-#		pass
+		pass
 
 if __name__ == '__main__':
 	try:
