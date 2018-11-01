@@ -110,6 +110,10 @@ outer_pressure = None
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
     #I2C、SPIなどを使ってデータキャプチャ
+    temperature = None
+    pressure = None
+    humid = None
+
     try:
         temperature, pressure, humid = bmeRead(i2c_address)
     except IOError as e:
