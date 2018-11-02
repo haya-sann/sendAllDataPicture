@@ -53,7 +53,7 @@ t_fine = 0.0
 def bmeRead(reg_i2c_address):
     global i2c_address
     i2c_address = reg_i2c_address
-    print ('i2c Address:' + hex(i2c_address) +'is setting up')
+    print ('i2c Address:' + hex(i2c_address) +' is beeing set up')
     try:
         setup()
     except IOError:
