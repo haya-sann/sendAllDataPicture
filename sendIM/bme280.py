@@ -181,7 +181,7 @@ def setup():
 		writeReg(0xF2,ctrl_hum_reg)
 		writeReg(0xF4,ctrl_meas_reg)
 		writeReg(0xF5,config_reg)
-		logger.info('BME280（I2C:{:#x}）の読取り処理を正常に終了しました'.format(i2c_address))
+		logger.info('BME280（I2C:{:#x}）successfully read sensor data '.format(i2c_address))
 
 	except (KeyError, ValueError) as err:
 		logger.exception('Error in read bme280: %s', err)
