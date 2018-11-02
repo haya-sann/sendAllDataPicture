@@ -49,7 +49,8 @@ def sendLog_ftps(file_name, put_directory):
 def send_ftps(file_name, put_directory): #エラー処理 will be raise to main()
     try:
         _ftps = FTP_TLS(archive_server)
-        _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
+        _ftps.set_debuglevel(0) # デバッグログを取らない
+#        _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
         _ftps.login(userID, pw)
         _ftps.prot_p() #データ接続をセキュアにする
 
@@ -66,5 +67,6 @@ def send_ftps(file_name, put_directory): #エラー処理 will be raise to main(
         logger.debug("send(picture)_ftps error. :" + str(e))
         _file.close()
         _ftps.quit()
-        raise
+        pass
+
 
