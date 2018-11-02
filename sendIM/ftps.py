@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#coding: utf_8
+#coding: utf-8
 
 import datetime # datetimeモジュールのインポート
 import os
@@ -23,7 +23,7 @@ logger.propagate = True
 def sendLog_ftps(file_name, put_directory):
     logger.info("BOM_UTF8対応対策済みftps.py:2018/06/20")
     _ftps = FTP_TLS(archive_server)
-    _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
+    _ftps.set_debuglevel(0) # デバッグログを全部出力してみよう
 #    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
     _ftps.login(userID, pw)
     _ftps.prot_p() #データ接続をセキュアにするには、
