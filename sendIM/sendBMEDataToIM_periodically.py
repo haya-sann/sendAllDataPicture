@@ -386,14 +386,14 @@ if GPIO.input(GPIO_NO) == 0:
     logger.info("Program switch is OFF")
     try:
         sendPowerCommand()
-        logger.info('PowerControl設定正常終了。'+ str(powerControlCommand))
+        logger.info('PowerControl command is ready: '+ str(powerControlCommand))
         time.sleep(5)
 
     except IOError:
-        logger.info('IOError。デバイスが認識できません')
+        logger.info("IOError. I2C device can't be found")
     finally:
-        logger.info('PowerControl設定の処理を終わりました。電源を落とします。エラーログも確認してください')
-        print('システムを終了します')
+        logger.info('PowerControl will be enabled. Power will be off. Please check logs')
+        print('SYSTEM is going down')
         os.system('sudo poweroff')
         GPIO.cleanup()
 
