@@ -126,7 +126,7 @@ def sendDataToAmbient():
     logger.info('Trying to send data to Ambient')
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
     try:
-        r = ambi.send({"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1}, timeout = 0.1)
+        r = ambi.send({"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1}, timeout = 10)
         if r.status_code == 200:
             logger.info('successfuly sended data to Ambient')
         else:
