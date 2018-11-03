@@ -36,6 +36,22 @@ from ftps import sendLog_ftps
 from ftps import send_ftps
 import picamera
 
+class Color:
+    BLACK     = '\033[30m'
+    RED       = '\033[31m'
+    GREEN     = '\033[32m'
+    YELLOW    = '\033[33m'
+    BLUE      = '\033[34m'
+    PURPLE    = '\033[35m'
+    CYAN      = '\033[36m'
+    WHITE     = '\033[37m'
+    END       = '\033[0m'
+    BOLD      = '\038[1m'
+    UNDERLINE = '\033[4m'
+    INVISIBLE = '\033[08m'
+    REVERCE   = '\033[07m'
+
+
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
@@ -123,12 +139,12 @@ def captureSensorData(i2c_address):
     return temperature, pressure, humid
 
 def sendDataToAmbient():
-    logger.info('\e[31mTrying to send data to Ambient\e[m')
+    logger.info(Color.RED + 'Trying to send data to Ambient' + Color.END)
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
     try:
         r = ambi.send({"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
         if r.status_code == 200:
-            logger.info('successfuly sended data to Ambient')
+            logger.info(Color.GREEN + 'successfuly sended data to Ambient' + Color.END)
         else:
             logger.info('Connection to AbmiData failed')
     except requests.exceptions.RequestException as e:
