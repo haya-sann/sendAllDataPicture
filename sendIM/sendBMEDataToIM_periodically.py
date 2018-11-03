@@ -131,7 +131,7 @@ def sendDataToAmbient():
             logger.info('successfuly sended data to Ambient')
         else:
             logger.info('Connection to AbmiData failed')
-    except requests.exceptions.RequestExceptions as e:
+    except requests.exceptions.RequestException as e:
         logger.info('Error encounterd : '+ str(e))
 
 def sendDataToIM():
