@@ -328,7 +328,7 @@ logger.info('電源モジュールに送信するコマンド用意：' + powerC
 #ログのメール送信
 to_addr = "haya.biz@gmail.com"
 #件名と本文
-subject = "田んぼカメラから：" + specialMessage + '/' + DEPLOY_SWITCH
+subject = "田んぼカメラから：" + specialMessage + DEPLOY_SWITCH
 body = """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
 
