@@ -148,7 +148,7 @@ def sendDataToAmbient():
         else:
             logger.info('Connection to AbmiData failed')
     except requests.exceptions.RequestException as e:
-        specialMessage = 'AmbiData ServerError:' + str(e)
+        specialMessage = specialMessage + 'AmbiData ServerError:' + str(e)
         logger.info('Error encounterd : '+ str(e))
 
 def sendDataToIM():
@@ -228,7 +228,7 @@ if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻にな
         localFile_name = takePicture() #写真撮影し、ファイル名を受け取る
 
     except Exception as e:
-        logger.debug("Fail in camera caputer :" + str(e))
+        logger.debug("Fail in camera capture :" + str(e))
 
 else:
     logger.info("Out of service time: No picture was taken")
