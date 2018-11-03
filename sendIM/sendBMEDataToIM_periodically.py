@@ -51,7 +51,7 @@ class Color:
     INVISIBLE = '\033[08m'
     REVERCE   = '\033[07m'
 
-
+specialMessage = ''
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
@@ -148,6 +148,7 @@ def sendDataToAmbient():
         else:
             logger.info('Connection to AbmiData failed')
     except requests.exceptions.RequestException as e:
+        specialMessage = 'AmbiData ServerError:' + str(e)
         logger.info('Error encounterd : '+ str(e))
 
 def sendDataToIM():
@@ -327,7 +328,7 @@ logger.info('電源モジュールに送信するコマンド用意：' + powerC
 #ログのメール送信
 to_addr = "haya.biz@gmail.com"
 #件名と本文
-subject = "田んぼカメラから：" + DEPLOY_SWITCH
+subject = "田んぼカメラから：" + specialMessage + '/' + DEPLOY_SWITCH
 body = """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
 
