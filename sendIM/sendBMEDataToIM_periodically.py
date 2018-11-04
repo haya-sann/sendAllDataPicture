@@ -336,16 +336,19 @@ subject = "田んぼカメラから：" + specialMessage + DEPLOY_SWITCH
 body = alertMailMessage + "\n\n" + """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
 
-スライドショーはこちら：https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
+スライドショーはこちら：
+https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
+
 データのグラフは
 https://ambidata.io/ch/channel.html?id=1454 (サンドボックス)
 https://ambidata.io/ch/channel.html?id=999 (本番)
-生データは
-https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/sandBox_2.html
-https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/index.html (本番データ)
-まとめのホームページは
-https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/index.html
 
+生データは
+https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/sandBox_2.html （サンドボックス）
+https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/index.html (本番データ)
+
+まとめのホームページは
+https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/index.php
 
 """ + "\n"
 
