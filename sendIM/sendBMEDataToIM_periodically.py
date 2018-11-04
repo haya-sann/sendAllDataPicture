@@ -138,7 +138,7 @@ def captureSensorData(i2c_address):
 
     return temperature, pressure, humid
 
-@retry(TimeoutError, tries=3, delay=5, backoff=2)
+@retry((TimeoutError), tries=3, delay=5, backoff=2)
 #@retry(exceptions=Exception, tries=3, delay=5, backoff=2)
 def sendDataToAmbient():
     logger.info(Color.RED + 'Trying to send data to Ambient' + Color.END)
