@@ -138,6 +138,7 @@ def captureSensorData(i2c_address):
 
     return temperature, pressure, humid
 
+@retry(exceptions=Exception, tries=3, delay=5, backoff=2)
 def sendDataToAmbient():
     logger.info(Color.RED + 'Trying to send data to Ambient' + Color.END)
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
@@ -149,7 +150,7 @@ def sendDataToAmbient():
             logger.info('Connection to AbmiData failed')
     except requests.exceptions.RequestException as e:
         global specialMessage
-        specialMessage = specialMessage + 'AmbiData ServerError:' + str(e)
+        specialMessage = specialMessage + 'AmbiData TimeoutError:' + str(e)
         logger.info('Error encounterd : '+ str(e))
 
 def sendDataToIM():
@@ -204,7 +205,7 @@ def takePicture():
 @retry(exceptions=Exception, tries=3, delay=2)
 def sendPowerCommand():
     os.system(powerControlCommand) #import osが必要
-        #成功するまで繰り返す
+        #成功するまで繰り返す、回数指定も可能
 	#retryのInstallationは
 	#$ pip install retry
 	#from retry import retry
@@ -280,7 +281,7 @@ except Exception as error_soilTemperature:
 
 
 #Send atmosphere data to AmbiData
-import pdb; pdb.set_trace()
+retry
 try:
     sendDataToAmbient()
 except Exception as error_SendToAmbi:
