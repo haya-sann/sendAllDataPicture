@@ -148,6 +148,7 @@ def sendDataToAmbient():
         else:
             logger.info('Connection to AbmiData failed')
     except requests.exceptions.RequestException as e:
+        global specialMessage
         specialMessage = specialMessage + 'AmbiData ServerError:' + str(e)
         logger.info('Error encounterd : '+ str(e))
 
