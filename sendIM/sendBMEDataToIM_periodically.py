@@ -279,6 +279,7 @@ except Exception as error_soilTemperature:
 
 
 #Send atmosphere data to AmbiData
+import pdb; pdb.set_trace()
 try:
     sendDataToAmbient()
 except Exception as error_SendToAmbi:
