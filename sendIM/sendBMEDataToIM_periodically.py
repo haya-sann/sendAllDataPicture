@@ -150,7 +150,7 @@ def sendDataToAmbient():
             logger.info('Connection to AbmiData failed')
     except requests.exceptions.RequestException as e:
         global specialMessage
-        specialMessage = specialMessage + 'AmbiData TimeoutError:' + str(e)
+        specialMessage = 'AmbiData TimeoutError:'
         logger.info('Error encounterd : '+ str(e))
         raise
 
@@ -286,6 +286,7 @@ try:
     sendDataToAmbient()
 except Exception as error_SendToAmbi:
     logger.info("Error occured while sending AmbiData" + str(error_SendToAmbi))
+    alertMailMessage = "Error occured while sending AmbiData: " + str(error_SendToAmbi)
 
 #send data to host_IM
 try:
@@ -332,7 +333,7 @@ logger.info('電源モジュールに送信するコマンド用意：' + powerC
 to_addr = "haya.biz@gmail.com"
 #件名と本文
 subject = "田んぼカメラから：" + specialMessage + DEPLOY_SWITCH
-body = """ログデータを送ります。これは詳細なログです。
+body = alertMailMessage + "\n" + """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
 
 スライドショーはこちら：https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
