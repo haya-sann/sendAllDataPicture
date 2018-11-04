@@ -333,7 +333,7 @@ logger.info('電源モジュールに送信するコマンド用意：' + powerC
 to_addr = "haya.biz@gmail.com"
 #件名と本文
 subject = "田んぼカメラから：" + specialMessage + DEPLOY_SWITCH
-body = alertMailMessage + "\n" + """ログデータを送ります。これは詳細なログです。
+body = alertMailMessage + "\n\n" + """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
 
 スライドショーはこちら：https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
