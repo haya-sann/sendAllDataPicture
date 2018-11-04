@@ -52,6 +52,7 @@ class Color:
     REVERCE   = '\033[07m'
 
 specialMessage = ''
+alertMailMessage = ''
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
