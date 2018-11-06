@@ -154,7 +154,7 @@ def sendDataToAmbient():
     except requests.exceptions.RequestException as e:
         global specialMailSubject, alertMailMessage
         specialMailSubject = 'AmbiData TimeoutError:'
-        logger.info('Error encounterd : '+ str(e))
+        logger.info('Error encounterd : '+ str(error_SendToAmbi))
         alertMailMessage = "Error occured while sending AmbiData: " + str(error_SendToAmbi)
 #        raise
         pass
