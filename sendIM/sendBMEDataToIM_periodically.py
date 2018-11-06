@@ -142,7 +142,7 @@ def captureSensorData(i2c_address):
 
 @retry(tries=3, delay=5, backoff=2)
 def sendDataToAmbient():
-    timeout = 0.0001
+    timeout = 5.0
     logger.info(Color.RED + 'Trying to send data to Ambient' + Color.END)
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
     try:
