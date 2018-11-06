@@ -68,12 +68,26 @@ logger = get_module_logger(__name__)
 logger.propagate = True
 
 
+# try:
+#     import rcLocalUpdate 
+#     rcLocalUpdate.updateRCLocal()
+#     logger.info("Successfully copied updated rc.local file")
+# except :
+#     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
+
 try:
-    import rcLocalUpdate 
-    rcLocalUpdate.updateRCLocal()
+    os.system("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/rcLocalUpdate.sh /etc/rc.local")
     logger.info("Successfully copied updated rc.local file")
 except :
     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
+
+try:
+    os.system("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/ambientUpdate.py /usr/local/lib/python2.7/dist-packages/ambient.py")
+    logger.info("Successfully copied updated ambient.py file")
+except :
+    logger.debug("failed update ambient.py file. Please check location of rcLocalUpdate.py")
+
+
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 #configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
