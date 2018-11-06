@@ -38,7 +38,10 @@ function log() {
 }
 echo "***** above-mentioned is previous log  *****" | tee -a ${LOGFILE}
 log "Started logging to : "$LOGFILE
+<<<<<<< HEAD
 echo "***** rc.local ver. 1.4 更新：2018/10/27 02:37  *****" | tee -a ${LOGFILE}
+=======
+>>>>>>> getErrorMsgFromAmbi
 systemctl list-unit-files --state=enabled --no-pager | tee -a ${LOGFILE}
 
 #

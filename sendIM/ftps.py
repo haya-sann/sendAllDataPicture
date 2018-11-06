@@ -1,8 +1,8 @@
 #!/usr/bin/python
-#coding: utf_8
+#coding: utf-8
 
 import datetime # datetimeモジュールのインポート
-
+import os
 
 import ConfigParser
 from ftplib import FTP_TLS
@@ -23,7 +23,7 @@ logger.propagate = True
 def sendLog_ftps(file_name, put_directory):
     logger.info("BOM_UTF8対応対策済みftps.py:2018/06/20")
     _ftps = FTP_TLS(archive_server)
-    _ftps.set_debuglevel(1) # デバッグログを全部出力してみよう
+    _ftps.set_debuglevel(0) # デバッグログを全部出力してみよう
 #    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
     _ftps.login(userID, pw)
     _ftps.prot_p() #データ接続をセキュアにするには、
@@ -32,7 +32,8 @@ def sendLog_ftps(file_name, put_directory):
     _file = open('/var/log/' + file_name, 'rb') #'r' means read as text mode
     #'rb' means binarymode
     _timeStamp = datetime.datetime.now()
-    logfile_name = 'field_location' + _timeStamp.strftime('%Y%m%d%H%M') + '.txt'
+    file_name = os.path.basename(file_name)#get fileName
+    logfile_name = _timeStamp.strftime('%Y%m%d%H%M') + file_name + '.txt' #changed name space
 
     _ftps.cwd('seasonShots/' + put_directory) #アップロード先ディレクトリに移動
 
@@ -48,7 +49,8 @@ def sendLog_ftps(file_name, put_directory):
 def send_ftps(file_name, put_directory): #エラー処理 will be raise to main()
     try:
         _ftps = FTP_TLS(archive_server)
-        _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
+        _ftps.set_debuglevel(0) # デバッグログを取らない
+#        _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
         _ftps.login(userID, pw)
         _ftps.prot_p() #データ接続をセキュアにする
 
@@ -65,5 +67,6 @@ def send_ftps(file_name, put_directory): #エラー処理 will be raise to main(
         logger.debug("send(picture)_ftps error. :" + str(e))
         _file.close()
         _ftps.quit()
-        raise
+        pass
+
 
