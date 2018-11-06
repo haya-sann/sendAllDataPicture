@@ -51,8 +51,9 @@ class Color:
     INVISIBLE = '\033[08m'
     REVERCE   = '\033[07m'
 
-specialMessage = ''
+specialMailSubject = ''
 alertMailMessage = ''
+
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
@@ -151,9 +152,10 @@ def sendDataToAmbient():
         else:
             logger.info('Connection to AbmiData failed')
     except requests.exceptions.RequestException as e:
-        global specialMessage
-        specialMessage = 'AmbiData TimeoutError:'
+        global specialMailSubject, alertMailMessage
+        specialMailSubject = 'AmbiData TimeoutError:'
         logger.info('Error encounterd : '+ str(e))
+        alertMailMessage = "Error occured while sending AmbiData: " + str(error_SendToAmbi)
         raise
 
 def sendDataToIM():
@@ -288,7 +290,6 @@ try:
     sendDataToAmbient()
 except Exception as error_SendToAmbi:
     logger.info("Error occured while sending AmbiData" + str(error_SendToAmbi))
-    alertMailMessage = "Error occured while sending AmbiData: " + str(error_SendToAmbi)
 
 #send data to host_IM
 try:
@@ -334,7 +335,7 @@ logger.info('電源モジュールに送信するコマンド用意：' + powerC
 #ログのメール送信
 to_addr = "haya.biz@gmail.com"
 #件名と本文
-subject = "田んぼカメラから：" + specialMessage + DEPLOY_SWITCH
+subject = "田んぼカメラから：" + specialMailSubject + DEPLOY_SWITCH
 body = alertMailMessage + "\n\n" + """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
 
