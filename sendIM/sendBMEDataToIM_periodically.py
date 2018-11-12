@@ -82,10 +82,19 @@ except :
     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
 
 try:
-    os.system("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/ambientUpdate.py /usr/local/lib/python2.7/dist-packages/ambient.py")
-    logger.info("Successfully copied updated ambient.py file")
+    os.system("sudo systemctl disable apt-daily-upgrade.timer; sudo systemctl disable apt-daily.timer")
+    logger.info("Successfully removed service")
 except :
-    logger.debug("failed update ambient.py file. Please check location of rcLocalUpdate.py")
+    logger.debug("failed removed service")
+
+
+
+# succesfully ambient.py has been updated. No need this section 
+# try:
+#     os.system("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/ambientUpdate.py /usr/local/lib/python2.7/dist-packages/ambient.py")
+#     logger.info("Successfully copied updated ambient.py file")
+# except :
+#     logger.debug("failed update ambient.py file. Please check location of rcLocalUpdate.py")
 
 
 
