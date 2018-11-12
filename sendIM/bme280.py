@@ -27,7 +27,7 @@ logger.propagate = True
 bus_number  = 1
 i2c_address = 0x76 #default i2c_address
 
-temperature =0.0
+temperature = 0.0
 pressure = 0.0
 var_h = 0.0
 
@@ -37,8 +37,8 @@ if __name__ == '__main__':
 	if argLength == 2:
 		i2c_address = int(sys.argv[1],16)
 	else:
-		print 'Please specify i2c_address. Assuming default 0x76'
-		print 'Ex:python bme280.py 0x77'
+		print ('Please specify i2c_address. Assuming default 0x76')
+		print ('If you want to try addrsss 0x77. Type:python bme280.py 0x77')
 
 
 #bus = SMBus(bus_number) #元はこうなっていた。
@@ -53,11 +53,12 @@ t_fine = 0.0
 def bmeRead(reg_i2c_address):
     global i2c_address
     i2c_address = reg_i2c_address
-    print 'i2cのアドレスとして' + hex(i2c_address) +'がセットされました'
+    print ('i2c Address:' + hex(i2c_address) +' is beeing set up')
     try:
         setup()
     except IOError:
-        raise
+        pass
+#        raise
 
     get_calib_param()
     readData()
@@ -180,6 +181,7 @@ def setup():
 		writeReg(0xF2,ctrl_hum_reg)
 		writeReg(0xF4,ctrl_meas_reg)
 		writeReg(0xF5,config_reg)
+		logger.info('BME280（I2C:{:#x}）successfully read sensor data '.format(i2c_address))
 
 	except (KeyError, ValueError) as err:
 		logger.exception('Error in read bme280: %s', err)
@@ -187,19 +189,16 @@ def setup():
 
 
 	except IOError as err:
-		logger.info('IOErrorです。デバイスが認識できません')
-		logger.exception('Error in read bme280: %s', err)
+#		logger.info(str(err) + ' BME280が見つかりません')
 		pass
-	finally:
-		logger.info('BME280（I2C:{:#x}）の読取り処理を終了しました'.format(i2c_address))
 
 if __name__ == '__main__':
 	try:
-		print ''
+		print ('')
 		temperature, pressure,humid = bmeRead(i2c_address)
-		print "temp : %-6.2f ℃" % (temperature) 
-		print "from main program; pressure : %7.2f hPa" % (pressure/100)
-		print "hum : %6.2f ％" % (humid)
+		print ("temp : %-6.2f ℃" % (temperature) )
+		print ("from main program; pressure : %7.2f hPa" % (pressure/100))
+		print ("hum : %6.2f ％" % (humid))
 
 	except KeyboardInterrupt:
 		pass

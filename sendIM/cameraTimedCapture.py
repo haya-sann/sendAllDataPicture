@@ -3,6 +3,8 @@
 
 import datetime # datetimeモジュールのインポート
 import picamera
+import os
+import time
 from ftps import send_ftps
 
 from __init__ import get_module_logger #log保存先は/var/log/field_location.log

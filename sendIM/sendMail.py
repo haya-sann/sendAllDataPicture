@@ -4,6 +4,10 @@
 """
 Gmail
 Gmailで簡単にメール送信
+http://make.bcde.jp/python/gmailで簡単にメール送信/
+Pythonの標準ライブラリー，emailを使う
+
+サンプルはパスワードをじかに書くので、気持ち悪い。config.confを用意して安全に組上げた
 """
 
 import os 
