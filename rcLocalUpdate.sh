@@ -17,11 +17,16 @@ export DEPLOY="sandBox"
 
 #pullするgitリポジトリのブランチをセット
 <<<<<<< HEAD
+<<<<<<< HEAD
 gitBranch="sendMultiFiles"
 =======
 gitBranch="getErrorMsgFromAmbi"
 >>>>>>> getErrorMsgFromAmbi
 #gitBranch="homeSimulator"
+=======
+#gitBranch="getErrorMsgFromAmbi"
+gitBranch="homeSimulator"
+>>>>>>> getErrorMsgFromAmbi
 #gitBranch="master"
 
 #case文でsandBoxに送るか、本番環境に送るかを選択する。
