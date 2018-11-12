@@ -41,6 +41,9 @@ log "Started logging to : "$LOGFILE
 echo "***** rc.local ver. 1.4 更新：2018/10/27 02:37  *****" | tee -a ${LOGFILE}
 systemctl list-unit-files --state=enabled --no-pager | tee -a ${LOGFILE}
 
+systemctl disable apt-daily-upgrade.timer
+systemctl disable apt-daily.timer
+
 #
 #Soracomのドングルppp接続またはネットワーク接続rc.local
 #ppp接続ないしはSakura,ne,jpへの疎通がない場合は4分間の休止後、55分間仮死状態に
