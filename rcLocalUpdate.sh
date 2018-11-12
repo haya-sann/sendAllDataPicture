@@ -16,8 +16,8 @@ export DEPLOY="sandBox"
 #export DEPLOY="distribution"
 
 #pullするgitリポジトリのブランチをセット
-gitBranch="getErrorMsgFromAmbi"
-#gitBranch="homeSimulator"
+#gitBranch="getErrorMsgFromAmbi"
+gitBranch="homeSimulator"
 #gitBranch="master"
 
 #case文でsandBoxに送るか、本番環境に送るかを選択する。
