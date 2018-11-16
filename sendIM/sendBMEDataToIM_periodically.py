@@ -356,6 +356,44 @@ logger.info('電源モジュールに送信するコマンド用意：' + powerC
 # wakeupTime = now + timeToWait #起動時刻算出
 # logger.info(timeToWait + "分後の" +wakeupTime + "に起動します")
 
+#ログをまとめてサーバーにftps送信する
+#ログを正常に送れれば、ログファイルはクリアされる
+#もろもろ書かれたlogは結局boot.logに上書きされているので、
+#検討するのはboot.logのみでよい
+
+file_name = "field_location.log"
+try:
+    _timeStamp = sendLog_ftps(file_name, put_directory)
+
+    #log送信正常終了なので、中身をクリアする
+    with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
+#            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
+        f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
+    f.close()
+except Exception as e:
+        logger.debug("sendLog_ftps error. :" + str(e))
+        f.close()
+
+file_name = "boot.log"
+try:
+    _timeStamp = sendLog_ftps(file_name, put_directory)
+
+except Exception as e:
+    logger.debug("send boot.log ftps error . :" + str(e))
+
+# no need
+# file_name = "unattended-upgrades/unattended-upgrades.log"
+# try:
+#     _timeStamp = sendLog_ftps(file_name, put_directory)
+
+# except Exception as e:
+#     logger.debug("send unattended-upgrades.log ftps error . :" + str(e))
+
+
+#            f.write(unicode ((u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime(u'%Y%m%d%H%M') + u'\n').encode('utf_8','ignore'),'utf_8'))
+#            f.close() #with openの場合、これは不要らしい。
+
+
 #ログのメール送信
 to_addr = "haya.biz@gmail.com"
 #件名と本文
@@ -393,43 +431,6 @@ try:
     logger.info("Successfully sended mail to " + to_addr)
 except Exception as e:
         logger.debug("send mail error. :" + str(e))
-
-#ログをまとめてサーバーにftps送信する
-#ログを正常に送れれば、ログファイルはクリアされる
-#もろもろ書かれたlogは結局boot.logに上書きされているので、
-#検討するのはboot.logのみでよい
-
-# file_name = "field_location.log"
-# try:
-#     _timeStamp = sendLog_ftps(file_name, put_directory)
-
-#     #log送信正常終了なので、中身をクリアする
-#     with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
-# #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
-#         f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
-#     f.close()
-# except Exception as e:
-#         logger.debug("sendLog_ftps error. :" + str(e))
-#         f.close()
-
-file_name = "boot.log"
-try:
-    _timeStamp = sendLog_ftps(file_name, put_directory)
-
-except Exception as e:
-    logger.debug("send boot.log ftps error . :" + str(e))
-
-# no need
-# file_name = "unattended-upgrades/unattended-upgrades.log"
-# try:
-#     _timeStamp = sendLog_ftps(file_name, put_directory)
-
-# except Exception as e:
-#     logger.debug("send unattended-upgrades.log ftps error . :" + str(e))
-
-
-#            f.write(unicode ((u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime(u'%Y%m%d%H%M') + u'\n').encode('utf_8','ignore'),'utf_8'))
-#            f.close() #with openの場合、これは不要らしい。
 
 
 #Programスイッチが入っているときはパワースイッチコントロールを送らずに終了
