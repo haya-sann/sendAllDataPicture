@@ -16,9 +16,9 @@ export DEPLOY="sandBox"
 #export DEPLOY="distribution"
 
 #pullするgitリポジトリのブランチをセット
-gitBranch="getErrorMsgFromAmbi"
-# gitBranch="sendMultiFiles"
-gitBranch="getPreviousLog"
+#gitBranch="getErrorMsgFromAmbi"
+gitBranch="sendMultiFiles"
+#gitBranch="getPreviousLog"
 #gitBranch="homeSimulator"
 #gitBranch="master"
 

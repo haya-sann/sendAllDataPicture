@@ -60,7 +60,7 @@ def send_ftps(file_name, put_directory): #エラー処理 will be raise to main(
         _ftps.cwd('/seasonShots/' + put_directory) #アップロード先ディレクトリに移動.ロリポップの場合、webルートに入ってくる
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
-        _ftps.quit()
+        # _ftps.quit() ##変なエラーが起きるので、これをコメントアウト
         logger.info("Upload finished with no error to: /seasonShots/" + put_directory + "/" + file_name)
 
     except Exception as e:
