@@ -1,12 +1,10 @@
 #!/usr/bin/python
-#coding: utf-8
+#coding: utf_8
 #このデバイス（田んぼカメラ）を外に設置する際は、サーバー上のwebAPIを正確に指すように調整するのを忘れないように
 #設置する機器の対応サーバーに応じて指定するconfig.confの中身を対応するサーバー情報に書き換えるのを忘れずに
 #ex: configfile.read("/home/pi/Documents/field_location/config.conf")
 #rc.localを修正したければ、この中でアップデートを行う。rcLocalUpdate.shという中間ファイルを経由して、これを/etc/rc.localに上書きする仕組み
 #したがって、rc.localを書き直したければ、rcLocalUpdate.shを更新してやれば良い。
-
-#todo:マシンのIPアドレスを見て、データの送り先を本番か、サンドボックスかに切替える
 
 import httplib, urllib
 import time
@@ -18,8 +16,6 @@ import sys
 import ConfigParser
 import codecs
 import ambient #ambientにデータを送込むライブラリ
-#詳しい説明は https://ambidata.io/refs/python/
-import requests
 import RPi.GPIO as GPIO
 PYTHONIOENCODING = 'utf_8'
 GPIO_NO = 23 #PIN-16にプログラマースイッチを装着している。GPIO23に相当する
@@ -36,24 +32,6 @@ from ftps import sendLog_ftps
 from ftps import send_ftps
 import picamera
 
-class Color:
-    BLACK     = '\033[30m'
-    RED       = '\033[31m'
-    GREEN     = '\033[32m'
-    YELLOW    = '\033[33m'
-    BLUE      = '\033[34m'
-    PURPLE    = '\033[35m'
-    CYAN      = '\033[36m'
-    WHITE     = '\033[37m'
-    END       = '\033[0m'
-    BOLD      = '\038[1m'
-    UNDERLINE = '\033[4m'
-    INVISIBLE = '\033[08m'
-    REVERCE   = '\033[07m'
-
-specialMailSubject = ''
-alertMailMessage = ''
-
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
@@ -68,35 +46,13 @@ logger = get_module_logger(__name__)
 logger.propagate = True
 
 
-# try:
-#     import rcLocalUpdate 
-#     rcLocalUpdate.updateRCLocal()
-#     logger.info("Successfully copied updated rc.local file")
-# except :
-#     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
-
 try:
-    os.system("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/rcLocalUpdate.sh /etc/rc.local")
+    import rcLocalUpdate 
+    rcLocalUpdate.updateRCLocal()
     logger.info("Successfully copied updated rc.local file")
+    print ("Successfully copied updated rc.local file")
 except :
     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
-
-try:
-    os.system("sudo systemctl disable apt-daily-upgrade.timer; sudo systemctl disable apt-daily.timer")
-    logger.info("Successfully removed service")
-except :
-    logger.debug("failed removed service")
-
-
-
-# succesfully ambient.py has been updated. No need this section 
-# try:
-#     os.system("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/ambientUpdate.py /usr/local/lib/python2.7/dist-packages/ambient.py")
-#     logger.info("Successfully copied updated ambient.py file")
-# except :
-#     logger.debug("failed update ambient.py file. Please check location of rcLocalUpdate.py")
-
-
 
 configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 #configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
@@ -135,57 +91,43 @@ pictureContrast = 10
 # pictureContrast = 10
 pictureSharpness = 20
 
-hourToBegin = 1 #カメラを動作開始させる時刻
+hourToBegin = 5 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
-everyMinutes = 10 #何分おきに撮影するのかをセット。5~60の値をセット
+everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値をセット
 
 v0=v1=soil1=soil2=soil_temp=0.0
-temperature = None
-pressure = None
-humid = None
-outer_temp = None
-outer_humid = None
-outer_pressure = None
-
 
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
     #I2C、SPIなどを使ってデータキャプチャ
-    temperature = None
-    pressure = None
-    humid = None
-
     try:
         temperature, pressure, humid = bmeRead(i2c_address)
     except IOError as e:
         logger.info("デバイスが見つかりません　：" + str(e))
         #sys.exit(False)
+        temperature = None
+        pressure = None
+        humid = None
 
     return temperature, pressure, humid
 
-@retry(tries=3, delay=5, backoff=2)
 def sendDataToAmbient():
-    timeout = 5.0
-    logger.info(Color.RED + 'Trying to send data to Ambient' + Color.END)
+    logger.info('Trying to send data to Ambient')
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
-    try:
-        r = ambi.send({"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1}, timeout = timeout)
-        if r.status_code == 200:
-            logger.info(Color.GREEN + 'successfuly sended data to Ambient' + Color.END)
-        else:
-            logger.info('Connection to AbmiData failed')
-    except requests.exceptions.RequestException as e:
-        global specialMailSubject, alertMailMessage
-        specialMailSubject = 'AmbiData TimeoutError:'
-        logger.info('Error encounterd : '+ str(e))
-        alertMailMessage = "Error occured while sending AmbiData: " + str(e)
-        raise
-#        pass
+    r = ambi.send({"d1": cpu_temp, "d2": temp, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
+    if r.status_code == 200:
+        logger.info('successfuly sended data to Ambient')
+    else:
+        logger.info('Connection to AbmiData failed')
+
+# def nonesafe_loads(obj):
+#     if obj is not None:
+#         return json.loads(obj)
 
 def sendDataToIM():
     #keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : 'sandBox', 'log':field_locationLog }
 
-    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : DEPLOY_SWITCH, 'memo' : localFile_name}
+    keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temp, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : DEPLOY_SWITCH, 'memo' : localFile_name}
 
     valueToSend={}
     for value_label, value in keyValue.items():
@@ -234,7 +176,7 @@ def takePicture():
 @retry(exceptions=Exception, tries=3, delay=2)
 def sendPowerCommand():
     os.system(powerControlCommand) #import osが必要
-        #成功するまで繰り返す、回数指定も可能
+        #成功するまで繰り返す
 	#retryのInstallationは
 	#$ pip install retry
 	#from retry import retry
@@ -243,7 +185,7 @@ def sendPowerCommand():
 now = datetime.datetime.now()
 hour = now.hour
 if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻になる前まで
-    logger.info("Will [takePicture] at every " + str(everyMinutes) + " minutes." )
+    logger.info("Will call [takePicture] at " + str(now))
     try:
         # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
         picamera = picamera.PiCamera()
@@ -259,7 +201,7 @@ if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻にな
         localFile_name = takePicture() #写真撮影し、ファイル名を受け取る
 
     except Exception as e:
-        logger.debug("Fail in camera capture :" + str(e))
+        logger.debug("Fail in camera caputer :" + str(e))
 
 else:
     logger.info("Out of service time: No picture was taken")
@@ -284,7 +226,7 @@ print ('データ取得時刻 == %s : %s\n' % (d, type(d))) # Microsecond(10^-6s
 cpu_temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
 
 i2c_address = 0x76
-temperature, pressure, humid = captureSensorData(i2c_address)
+temp, pressure, humid = captureSensorData(i2c_address)
 
 i2c_address = 0x77
 outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
@@ -359,33 +301,23 @@ logger.info('電源モジュールに送信するコマンド用意：' + powerC
 #ログのメール送信
 to_addr = "haya.biz@gmail.com"
 #件名と本文
-subject = "田んぼカメラから：" + specialMailSubject + DEPLOY_SWITCH
-body = alertMailMessage + "\n\n" + """ログデータを送ります。これは詳細なログです。
+subject = "田んぼカメラから：" + DEPLOY_SWITCH
+body = """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
-
-スライドショーはこちら：
-https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
-
+サイトはこちら：https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
 データのグラフは
-https://ambidata.io/ch/channel.html?id=1454 (サンドボックス)
-https://ambidata.io/ch/channel.html?id=999 (本番)
-
+https://ambidata.io/ch/channel.html?id=1454
 生データは
-https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/sandBox_2.html （サンドボックス）
-https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/index.html (本番データ)
-
-まとめのホームページは
-https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/index.php
-
+https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/sandBox_2.html
+本番データは
+https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/index.html
 """ + "\n"
 
 #添付ファイル設定(text.txtファイルを添付)
 mime={'type':'text', 'subtype':'comma-separated-values'}
 #    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
 #ここでエンコーディングをutf8にするといいはず。
-#attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
-attach_file={'name':'boot.log','path':'/var/log/boot.log'}
-
+attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
 try:
@@ -417,14 +349,6 @@ except Exception as e:
     logger.debug("send boot.log ftps error . :" + str(e))
 
 
-file_name = "unattended-upgrades/unattended-upgrades.log"
-try:
-    _timeStamp = sendLog_ftps(file_name, put_directory)
-
-except Exception as e:
-    logger.debug("send unattended-upgrades.log ftps error . :" + str(e))
-
-
 #            f.write(unicode ((u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime(u'%Y%m%d%H%M') + u'\n').encode('utf_8','ignore'),'utf_8'))
 #            f.close() #with openの場合、これは不要らしい。
 
@@ -437,14 +361,14 @@ if GPIO.input(GPIO_NO) == 0:
     logger.info("Program switch is OFF")
     try:
         sendPowerCommand()
-        logger.info('PowerControl command is ready: '+ str(powerControlCommand))
+        logger.info('PowerControl設定正常終了。'+ str(powerControlCommand))
         time.sleep(5)
 
     except IOError:
-        logger.info("IOError. I2C device can't be found")
+        logger.info('IOError。デバイスが認識できません')
     finally:
-        logger.info('PowerControl will be enabled. Power will be off. Please check logs')
-        print('SYSTEM is going down')
+        logger.info('PowerControl設定の処理を終わりました。電源を落とします。エラーログも確認してください')
+        print('システムを終了します')
         os.system('sudo poweroff')
         GPIO.cleanup()
 
