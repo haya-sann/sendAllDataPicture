@@ -361,7 +361,7 @@ logger.info('電源モジュールに送信するコマンド用意：' + powerC
 #もろもろ書かれたlogは結局boot.logに上書きされているので、
 #検討するのはboot.logのみでよい
 
-file_name = "field_location.log"
+file_name = "previous_field_location.log"
 try:
     _timeStamp = sendLog_ftps(file_name, put_directory)
 
@@ -423,7 +423,6 @@ mime={'type':'text', 'subtype':'comma-separated-values'}
 #ここでエンコーディングをutf8にするといいはず。
 #attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
 attach_file={'name':'boot.log','path':'/var/log/boot.log'}
-
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
 try:
@@ -432,6 +431,14 @@ try:
 except Exception as e:
         logger.debug("send mail error. :" + str(e))
 
+#field_location.logをprevious_field_location.logとして複製を作る
+import shutil
+try:
+    src = '/var/log/field_location.log'
+    copy = '/var/log/previous_field_location.log'
+    shutil.copyfile(src,copy)
+except Exception as error:
+    logger.info("Can't copy field_location.log file " + str(error))
 
 #Programスイッチが入っているときはパワースイッチコントロールを送らずに終了
 GPIO.setmode(GPIO.BCM)
