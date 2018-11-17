@@ -66,6 +66,31 @@ from __init__ import get_module_logger #log保存先は/var/log/field_location.l
 logger = get_module_logger(__name__)
 logger.propagate = True
 
+
+configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
+#configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
+configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
+
+host_IM = configfile.get("settings", "host")
+archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのドメイン名
+pw = configfile.get("settings", "password")      #ログインパスワード
+userID = configfile.get("settings", "id")        #サーバーログインUser id
+key = configfile.get("settings", "key")#ThingSpeak Channel write key, not in service
+ambiChannel = configfile.get("settings", "ambiChannel")
+ambiKey = configfile.get("settings", "ambiKey")
+ambiChannelSandbox = configfile.get("settings", "ambiChannelSandbox") #サンドボックスチャネル
+ambiKeySandbox = configfile.get("settings", "ambiKeySandbox")  #サンドボックスチャネル
+imKey = configfile.get("settings", "imKey")
+from_addr = configfile.get("settings", "mailAddress")
+mailPass = configfile.get("settings", "mailPass")
+
+if DEPLOY_SWITCH == "distribution":
+    put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
+elif DEPLOY_SWITCH == "sandBox":
+    put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
+    ambiKey = ambiKeySandbox
+    ambiChannel = ambiChannelSandbox
+
 #send previous log 
 file_name = "field_location.log"
 
@@ -82,6 +107,12 @@ if os.path.isfile(src):
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
             f.close()
+
+
+
+logger.info("公開先は：" + DEPLOY_SWITCH)
+logger.info("資料の保存先は：" + put_directory)
+
 
 # try:
 #     import rcLocalUpdate 
@@ -101,46 +132,6 @@ try:
     logger.info("Successfully removed service")
 except :
     logger.debug("failed removed service")
-
-
-
-# succesfully ambient.py has been updated. No need this section 
-# try:
-#     os.system("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/ambientUpdate.py /usr/local/lib/python2.7/dist-packages/ambient.py")
-#     logger.info("Successfully copied updated ambient.py file")
-# except :
-#     logger.debug("failed update ambient.py file. Please check location of rcLocalUpdate.py")
-
-
-
-configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
-#configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
-configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
-
-host_IM = configfile.get("settings", "host")
-archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのドメイン名
-pw = configfile.get("settings", "password")      #ログインパスワード
-userID = configfile.get("settings", "id")        #サーバーログインUser id
-key = configfile.get("settings", "key")#ThingSpeak Channel write key, not in service
-ambiChannel = configfile.get("settings", "ambiChannel")
-ambiKey = configfile.get("settings", "ambiKey")
-ambiChannelSandbox = configfile.get("settings", "ambiChannelSandbox") #サンドボックスチャネル
-ambiKeySandbox = configfile.get("settings", "ambiKeySandbox")  #サンドボックスチャネル
-imKey = configfile.get("settings", "imKey")
-from_addr = configfile.get("settings", "mailAddress")
-mailPass = configfile.get("settings", "mailPass")
-
-
-logger.info("公開先は：" + DEPLOY_SWITCH)
-
-if DEPLOY_SWITCH == "distribution":
-    put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
-elif DEPLOY_SWITCH == "sandBox":
-    put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
-    ambiKey = ambiKeySandbox
-    ambiChannel = ambiChannelSandbox
-
-logger.info("資料の保存先は：" + put_directory)
 
 #カメラ撮影準備
 localFile_name = None
