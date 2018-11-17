@@ -106,7 +106,6 @@ if os.path.isfile(src):
         f.close()
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
-            f.close()
 
 
 
@@ -368,7 +367,7 @@ logger.info('電源モジュールに送信するコマンド用意：' + powerC
 #検討するのはboot.logのみでよい
 
 
-file_name = "previous_field_location.log"
+file_name = "field_location.log"
 
 src = '/var/log/' + file_name
 if os.path.isfile(src):
@@ -382,7 +381,22 @@ if os.path.isfile(src):
         f.close()
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
-            f.close()
+
+file_name = "previous_field_location_2.log"
+
+src = '/var/log/' + file_name
+if os.path.isfile(src):
+    try:
+        _timeStamp = sendLog_ftps(file_name, put_directory)
+
+        #log送信正常終了なので、中身をクリアする
+        with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
+    #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
+            f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
+        f.close()
+    except Exception as e:
+            logger.debug("sendLog_ftps error. :" + str(e))
+
 
 file_name = "boot.log"
 try:
