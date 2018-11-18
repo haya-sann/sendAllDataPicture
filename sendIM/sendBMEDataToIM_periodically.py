@@ -91,8 +91,33 @@ elif DEPLOY_SWITCH == "sandBox":
     ambiKey = ambiKeySandbox
     ambiChannel = ambiChannelSandbox
 
+
+#ログのメール送信
+to_addr = "haya.biz@gmail.com"
+#件名と本文
+subject = "田んぼカメラ：前回ログ" + specialMailSubject + DEPLOY_SWITCH
+body = alertMailMessage + "\n\n" + """前回ログデータ
+ログはconsoleアプリで読んでください。
+""" + "\n"
+
+#添付ファイル設定(text.txtファイルを添付)
+mime={'type':'text', 'subtype':'comma-separated-values'}
+#    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
+#ここでエンコーディングをutf8にするといいはず。
+#attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
+attach_file={'name':'previous_boot.log','path':'/var/log/previous_boot.log'}
+ 
+msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
+try:
+    send(from_addr, to_addr, msg)
+    logger.info("Successfully sended previous log mail to " + to_addr)
+except Exception as e:
+        logger.debug("send mail error. :" + str(e))
+
+
+
 #send previous log 
-file_name = "field_location.log"
+file_name = "previous_boot.log"
 
 src = '/var/log/' + file_name
 if os.path.isfile(src):
@@ -106,8 +131,6 @@ if os.path.isfile(src):
         f.close()
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
-
-
 
 logger.info("公開先は：" + DEPLOY_SWITCH)
 logger.info("資料の保存先は：" + put_directory)
@@ -126,12 +149,11 @@ try:
 except :
     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
 
-#"systemctl disable" command is already adopted 
-#  try:
-#     os.system("sudo systemctl disable apt-daily-upgrade.timer; sudo systemctl disable apt-daily.timer")
-#     logger.info("Successfully removed service")
-# except :
-#     logger.debug("failed removed service")
+try:
+    os.system("sudo systemctl disable apt-daily-upgrade.timer; sudo systemctl disable apt-daily.timer")
+    logger.info("Successfully removed service")
+except :
+    logger.debug("failed removed service")
 
 #カメラ撮影準備
 localFile_name = None
@@ -459,11 +481,13 @@ except Exception as e:
 #field_location.logをprevious_field_location.logとして複製を作る
 import shutil
 try:
-    src = '/var/log/field_location.log'
-    copy = '/var/log/previous_field_location_2.log'
+    src = '/var/log/boot.log'
+    copy = '/var/log/previous_boot.log'
     shutil.copyfile(src,copy)
+    logger.info("Successfully copied previous boot log")
+
 except Exception as error:
-    logger.info("Can't copy field_location.log file " + str(error))
+    logger.info("Can't copy boot.log file " + str(error))
 
 #Programスイッチが入っているときはパワースイッチコントロールを送らずに終了
 GPIO.setmode(GPIO.BCM)
