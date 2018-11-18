@@ -109,6 +109,29 @@ if os.path.isfile(src):
 
 
 
+#ログのメール送信
+to_addr = "haya.biz@gmail.com"
+#件名と本文
+subject = "田んぼカメラ：前回ログ" + specialMailSubject + DEPLOY_SWITCH
+body = alertMailMessage + "\n\n" + """前回ログデータ
+ログはconsoleアプリで読んでください。
+""" + "\n"
+
+#添付ファイル設定(text.txtファイルを添付)
+mime={'type':'text', 'subtype':'comma-separated-values'}
+#    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
+#ここでエンコーディングをutf8にするといいはず。
+#attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
+attach_file={'name':'boot.log','path':'/var/log/previous_boot.log'}
+ 
+msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
+try:
+    send(from_addr, to_addr, msg)
+    logger.info("Successfully sended previous log mail to " + to_addr)
+except Exception as e:
+        logger.debug("send mail error. :" + str(e))
+
+
 logger.info("公開先は：" + DEPLOY_SWITCH)
 logger.info("資料の保存先は：" + put_directory)
 
