@@ -126,11 +126,12 @@ try:
 except :
     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
 
-try:
-    os.system("sudo systemctl disable apt-daily-upgrade.timer; sudo systemctl disable apt-daily.timer")
-    logger.info("Successfully removed service")
-except :
-    logger.debug("failed removed service")
+#"systemctl disable" command is already adopted 
+#  try:
+#     os.system("sudo systemctl disable apt-daily-upgrade.timer; sudo systemctl disable apt-daily.timer")
+#     logger.info("Successfully removed service")
+# except :
+#     logger.debug("failed removed service")
 
 #カメラ撮影準備
 localFile_name = None
