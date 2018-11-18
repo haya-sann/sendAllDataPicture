@@ -92,7 +92,7 @@ elif DEPLOY_SWITCH == "sandBox":
     ambiChannel = ambiChannelSandbox
 
 #send previous log 
-file_name = "field_location.log"
+file_name = "previous_boot.log"
 
 src = '/var/log/' + file_name
 if os.path.isfile(src):
@@ -458,11 +458,11 @@ except Exception as e:
 #field_location.logをprevious_field_location.logとして複製を作る
 import shutil
 try:
-    src = '/var/log/field_location.log'
-    copy = '/var/log/previous_field_location_2.log'
+    src = '/var/log/boot.log'
+    copy = '/var/log/previous_boot.log'
     shutil.copyfile(src,copy)
 except Exception as error:
-    logger.info("Can't copy field_location.log file " + str(error))
+    logger.info("Can't copy boot.log file " + str(error))
 
 #Programスイッチが入っているときはパワースイッチコントロールを送らずに終了
 GPIO.setmode(GPIO.BCM)
