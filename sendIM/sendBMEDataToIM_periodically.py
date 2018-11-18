@@ -64,8 +64,53 @@ dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情�
 
 from __init__ import get_module_logger #log保存先は/var/log/field_location.log
 logger = get_module_logger(__name__)
-
 logger.propagate = True
+
+
+configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
+#configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
+configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
+
+host_IM = configfile.get("settings", "host")
+archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのドメイン名
+pw = configfile.get("settings", "password")      #ログインパスワード
+userID = configfile.get("settings", "id")        #サーバーログインUser id
+key = configfile.get("settings", "key")#ThingSpeak Channel write key, not in service
+ambiChannel = configfile.get("settings", "ambiChannel")
+ambiKey = configfile.get("settings", "ambiKey")
+ambiChannelSandbox = configfile.get("settings", "ambiChannelSandbox") #サンドボックスチャネル
+ambiKeySandbox = configfile.get("settings", "ambiKeySandbox")  #サンドボックスチャネル
+imKey = configfile.get("settings", "imKey")
+from_addr = configfile.get("settings", "mailAddress")
+mailPass = configfile.get("settings", "mailPass")
+
+if DEPLOY_SWITCH == "distribution":
+    put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
+elif DEPLOY_SWITCH == "sandBox":
+    put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
+    ambiKey = ambiKeySandbox
+    ambiChannel = ambiChannelSandbox
+
+#send previous log 
+file_name = "field_location.log"
+
+src = '/var/log/' + file_name
+if os.path.isfile(src):
+    try:
+        _timeStamp = sendLog_ftps(file_name, put_directory)
+
+        #log送信正常終了なので、中身をクリアする
+        with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
+    #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
+            f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
+        f.close()
+    except Exception as e:
+            logger.debug("sendLog_ftps error. :" + str(e))
+
+
+
+logger.info("公開先は：" + DEPLOY_SWITCH)
+logger.info("資料の保存先は：" + put_directory)
 
 
 # try:
@@ -87,46 +132,6 @@ try:
 except :
     logger.debug("failed removed service")
 
-
-
-# succesfully ambient.py has been updated. No need this section 
-# try:
-#     os.system("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/ambientUpdate.py /usr/local/lib/python2.7/dist-packages/ambient.py")
-#     logger.info("Successfully copied updated ambient.py file")
-# except :
-#     logger.debug("failed update ambient.py file. Please check location of rcLocalUpdate.py")
-
-
-
-configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
-#configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
-configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
-
-host_IM = configfile.get("settings", "host")
-archive_server = configfile.get("settings", "ftpsHost")  #ftpsサーバーのドメイン名
-pw = configfile.get("settings", "password")      #ログインパスワード
-userID = configfile.get("settings", "id")        #サーバーログインUser id
-key = configfile.get("settings", "key")#ThingSpeak Channel write key, not in service
-ambiChannel = configfile.get("settings", "ambiChannel")
-ambiKey = configfile.get("settings", "ambiKey")
-ambiChannelSandbox = configfile.get("settings", "ambiChannelSandbox") #サンドボックスチャネル
-ambiKeySandbox = configfile.get("settings", "ambiKeySandbox")  #サンドボックスチャネル
-imKey = configfile.get("settings", "imKey")
-from_addr = configfile.get("settings", "mailAddress")
-mailPass = configfile.get("settings", "mailPass")
-
-
-logger.info("公開先は：" + DEPLOY_SWITCH)
-
-if DEPLOY_SWITCH == "distribution":
-    put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
-elif DEPLOY_SWITCH == "sandBox":
-    put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
-    ambiKey = ambiKeySandbox
-    ambiChannel = ambiChannelSandbox
-
-logger.info("資料の保存先は：" + put_directory)
-
 #カメラ撮影準備
 localFile_name = None
 pictureBrightness =55
@@ -135,7 +140,7 @@ pictureContrast = 10
 # pictureContrast = 10
 pictureSharpness = 20
 
-hourToBegin = 1 #カメラを動作開始させる時刻
+hourToBegin = 6 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
 everyMinutes = 10 #何分おきに撮影するのかをセット。5~60の値をセット
 
@@ -356,6 +361,63 @@ logger.info('電源モジュールに送信するコマンド用意：' + powerC
 # wakeupTime = now + timeToWait #起動時刻算出
 # logger.info(timeToWait + "分後の" +wakeupTime + "に起動します")
 
+#ログをまとめてサーバーにftps送信する
+#ログを正常に送れれば、ログファイルはクリアされる
+#もろもろ書かれたlogは結局boot.logに上書きされているので、
+#検討するのはboot.logのみでよい
+
+
+file_name = "field_location.log"
+
+src = '/var/log/' + file_name
+if os.path.isfile(src):
+    try:
+        _timeStamp = sendLog_ftps(file_name, put_directory)
+
+        #log送信正常終了なので、中身をクリアする
+        with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
+    #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
+            f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
+        f.close()
+    except Exception as e:
+            logger.debug("sendLog_ftps error. :" + str(e))
+
+file_name = "previous_field_location_2.log"
+
+src = '/var/log/' + file_name
+if os.path.isfile(src):
+    try:
+        _timeStamp = sendLog_ftps(file_name, put_directory)
+
+        #log送信正常終了なので、中身をクリアする
+        with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
+    #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
+            f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
+        f.close()
+    except Exception as e:
+            logger.debug("sendLog_ftps error. :" + str(e))
+
+
+file_name = "boot.log"
+try:
+    _timeStamp = sendLog_ftps(file_name, put_directory)
+
+except Exception as e:
+    logger.debug("send boot.log ftps error . :" + str(e))
+
+# no need
+# file_name = "unattended-upgrades/unattended-upgrades.log"
+# try:
+#     _timeStamp = sendLog_ftps(file_name, put_directory)
+
+# except Exception as e:
+#     logger.debug("send unattended-upgrades.log ftps error . :" + str(e))
+
+
+#            f.write(unicode ((u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime(u'%Y%m%d%H%M') + u'\n').encode('utf_8','ignore'),'utf_8'))
+#            f.close() #with openの場合、これは不要らしい。
+
+
 #ログのメール送信
 to_addr = "haya.biz@gmail.com"
 #件名と本文
@@ -385,7 +447,6 @@ mime={'type':'text', 'subtype':'comma-separated-values'}
 #ここでエンコーディングをutf8にするといいはず。
 #attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
 attach_file={'name':'boot.log','path':'/var/log/boot.log'}
-
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
 try:
@@ -394,40 +455,14 @@ try:
 except Exception as e:
         logger.debug("send mail error. :" + str(e))
 
-#ログをまとめてサーバーにftps送信する
-#ログを正常に送れれば、ログファイルはクリアされる
-file_name = "field_location.log"
+#field_location.logをprevious_field_location.logとして複製を作る
+import shutil
 try:
-    _timeStamp = sendLog_ftps(file_name, put_directory)
-
-    #log送信正常終了なので、中身をクリアする
-    with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
-#            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
-        f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
-    f.close()
-except Exception as e:
-        logger.debug("sendLog_ftps error. :" + str(e))
-        f.close()
-
-file_name = "boot.log"
-try:
-    _timeStamp = sendLog_ftps(file_name, put_directory)
-
-except Exception as e:
-    logger.debug("send boot.log ftps error . :" + str(e))
-
-
-file_name = "unattended-upgrades/unattended-upgrades.log"
-try:
-    _timeStamp = sendLog_ftps(file_name, put_directory)
-
-except Exception as e:
-    logger.debug("send unattended-upgrades.log ftps error . :" + str(e))
-
-
-#            f.write(unicode ((u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime(u'%Y%m%d%H%M') + u'\n').encode('utf_8','ignore'),'utf_8'))
-#            f.close() #with openの場合、これは不要らしい。
-
+    src = '/var/log/field_location.log'
+    copy = '/var/log/previous_field_location_2.log'
+    shutil.copyfile(src,copy)
+except Exception as error:
+    logger.info("Can't copy field_location.log file " + str(error))
 
 #Programスイッチが入っているときはパワースイッチコントロールを送らずに終了
 GPIO.setmode(GPIO.BCM)
