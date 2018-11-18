@@ -23,7 +23,7 @@ logger.propagate = True
 def sendLog_ftps(file_name, put_directory):
     logger.info("BOM_UTF8対応対策済みftps.py:2018/06/20")
     _ftps = FTP_TLS(archive_server)
-    _ftps.set_debuglevel(0) # デバッグログを全部出力してみよう
+    _ftps.set_debuglevel(0) # デバッグログをとらない
 #    _ftps.set_debuglevel(1) # デバッグログをリアルタイムで確認
     _ftps.login(userID, pw)
     _ftps.prot_p() #データ接続をセキュアにするには、
@@ -40,7 +40,7 @@ def sendLog_ftps(file_name, put_directory):
 #        _ftps.storlines('STOR ' + logfile_name, _file)
     _ftps.storbinary('STOR ' + logfile_name, _file)
 
-    logger.info("Upload finished:" + put_directory + "/" +logfile_name +  " from " + file_name + " with no error. Will clear log file.")
+    logger.info("Upload finished:" + put_directory + "/" +logfile_name +  " from " + file_name + " with no error. Will clear log file in main routine.")
 
     _file.close()
 #        _ftps.quit() ##変なエラーが起きるので、これをコメントアウト
