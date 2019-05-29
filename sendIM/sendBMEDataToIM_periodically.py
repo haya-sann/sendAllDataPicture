@@ -104,8 +104,8 @@ body = alertMailMessage + "\n\n" + """前回ログデータ
 mime={'type':'text', 'subtype':'comma-separated-values'}
 #    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
 #ここでエンコーディングをutf8にするといいはず。
-#attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
-attach_file={'name':'previous_boot.log','path':'/var/log/previous_boot.log'}
+attach_file={'name':'field_location.log','path':'/var/log/field_location.log'} #previous_boot.logはない、といわれるのでデバッグのために戻した
+#attach_file={'name':'previous_boot.log','path':'/var/log/previous_boot.log'}
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
 try:
