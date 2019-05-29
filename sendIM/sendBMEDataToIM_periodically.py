@@ -143,6 +143,7 @@ logger.info("資料の保存先は：" + put_directory)
 # except :
 #     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
 
+#update rc.local checked 2019/05/29 
 try:
     os.system("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/rcLocalUpdate.sh /etc/rc.local")
     logger.info("Successfully copied updated rc.local file")
