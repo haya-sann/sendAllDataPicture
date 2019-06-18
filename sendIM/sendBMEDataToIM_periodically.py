@@ -150,6 +150,7 @@ try:
 except :
     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
 
+#アップデート／アップグレードに関する自動処理を止める
 try:
     os.system("sudo systemctl disable apt-daily-upgrade.timer; sudo systemctl disable apt-daily.timer")
     logger.info("Successfully removed service")
