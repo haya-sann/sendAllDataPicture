@@ -159,6 +159,10 @@ except :
 
 #カメラ撮影準備
 localFile_name = None
+pictureResolution_h = 640
+pictureResolution_v = 480
+# pictureResolution_h = 1920
+# pictureResolution_v = 1080
 pictureBrightness =55
 pictureContrast = 10
 # pictureBrightness =55
@@ -277,7 +281,7 @@ if hour >= hourToBegin -1 and hour < hourToStop: #動作は止める時刻にな
     try:
         # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
         picamera = picamera.PiCamera()
-        picamera.resolution = (1920, 1080) #HD Quality Size=1.5MB、研究材料としては最低限これくらいはほしい。稲穂の様子はこ$
+        picamera.resolution = (pictureResolution_h, pictureResolution_v) #HD Quality Size=1.5MB、研究材料としては最低限これくらいはほしい。稲穂の様子はこ$
         #picamera.resolution = (1024, 768) # こちらは554KBで済む
         picamera.brightness = pictureBrightness #標準の50よりほんの少し明るめに
         picamera.contrast = pictureContrast 
