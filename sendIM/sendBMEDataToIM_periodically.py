@@ -104,8 +104,8 @@ body = alertMailMessage + "\n\n" + """前回ログデータ
 mime={'type':'text', 'subtype':'comma-separated-values'}
 #    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
 #ここでエンコーディングをutf8にするといいはず。
-#attach_file={'name':'field_location.log','path':'/var/log/field_location.log'}
-attach_file={'name':'previous_boot.log','path':'/var/log/previous_boot.log'}
+attach_file={'name':'field_location.log','path':'/var/log/field_location.log'} #previous_boot.logはない、といわれるのでデバッグのために戻した
+#attach_file={'name':'previous_boot.log','path':'/var/log/previous_boot.log'}
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
 try:
@@ -143,12 +143,14 @@ logger.info("資料の保存先は：" + put_directory)
 # except :
 #     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
 
+#update rc.local checked 2019/05/29 
 try:
     os.system("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/rcLocalUpdate.sh /etc/rc.local")
     logger.info("Successfully copied updated rc.local file")
 except :
     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
 
+#アップデート／アップグレードに関する自動処理を止める
 try:
     os.system("sudo systemctl disable apt-daily-upgrade.timer; sudo systemctl disable apt-daily.timer")
     logger.info("Successfully removed service")
