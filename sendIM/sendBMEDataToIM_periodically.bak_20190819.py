@@ -6,19 +6,18 @@
 #rc.localを修正したければ、この中でアップデートを行う。rcLocalUpdate.shという中間ファイルを経由して、これを/etc/rc.localに上書きする仕組み
 #したがって、rc.localを書き直したければ、rcLocalUpdate.shを更新してやれば良い。
 
-#todo:マシンのIPアドレスを見て、データの送り先を本番か、サンドボックスかに切替える#これはrc.localで面倒を見るので不要
-#このプログラムはpython3系向け。2to3で書き換えた
-#$ 2to3-3.6 -w ~/sendBMEDataToIM_periodically.py --write ~/sendBMEDataToIM_periodically.py
+#todo:マシンのIPアドレスを見て、データの送り先を本番か、サンドボックスかに切替える
+#これはpython2系のプログラム。
+# 2019/08/19、2to3で書き換えた。
 
-
-import http.client, urllib.request, urllib.parse, urllib.error
+import httplib, urllib
 import time
 import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
 import os
-import subprocess
+import commands
 import sys
-import configparser
+import ConfigParser
 import codecs
 import ambient #ambientにデータを送込むライブラリ
 #詳しい説明は https://ambidata.io/refs/python/
@@ -62,7 +61,7 @@ try:
 except: #rc.localからexportされて送られるはずのDEPLYがない場合は
     DEPLOY_SWITCH = "sandBox"
 
-global_ipAddress =  subprocess.getoutput('hostname -I')
+global_ipAddress =  commands.getoutput('hostname -I')
 dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情報
 
 from __init__ import get_module_logger #log保存先は/var/log/field_location.log
@@ -70,7 +69,7 @@ logger = get_module_logger(__name__)
 logger.propagate = True
 
 
-configfile = configparser.SafeConfigParser() #sftpサーバーへの接続準備
+configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
 #configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 
@@ -130,7 +129,7 @@ if os.path.isfile(src):
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
     #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
-            f.write ('アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
+            f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
         f.close()
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
@@ -226,15 +225,15 @@ def sendDataToIM():
     keyValue={'c': imKey, 'date': d, 'cpu_temp': cpu_temp, 'temp': temperature, 'pressure': pressure, 'humid': humid, 'lux' : lightLevel, 'outer_temp': outer_temp, 'outer_pressure': outer_pressure, 'outer_humid': outer_humid,  'v0':v0, 'v1':v1, 'soil1':soil1, 'soil2':soil2, 'soil_temp':soil_temp, 'deploy' : DEPLOY_SWITCH, 'memo' : localFile_name}
 
     valueToSend={}
-    for value_label, value in list(keyValue.items()):
+    for value_label, value in keyValue.items():
         if value is not None:
             valueToSend[value_label]=value
 
-    params_IM = urllib.parse.urlencode(valueToSend)#最終的に送信データを用意（今回アクセスのログ含む）
+    params_IM = urllib.urlencode(valueToSend)#最終的に送信データを用意（今回アクセスのログ含む）
 
     logger.info ("paramsIM:" + params_IM)
 
-    conn = http.client.HTTPSConnection(host_IM)
+    conn = httplib.HTTPSConnection(host_IM)
     #conn = httplib.HTTPConnection(host_IM)
     conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
     response = conn.getresponse()
@@ -316,7 +315,7 @@ while True:
 # today()メソッドで現在日付・時刻のdatetime型データの変数を取得
 d = datetime.datetime.today()
 
-print(('データ取得時刻 == %s : %s\n' % (d, type(d)))) # Microsecond(10^-6sec)まで取得
+print ('データ取得時刻 == %s : %s\n' % (d, type(d))) # Microsecond(10^-6sec)まで取得
 
 #Calculate CPU temperature of Raspberry Pi in Degrees C
 cpu_temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get Raspberry Pi CPU temp
@@ -410,7 +409,7 @@ if os.path.isfile(src):
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
     #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
-            f.write ('アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
+            f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
         f.close()
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
@@ -425,7 +424,7 @@ if os.path.isfile(src):
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
     #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
-            f.write ('アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
+            f.write (u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n'.encode('utf_8'))
         f.close()
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
