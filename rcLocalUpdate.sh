@@ -169,6 +169,6 @@ if [ "$_IP" ]; then
 fi
 
 #sendAll_IM.pyに環境変数DEPLOYを送るためにはsudoでは機能しない
-python3 /home/pi/Documents/field_location/sendAllDataPicture/sendIM/sendBMEDataToIM_periodically.py || ( echo python error ; my_shutdown )
+python /home/pi/Documents/field_location/sendAllDataPicture/sendIM/sendBMEDataToIM_periodically.py || ( echo python error ; my_shutdown )
 
 exit 0
