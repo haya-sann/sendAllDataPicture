@@ -11,7 +11,7 @@
 #$ 2to3-3.6 -w ~/sendBMEDataToIM_periodically.py --write ~/sendBMEDataToIM_periodically.py
 
 
-import http-client, urllib.request, urllib.parse, urllib.error
+import http.client, urllib.request, urllib.parse, urllib.error
 import time
 import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
@@ -234,7 +234,7 @@ def sendDataToIM():
 
     logger.info ("paramsIM:" + params_IM)
 
-    conn = http-client.HTTPSConnection(host_IM)
+    conn = http.client.HTTPSConnection(host_IM)
     #conn = httplib.HTTPConnection(host_IM)
     conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
     response = conn.getresponse()
