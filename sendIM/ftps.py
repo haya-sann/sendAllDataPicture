@@ -4,10 +4,10 @@
 import datetime # datetimeモジュールのインポート
 import os
 
-import ConfigParser
+import configparser
 from ftplib import FTP_TLS
 PYTHONIOENCODING = 'utf_8'
-configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
+configfile = configparser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/field_location/config.conf")#Localに置いたconfig.confファイルへの絶対パスを使った
 
 host_IM = configfile.get("settings", "host")
