@@ -10,7 +10,7 @@
 #このプログラムはpython3系向け。2to3で書き換えた
 #$ 2to3-3.6 -w ~/sendBMEDataToIM_periodically.py --write ~/sendBMEDataToIM_periodically.py
 
-import http_client
+import http.client
 import urllib.parse, urllib.request, urllib.error
 import time
 import datetime # datetimeモジュールのインポート
@@ -234,7 +234,7 @@ def sendDataToIM():
 
     logger.info ("paramsIM:" + params_IM)
 
-    conn = http_client.HTTPSConnection(host_IM)
+    conn = http.client.HTTPSConnection(host_IM)
     #conn = httplib.HTTPConnection(host_IM)
     conn.request("GET", "/IM/im_build/webAPI/putDataAPI_withAuth.php?" + params_IM)
     response = conn.getresponse()
