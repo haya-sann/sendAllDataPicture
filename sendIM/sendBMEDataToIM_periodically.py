@@ -10,6 +10,11 @@
 #このプログラムはpython3系向け。2to3で書き換えた
 #$ 2to3-3.6 -w ~/sendBMEDataToIM_periodically.py --write ~/sendBMEDataToIM_periodically.py
 
+import sys
+
+print(sys.prefix)
+print(sys.path)
+
 import http.client
 import urllib.parse, urllib.request, urllib.error
 import time
@@ -17,7 +22,6 @@ import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
 import os
 import subprocess
-import sys
 import configparser
 import codecs
 import ambient #ambientにデータを送込むライブラリ
