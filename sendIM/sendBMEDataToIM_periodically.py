@@ -1,4 +1,3 @@
-#!/usr/bin/python
 #coding: utf-8
 #このデバイス（田んぼカメラ）を外に設置する際は、サーバー上のwebAPIを正確に指すように調整するのを忘れないように
 #設置する機器の対応サーバーに応じて指定するconfig.confの中身を対応するサーバー情報に書き換えるのを忘れずに
@@ -11,7 +10,6 @@
 #$ 2to3-3.6 -w ~/sendBMEDataToIM_periodically.py --write ~/sendBMEDataToIM_periodically.py
 
 import sys
-
 print(sys.prefix)
 print(sys.path)
 
