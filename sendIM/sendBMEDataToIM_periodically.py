@@ -10,8 +10,10 @@
 #$ 2to3-3.6 -w ~/sendBMEDataToIM_periodically.py --write ~/sendBMEDataToIM_periodically.py
 
 import sys
-print(sys.prefix)
-print(sys.path)
+import pprint
+
+pprint.pprint(sys.prefix)
+pprint.pprint(sys.path)
 
 import http.client
 import urllib.parse, urllib.request, urllib.error
