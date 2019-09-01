@@ -18,10 +18,10 @@ import smtplib
 #import commands
 import configparser
 from email import encoders
-from email.Utils import formatdate
-from email.MIMEBase import MIMEBase
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
+from email.utils import formatdate
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 #from retry import retry
 
