@@ -15,6 +15,11 @@ import pprint
 print(sys.version)
 pprint.pprint(sys.prefix)
 pprint.pprint(sys.path)
+if __name__ == '__main__':
+    # root権限に昇格
+    if os.geteuid():
+        args = [sys.executable] + sys.argv
+        os.execlp('sudo', 'sudo', *args)
 
 import http.client
 import urllib.parse, urllib.request, urllib.error
