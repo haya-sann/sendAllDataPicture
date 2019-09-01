@@ -16,7 +16,7 @@ import os.path
 import datetime
 import smtplib
 #import commands
-import ConfigParser
+import configparser
 from email import Encoders
 from email.Utils import formatdate
 from email.MIMEBase import MIMEBase
@@ -31,7 +31,7 @@ logger = get_module_logger(__name__)
 logger.propagate = True
 
 #メールアカウント情報取得
-configfile = ConfigParser.SafeConfigParser() #sftpサーバーへの接続準備
+configfile = configparser.SafeConfigParser() #sftpサーバーへの接続準備
 configfile.read("/home/pi/Documents/field_location/config.conf")
 from_addr = configfile.get("settings", "mailAddress")
 mailPass = configfile.get("settings", "mailPass")
