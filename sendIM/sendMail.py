@@ -17,7 +17,7 @@ import datetime
 import smtplib
 #import commands
 import configparser
-from email import Encoders
+from email import encoders
 from email.Utils import formatdate
 from email.MIMEBase import MIMEBase
 from email.MIMEMultipart import MIMEMultipart
@@ -65,7 +65,7 @@ def create_message(from_addr, to_addr, subject, body, mime=None, attach_file=Non
         file = open(attach_file['path'])
         attachment.set_payload(file.read())
         file.close()
-        Encoders.encode_base64(attachment)
+        encoders.encode_base64(attachment)
         msg.attach(attachment)
         attachment.add_header("Content-Disposition","attachment", filename=attach_file['name'])
  
