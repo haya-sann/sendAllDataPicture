@@ -15,7 +15,7 @@ import time
 import os.path
 import datetime
 import smtplib
-import commands
+#import commands
 import ConfigParser
 from email import Encoders
 from email.Utils import formatdate
