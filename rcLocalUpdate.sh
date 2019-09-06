@@ -140,6 +140,7 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
+log "update all files in sendAllDataPicture directory with git pull"
 su -l pi -c 'sh /home/pi/Documents/field_location/sendAllDataPicture/sendIM/gitPull.sh' || ( echo python error ; my_shutdown )
 
 
