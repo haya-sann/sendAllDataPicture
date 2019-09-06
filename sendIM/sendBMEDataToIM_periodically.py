@@ -54,6 +54,29 @@ from w1_DS18B20 import read_soil_temp
 from ftps import sendLog_ftps
 from ftps import send_ftps
 import picamera
+#カメラ撮影準備
+localFile_name = None
+pictureResolution_h = 640
+pictureResolution_v = 480
+# pictureResolution_h = 1920
+# pictureResolution_v = 1080
+pictureBrightness =55
+pictureContrast = 10
+# pictureBrightness =55
+# pictureContrast = 10
+pictureSharpness = 20
+
+hourToBegin = 6 #カメラを動作開始させる時刻
+hourToStop = 23 #カメラを完全休止させる時刻
+everyMinutes = 10 #何分おきに撮影するのかをセット。5~60の値をセット
+
+v0=v1=soil1=soil2=soil_temp=0.0
+temperature = None
+pressure = None
+humid = None
+outer_temp = None
+outer_humid = None
+outer_pressure = None
 
 class Color:
     BLACK     = '\033[30m'
@@ -176,31 +199,6 @@ except :
 #     logger.info("Successfully removed service")
 # except :
 #     logger.debug("failed removed service")
-
-#カメラ撮影準備
-localFile_name = None
-pictureResolution_h = 640
-pictureResolution_v = 480
-# pictureResolution_h = 1920
-# pictureResolution_v = 1080
-pictureBrightness =55
-pictureContrast = 10
-# pictureBrightness =55
-# pictureContrast = 10
-pictureSharpness = 20
-
-hourToBegin = 6 #カメラを動作開始させる時刻
-hourToStop = 19 #カメラを完全休止させる時刻
-everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値をセット
-
-v0=v1=soil1=soil2=soil_temp=0.0
-temperature = None
-pressure = None
-humid = None
-outer_temp = None
-outer_humid = None
-outer_pressure = None
-
 
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
