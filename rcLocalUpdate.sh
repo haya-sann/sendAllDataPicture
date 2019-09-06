@@ -168,7 +168,7 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
-#sendAll_IM.pyに環境変数DEPLOYを送るためにはsudoでは機能しない
-sudo python /home/pi/Documents/field_location/sendAllDataPicture/sendIM/sendBMEDataToIM_periodically.py || ( echo python error ; my_shutdown )
+#sendAll_IM.pyに環境変数DEPLOYを送るためにstart.shを踏み台にして、本体プログラム実行。rootユーザーではでは機能しない
+su -l pi -c 'sh /home/pi/Documents/field_location/sendAllDataPicture/sendIM/start.sh' || ( echo python error ; my_shutdown )
 
 exit 0
