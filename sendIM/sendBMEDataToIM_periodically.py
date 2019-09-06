@@ -9,14 +9,18 @@
 #このプログラムはpython3系向け。2to3で書き換えた
 #$ 2to3-3.6 -w ~/sendBMEDataToIM_periodically.py --write ~/sendBMEDataToIM_periodically.py
 
-import sys
+import sys, os, getpass
 import pprint
+
+print(sys.version)
+
+print ("Env thinks the user is [%s]" % (os.getlogin()))
+print ("Effective user is [%s]" % (getpass.getuser()))
+print ("Current process ID is [%s]" % (os.getlogin()))
 
 print(sys.version)
 pprint.pprint(sys.prefix)
 pprint.pprint(sys.path)
-
-import os
 
 if __name__ == '__main__':
     # root権限に昇格
