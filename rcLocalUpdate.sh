@@ -18,7 +18,7 @@ export DEPLOY="sandBox" #start repair survey 2019-05-29
 #pullするgitリポジトリのブランチをセット
 #gitBranch="getErrorMsgFromAmbi"
 #gitBranch="homeSimulator"
-gitBranch="master"
+export gitBranch="master"
 
 #case文でsandBoxに送るか、本番環境に送るかを選択する。
 case "$DEPLOY" in
@@ -29,7 +29,7 @@ esac
 echo "Now current directory is set : "$DIRPATH
 
 #ログを生成する
-LOGFILE="/var/log/field_location.log"
+EXPORT LOGFILE="/var/log/field_location.log"
 #LOGFILE="/home/pi/Documents/field_location/${DIRPATH}/field_location.log"
 readonly PROCNAME=${0##*/}
 
@@ -133,17 +133,14 @@ fi
 waitForPing || ( echo connectSoracom error ; my_shutdown2 )
 log "Server is online"
 
-log "update all files in sendAllDataPicture with git pull"
-cd /home/pi/Documents/field_location/sendAllDataPicture
-git checkout ${gitBranch} | tee -a ${LOGFILE} #|| log ("Error occured in git. Update failed")
-git status | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
-git pull | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
 
 # Print the IP address
 _IP=$(hostname -I) || true
 if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
+
+su -l pi -c 'sh /home/pi/Documents/field_location/sendAllDataPicture/sendIM/gitPull.sh' || ( echo python error ; my_shutdown )
 
 
 echo -e "\e[42;31mto stop this autorun script, set PROGRAM SWITCH on\e[m"
