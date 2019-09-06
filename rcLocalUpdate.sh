@@ -48,29 +48,6 @@ echo "***** rc.local ver. 1.5 更新：2019/08/16 22:01  *****" | tee -a ${LOGFI
 #ppp接続する方法は
 #http://qiita.com/CLCL/items/95693f6a8daefc73ddaa#_reference-1e89edc09fe5b273aee3
 
-
-echo -e "\e[42;31mto stop this autorun script, set PROGRAM SWITCH on\e[m"
-echo -e "\e[31mwithin 10 seconds\e[m"
-
-sleep 10
-
-PORT1=23 #GPIO23=Pin16
-gpio -g mode $PORT1 in
-
-PORT2=24 #GPIO24=Pin18
-gpio -g mode $PORT2 out
-
-
-if [ `gpio -g read $PORT1` -eq 1 ] ; then #シングルクオートの``が大切
-  echo program switch is ON  | tee -a ${LOGFILE}
-  gpio -g write $PORT2 1
-#   crontab < /home/pi/crontab
-#   echo -e "\e[42;31mcrontab enabled\e[m"
-  exit 0
-fi
-
-echo PROGRAM SWITCH is off. Now system start normally  | tee -a ${LOGFILE}
-
 function waitForPing() {
     # Wait for Network to be available.
     #please specify target server
@@ -167,6 +144,30 @@ _IP=$(hostname -I) || true
 if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
+
+
+echo -e "\e[42;31mto stop this autorun script, set PROGRAM SWITCH on\e[m"
+echo -e "\e[31mwithin 10 seconds\e[m"
+
+sleep 10
+
+PORT1=23 #GPIO23=Pin16
+gpio -g mode $PORT1 in
+
+PORT2=24 #GPIO24=Pin18
+gpio -g mode $PORT2 out
+
+
+if [ `gpio -g read $PORT1` -eq 1 ] ; then #シングルクオートの``が大切
+  echo program switch is ON  | tee -a ${LOGFILE}
+  gpio -g write $PORT2 1
+#   crontab < /home/pi/crontab
+#   echo -e "\e[42;31mcrontab enabled\e[m"
+  exit 0
+fi
+
+echo PROGRAM SWITCH is off. Now system start normally  | tee -a ${LOGFILE}
+
 
 #sendAll_IM.pyに環境変数DEPLOYを送るためにstart.shを踏み台にして、本体プログラム実行。rootユーザーではでは機能しない
 su -l pi -c 'sh /home/pi/Documents/field_location/sendAllDataPicture/sendIM/start.sh' || ( echo python error ; my_shutdown )
