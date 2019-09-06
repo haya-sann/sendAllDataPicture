@@ -16,7 +16,7 @@ print(sys.version)
 
 print ("Env thinks the user is [%s]" % (os.getlogin()))
 print ("Effective user is [%s]" % (getpass.getuser()))
-print ("Current process ID is [%s]" % (os.getlogin()))
+#print ("Current process ID is [%s]" % (os.getlogin()))
 
 print(sys.version)
 pprint.pprint(sys.prefix)
