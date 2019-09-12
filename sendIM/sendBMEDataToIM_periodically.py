@@ -165,7 +165,7 @@ src = '/var/log/' + file_name
 if os.path.isfile(src):
     try:
         _timeStamp = sendLog_ftps(file_name, put_directory)
-        loger.info(_timeStamp)
+        logger.info(_timeStamp)
 
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
@@ -173,7 +173,7 @@ if os.path.isfile(src):
             f.write ('アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M').encode('utf_8') + '\n'.encode('utf_8'))
         f.close()
     except Exception as e:
-            loger.info(_timeStamp)
+            logger.info(_timeStamp)
             logger.debug("sendLog_ftps error. :" + str(e))
 
 logger.info("公開先は：" + DEPLOY_SWITCH)
