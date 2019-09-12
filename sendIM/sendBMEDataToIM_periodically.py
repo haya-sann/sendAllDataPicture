@@ -109,7 +109,7 @@ logger = get_module_logger(__name__)
 logger.propagate = True
 
 
-configfile = configparser.SafeConfigParser() #sftpサーバーへの接続準備
+configfile = configparser.ConfigParser() #sftpサーバーへの接続準備、Python3では名前変更された
 #configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
 
