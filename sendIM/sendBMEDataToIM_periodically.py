@@ -165,6 +165,7 @@ src = '/var/log/' + file_name
 if os.path.isfile(src):
     try:
         _timeStamp = sendLog_ftps(file_name, put_directory)
+        loger.info(_timeStamp)
 
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
