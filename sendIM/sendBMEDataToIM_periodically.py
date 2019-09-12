@@ -169,7 +169,7 @@ if os.path.isfile(src):
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
     #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
-            f.write ('アップロード終了 with no error. Log cleared at: ' + str(_timeStamp.strftime('%Y%m%d%H%M')) + '\n'.encode('utf_8'))
+            f.write ('アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M').encode('utf_8') + '\n'.encode('utf_8'))
         f.close()
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
@@ -425,7 +425,7 @@ if os.path.isfile(src):
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
     #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
-            f.write ('アップロード終了 with no error. Log cleared at: ' + str(_timeStamp.strftime('%Y%m%d%H%M')) + '\n'.encode('utf_8'))
+            f.write ('アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M').encode('utf_8') + '\n'.encode('utf_8'))
         f.close()
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
@@ -440,7 +440,7 @@ if os.path.isfile(src):
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
     #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
-            f.write ('アップロード終了 with no error. Log cleared at: ' + str(_timeStamp.strftime('%Y%m%d%H%M')) + '\n'.encode('utf_8'))
+            f.write ('アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M').encode('utf_8') + '\n'.encode('utf_8'))
         f.close()
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
