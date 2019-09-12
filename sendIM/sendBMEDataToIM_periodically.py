@@ -430,7 +430,8 @@ if os.path.isfile(src):
             f.write ('アップロード終了 with no error. Log cleared at: ' + (_timeStamp.strftime('%Y%m%d%H%M')).encode('utf_8') + '\n'.encode('utf_8'))
         f.close()
     except Exception as e:
-            logger.debug("sendLog_ftps error. :" + str(e))
+        logger.info(_timeStamp)
+        logger.debug("sendLog_ftps error. :" + str(e))
 
 file_name = "previous_field_location_2.log"
 
@@ -451,6 +452,7 @@ if os.path.isfile(src):
 file_name = "boot.log"
 try:
     _timeStamp = sendLog_ftps(file_name, put_directory)
+    logger.info(_timeStamp)
 
 except Exception as e:
     logger.debug("send boot.log ftps error . :" + str(e))
