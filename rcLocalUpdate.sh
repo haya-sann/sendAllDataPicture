@@ -52,7 +52,7 @@ function waitForPing() {
     # Wait for Network to be available.
     #please specify target server
 for i in {1..5};
-    do ping -c1 ciao-kawagoesatoyama.ssl-lolipop.jp &> /dev/null && (ntpq -p | tee -a ${LOGFILE}) && break; 
+    do ping -c1 ciao-kawagoesatoyama.ssl-lolipop.jp &> /dev/null && (date | tee -a ${LOGFILE}) && break; 
     # server reached, update time
     echo -n .
     done
@@ -62,6 +62,7 @@ return 0
 
 function waitForPPP() {
   echo "waiting for ppp connection"
+  ifup wwan0
   for i in {1..30}
   do
     [ -e /sys/class/net/ppp0/carrier ] && break
