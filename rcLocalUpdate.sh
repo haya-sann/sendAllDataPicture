@@ -62,10 +62,9 @@ return 0
 
 function waitForPPP() {
   echo "waiting for ppp connection"
-  ifup wwan0
   for i in {1..30}
   do
-    [ -e /sys/class/net/ppp0/carrier ] && break
+    [ -e /sys/class/net/ppp0/carrier ] && break || ifup wwan0
     echo -n .
     sleep 1
   done
