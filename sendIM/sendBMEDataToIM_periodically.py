@@ -133,8 +133,10 @@ elif DEPLOY_SWITCH == "sandBox":
     ambiKey = ambiKeySandbox
     ambiChannel = ambiChannelSandbox
 
+'''
+#RAMディスクにしたので、これは不要になった
 
-#ログのメール送信
+#前回ログのメール送信
 to_addr = "haya.biz@gmail.com"
 #件名と本文
 subject = "田んぼカメラ：前回ログ" + specialMailSubject + DEPLOY_SWITCH
@@ -159,7 +161,7 @@ except Exception as e:
 
 
 #send previous log 
-'''
+
 #RAMディスクにしたので、これは不要になった
 file_name = "previous_boot.log"
 
@@ -435,6 +437,8 @@ if os.path.isfile(src):
         print(_timeStamp)
         logger.info(_timeStamp)
         logger.debug("sendLog_ftps error. :" + str(e))
+'''
+#RAMディスクにしたので、これは不要になった
 
 file_name = "previous_field_location_2.log"
 
@@ -451,6 +455,7 @@ if os.path.isfile(src):
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
 
+'''
 
 file_name = "boot.log"
 try:
