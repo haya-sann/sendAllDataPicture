@@ -159,6 +159,8 @@ except Exception as e:
 
 
 #send previous log 
+'''
+#RAMディスクにしたので、これは不要になった
 file_name = "previous_boot.log"
 
 src = '/var/log/' + file_name
@@ -175,7 +177,7 @@ if os.path.isfile(src):
     except Exception as e:
             logger.info(_timeStamp)
             logger.debug("sendLog_ftps error. :" + str(e))
-
+'''
 logger.info("公開先は：" + DEPLOY_SWITCH)
 logger.info("資料の保存先は：" + put_directory)
 
