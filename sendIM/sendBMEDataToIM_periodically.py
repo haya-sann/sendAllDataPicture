@@ -68,7 +68,7 @@ pictureSharpness = 20
 
 hourToBegin = 7 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
-everyMinutes = 20 #何分おきに撮影するのかをセット。5~60の値をセット
+everyMinutes = 10 #何分おきに撮影するのかをセット。5~60の値をセット
 
 v0=v1=soil1=soil2=soil_temp=0.0
 temperature = None
@@ -514,8 +514,8 @@ try:
     logger.info("Successfully sended mail to " + to_addr)
 except Exception as e:
         logger.debug("send mail error. :" + str(e))
-
-#field_location.logをprevious_field_location.logとして複製を作る
+'''
+#field_location.logをprevious_field_location.logとして複製を作る、RAMディスクにしたのでこの部分不要
 import shutil
 try:
     src = '/var/log/boot.log'
@@ -525,7 +525,7 @@ try:
 
 except Exception as error:
     logger.info("Can't copy boot.log file " + str(error))
-
+'''
 #Programスイッチが入っているときはパワースイッチコントロールを送らずに終了
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(GPIO_NO, GPIO.IN)
