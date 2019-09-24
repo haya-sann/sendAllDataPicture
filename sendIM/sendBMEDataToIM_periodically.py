@@ -388,6 +388,7 @@ try:
         logger.info("File removed: " + localFile_name + " on Ras Pi")
         #サーバー内で圧縮プログラムを動かす
         if (DEPLOY_SWITCH == "sandBox"):
+            '''サーバーに送った写真の解像度を下げたファイルを作る。サムネール、スライドショーの表示などのために'''
             os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
             logger.info('Kicked loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
         else:
@@ -463,19 +464,6 @@ try:
 
 except Exception as e:
     logger.debug("send boot.log ftps error . :" + str(e))
-
-# no need
-# file_name = "unattended-upgrades/unattended-upgrades.log"
-# try:
-#     _timeStamp = sendLog_ftps(file_name, put_directory)
-
-# except Exception as e:
-#     logger.debug("send unattended-upgrades.log ftps error . :" + str(e))
-
-
-#            f.write(unicode ((u'アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime(u'%Y%m%d%H%M') + u'\n').encode('utf_8','ignore'),'utf_8'))
-#            f.close() #with openの場合、これは不要らしい。
-
 
 #ログのメール送信
 to_addr = "haya.biz@gmail.com"

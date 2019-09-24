@@ -21,6 +21,7 @@ logger = get_module_logger(__name__)
 logger.propagate = True
 
 def sendLog_ftps(file_name, put_directory):
+    _timeStamp = datetime.datetime.now()
     try:
         logger.info("BOM_UTF8対応対策済みftps.py:2018/06/20")
         _ftps = FTP_TLS(archive_server)
@@ -32,7 +33,6 @@ def sendLog_ftps(file_name, put_directory):
 
         _file = open('/var/log/' + file_name, 'rb') #'r' means read as text mode
         #'rb' means binarymode
-        _timeStamp = datetime.datetime.now()
         file_name = os.path.basename(file_name)#get fileName
         logfile_name = _timeStamp.strftime('%Y%m%d%H%M') + file_name + '.txt' #changed name space
 
@@ -51,6 +51,7 @@ def sendLog_ftps(file_name, put_directory):
         logger.debug("send(picture)_ftps error. :" + str(e))
         _file.close()
         _ftps.quit()
+        return _timeStamp
         pass
 
 
