@@ -48,7 +48,7 @@ def sendLog_ftps(file_name, put_directory):
         return _timeStamp
 
     except Exception as e:
-        logger.debug("send(picture)_ftps error. :" + str(e))
+        logger.debug("sendLog_ftps error. :" + str(e))
         _file.close()
         _ftps.quit()
         return _timeStamp
