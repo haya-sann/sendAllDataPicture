@@ -12,8 +12,6 @@
 import sys, os, getpass
 import pprint
 
-print(sys.version)
-
 #print ("Env thinks the user is [%s]" % (os.getlogin()))
 print ("Effective user is [%s]" % (getpass.getuser()))
 #print ("Current process ID is [%s]" % (os.getlogin()))
@@ -68,7 +66,7 @@ pictureSharpness = 20
 
 hourToBegin = 7 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
-everyMinutes = 10 #何分おきに撮影するのかをセット。5~60の値をセット
+everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値をセット
 
 v0=v1=soil1=soil2=soil_temp=0.0
 temperature = None
