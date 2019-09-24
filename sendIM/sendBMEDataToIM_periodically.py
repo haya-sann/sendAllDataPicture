@@ -9,6 +9,11 @@
 #このプログラムはpython3系向け。2to3で書き換えた
 #$ 2to3-3.6 -w ~/sendBMEDataToIM_periodically.py --write ~/sendBMEDataToIM_periodically.py
 
+'''稼働時間設定'''
+hourToBegin = 7 #カメラを動作開始させる時刻
+hourToStop = 19 #カメラを完全休止させる時刻
+everyMinutes = 10 #何分おきに撮影するのかをセット。5~60の値をセット
+
 import sys, os, getpass
 import pprint
 
@@ -63,10 +68,6 @@ pictureContrast = 10
 # pictureBrightness =55
 # pictureContrast = 10
 pictureSharpness = 20
-
-hourToBegin = 7 #カメラを動作開始させる時刻
-hourToStop = 19 #カメラを完全休止させる時刻
-everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値をセット
 
 v0=v1=soil1=soil2=soil_temp=0.0
 temperature = None
