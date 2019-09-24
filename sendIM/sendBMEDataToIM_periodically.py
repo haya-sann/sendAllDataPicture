@@ -433,9 +433,9 @@ if os.path.isfile(src):
     #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
             f.write ('アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n')
         f.close()
-    except Exception as e:
-        print(_timeStamp)
-        logger.info(_timeStamp)
+    except Exception as e: 
+#        print(_timeStamp)
+#        logger.info(_timeStamp)
         logger.debug("sendLog_ftps error. :" + str(e))
 '''
 #RAMディスクにしたので、これは不要になった
