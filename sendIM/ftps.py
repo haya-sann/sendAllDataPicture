@@ -51,7 +51,6 @@ def sendLog_ftps(file_name, put_directory):
         logger.debug("sendLog_ftps error. :" + str(e))
         _file.close()
         _ftps.quit()
-        return _timeStamp
         pass
 
 
