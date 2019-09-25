@@ -29,7 +29,7 @@ esac
 echo "Now current directory is set : "$DIRPATH
 
 #ログを生成する
-EXPORT LOGFILE="/var/log/field_location.log"
+export LOGFILE="/var/log/field_location.log"
 #LOGFILE="/home/pi/Documents/field_location/${DIRPATH}/field_location.log"
 readonly PROCNAME=${0##*/}
 
