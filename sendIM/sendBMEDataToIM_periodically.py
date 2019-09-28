@@ -31,6 +31,19 @@ if __name__ == '__main__':
         args = [sys.executable] + sys.argv
         os.execlp('sudo', 'sudo', *args)
 
+from __init__ import get_module_logger #log保存先は/var/log/field_location.log
+logger = get_module_logger(__name__)
+logger.propagate = True
+
+#check for network connection
+try:
+        if os.system ('bash test_waitForPing.sh') !=0:
+                raise Exception('Can not reach the server')
+        loger.info("Server can be reached")
+except Exception as e:
+        logger.info ('Error. ' + str(e))
+        os.system('sudo reboot')
+
 import http.client
 import urllib.parse, urllib.request, urllib.error
 import time
@@ -102,11 +115,6 @@ except: #rc.localからexportされて送られるはずのDEPLYがない場合�
 
 global_ipAddress =  subprocess.getoutput('hostname -I')
 dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情報
-
-from __init__ import get_module_logger #log保存先は/var/log/field_location.log
-logger = get_module_logger(__name__)
-logger.propagate = True
-
 
 configfile = configparser.ConfigParser() #sftpサーバーへの接続準備、Python3では名前変更された
 #configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
