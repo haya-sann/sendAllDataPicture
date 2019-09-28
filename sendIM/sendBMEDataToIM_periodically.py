@@ -37,7 +37,7 @@ logger.propagate = True
 
 #check for network connection
 try:
-        if os.system ('bash test_waitForPing.sh') !=0:
+        if os.system ('bash ./test_waitForPing.sh') !=0:
                 raise Exception('Can not reach the server')
         loger.info("Server can be reached")
 except Exception as e:
