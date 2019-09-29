@@ -1,8 +1,6 @@
 import subprocess
-try:
-        if subprocess.call ("bash test_waitForPing.sh") !=0:
-                raise Exception('Can not reach the server')
+if subprocess.call (['bash','test_waitForPing.sh']) == 0:
         print("Server can be reached")
-except Exception as e:
-        print ('Error. ' + str(e))
-        subprocess.call('sudo reboot')
+else:
+        print ('Error. Network might down. Reboot right away')
+        subprocess.call(['sudo','reboot'])

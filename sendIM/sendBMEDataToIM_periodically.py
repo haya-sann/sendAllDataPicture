@@ -36,20 +36,18 @@ logger = get_module_logger(__name__)
 logger.propagate = True
 
 #check for network connection
-try:
-        if subprocess.call ("bash test_waitForPing.sh") !=0:
-                raise Exception('Can not reach the server')
-        loger.info("Server can be reached")
-except Exception as e:
-        logger.info ('Error. ' + str(e))
-        subprocess.call('sudo reboot')
+import subprocess
+if subprocess.call (['bash','test_waitForPing.sh']) == 0:
+        logger.info("Server can be reached")
+else:   
+        logger.info ('Error. Network might down. Reboot right away')
+        subprocess.call(['sudo','reboot'])
 
 import http.client
 import urllib.parse, urllib.request, urllib.error
 import time
 import datetime # datetimeモジュールのインポート
 import locale   # import文はどこに書いてもOK(可読性などの為、慣例でコードの始めの方)
-import subprocess
 import configparser
 import codecs
 import ambient #ambientにデータを送込むライブラリ
