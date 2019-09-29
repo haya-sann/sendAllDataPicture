@@ -37,12 +37,12 @@ logger.propagate = True
 
 #check for network connection
 try:
-        if os.system ("bash test_waitForPing.sh") !=0:
+        if subprecess.call ("bash test_waitForPing.sh") !=0:
                 raise Exception('Can not reach the server')
         loger.info("Server can be reached")
 except Exception as e:
         logger.info ('Error. ' + str(e))
-        os.system('sudo reboot')
+        subprecess.call('sudo reboot')
 
 import http.client
 import urllib.parse, urllib.request, urllib.error
@@ -200,7 +200,7 @@ logger.info("資料の保存先は：" + put_directory)
 
 #update rc.local checked 2019/05/29 
 try:
-    os.system("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/rcLocalUpdate.sh /etc/rc.local")
+    subprecess.call("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/rcLocalUpdate.sh /etc/rc.local")
     logger.info("Successfully copied updated rc.local file")
 except :
     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
@@ -208,7 +208,7 @@ except :
 #アップデート／アップグレードに関する自動処理を止める
 # sudo systemctl disable apt-daily-upgrade.timerは一度やれば良いので、ここは不要
 # try:
-#     os.system("sudo systemctl disable apt-daily-upgrade.timer; sudo systemctl disable apt-daily.timer")
+#     subprecess.call("sudo systemctl disable apt-daily-upgrade.timer; sudo systemctl disable apt-daily.timer")
 #     logger.info("Successfully removed service")
 # except :
 #     logger.debug("failed removed service")
@@ -299,7 +299,7 @@ def takePicture():
 
 @retry(exceptions=Exception, tries=3, delay=2)
 def sendPowerCommand():
-    os.system(powerControlCommand) #import osが必要
+    subprecess.call(powerControlCommand) #import osが必要
         #成功するまで繰り返す、回数指定も可能
 	#retryのInstallationは
 	#$ pip install retry
@@ -397,10 +397,10 @@ try:
         #サーバー内で圧縮プログラムを動かす
         if (DEPLOY_SWITCH == "sandBox"):
             '''サーバーに送った写真の解像度を下げたファイルを作る。サムネール、スライドショーの表示などのために'''
-            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
+            subprecess.call('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
             logger.info('Kicked loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
         else:
-            os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
+            subprecess.call('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
             logger.info("Kicked loadThumbPhotos.php")
 
 except Exception as e:
@@ -537,7 +537,7 @@ if GPIO.input(GPIO_NO) == 0:
     finally:
         logger.info('PowerControl will be enabled. Power will be off. Please check logs')
         print('SYSTEM is going down')
-        os.system('sudo poweroff')
+        subprecess.call('sudo poweroff')
         GPIO.cleanup()
 
 else:
