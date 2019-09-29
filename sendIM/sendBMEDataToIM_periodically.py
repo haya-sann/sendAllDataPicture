@@ -11,19 +11,19 @@
 
 '''稼働時間設定'''
 hourToBegin = 7 #カメラを動作開始させる時刻
-hourToStop = 19 #カメラを完全休止させる時刻
-everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値をセット
+hourToStop = 24 #カメラを完全休止させる時刻
+everyMinutes = 6 #何分おきに撮影するのかをセット。5~60の値をセット
 
 import sys, os, getpass
 import pprint
 
-#print ("Env thinks the user is [%s]" % (os.getlogin()))
+currentDirectory = os.path.dirname(os.path.abspath(__file__))
+#homeDirectory = os.environ['HOME']
+homeDirectory = '/home/pi'
+
 print ("Effective user is [%s]" % (getpass.getuser()))
-#print ("Current process ID is [%s]" % (os.getlogin()))
 
 print(sys.version)
-pprint.pprint(sys.prefix)
-pprint.pprint(sys.path)
 
 if __name__ == '__main__':
     # root権限に昇格
@@ -35,9 +35,11 @@ from __init__ import get_module_logger #log保存先は/var/log/field_location.l
 logger = get_module_logger(__name__)
 logger.propagate = True
 
+logger.info('home directory:'+ homeDirectory)
 #check for network connection
 import subprocess
-if subprocess.call (['bash','test_waitForPing.sh']) == 0:
+processToCall = currentDirectory + '/test_waitForPing.sh'
+if subprocess.call (['bash', processToCall]) == 0:
         logger.info("Server can be reached")
 else:   
         logger.info ('Error. Network might down. Reboot right away')
@@ -108,8 +110,9 @@ alertMailMessage = ''
 
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
-except: #rc.localからexportされて送られるはずのDEPLYがない場合は
+except: #rc.localからexportされて送られるはずのDEPLOYがない場合は
     DEPLOY_SWITCH = "sandBox"
+logger.info('DEPLOY_SWITCH :' + DEPLOY_SWITCH)
 
 global_ipAddress =  subprocess.getoutput('hostname -I')
 dir_path = os.path.abspath(os.path.dirname(__file__))#自分自身の居所情報
@@ -138,8 +141,8 @@ elif DEPLOY_SWITCH == "sandBox":
     ambiKey = ambiKeySandbox
     ambiChannel = ambiChannelSandbox
 
-'''
-#RAMディスクにしたので、これは不要になった
+
+#前回起きたエラーをメール送信
 
 #前回ログのメール送信
 to_addr = "haya.biz@gmail.com"
@@ -153,8 +156,7 @@ body = alertMailMessage + "\n\n" + """前回ログデータ
 mime={'type':'text', 'subtype':'comma-separated-values'}
 #    attach_file={'name':'boot.log', 'path':'/var/log/wifi.log'}
 #ここでエンコーディングをutf8にするといいはず。
-attach_file={'name':'field_location.log','path':'/var/log/field_location.log'} #previous_boot.logはない、といわれるのでデバッグのために戻した
-#attach_file={'name':'previous_boot.log','path':'/var/log/previous_boot.log'}
+attach_file={'name':'previous_boot.log','path': homeDirectory+'/log/previous_boot.log'}
  
 msg = create_message(from_addr, to_addr, subject, body, mime, attach_file)
 try:
@@ -167,24 +169,23 @@ except Exception as e:
 
 #send previous log 
 
-#RAMディスクにしたので、これは不要になった
+#エラーが起きた場合に保存しておき、次回接続時に送信
 file_name = "previous_boot.log"
 
-src = '/var/log/' + file_name
+src = homeDirectory +'/log/' + file_name
 if os.path.isfile(src):
     try:
-        _timeStamp = sendLog_ftps(file_name, put_directory)
+        _timeStamp = sendLog_ftps(src, put_directory)
         logger.info(_timeStamp)
 
         #log送信正常終了なので、中身をクリアする
-        with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
+        with codecs.open(src, 'w', 'utf_8_sig') as f:
     #            f.write(unicode(codecs.BOM_UTF8, 'utf_8'))
             f.write ('アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n')
         f.close()
     except Exception as e:
-            logger.info(_timeStamp)
             logger.debug("sendLog_ftps error. :" + str(e))
-'''
+
 logger.info("公開先は：" + DEPLOY_SWITCH)
 logger.info("資料の保存先は：" + put_directory)
 
@@ -198,7 +199,7 @@ logger.info("資料の保存先は：" + put_directory)
 
 #update rc.local checked 2019/05/29 
 try:
-    subprocess.call("sudo cp -vu /home/pi/Documents/field_location/sendAllDataPicture/rcLocalUpdate.sh /etc/rc.local")
+    subprocess.call(['sudo', 'cp', '-vu', '/home/pi/Documents/field_location/sendAllDataPicture/rcLocalUpdate.sh', '/etc/rc.local'])
     logger.info("Successfully copied updated rc.local file")
 except :
     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
@@ -297,7 +298,7 @@ def takePicture():
 
 @retry(exceptions=Exception, tries=3, delay=2)
 def sendPowerCommand():
-    subprocess.call(powerControlCommand) #import osが必要
+    os.system(powerControlCommand) #import osが必要
         #成功するまで繰り返す、回数指定も可能
 	#retryのInstallationは
 	#$ pip install retry
@@ -395,10 +396,10 @@ try:
         #サーバー内で圧縮プログラムを動かす
         if (DEPLOY_SWITCH == "sandBox"):
             '''サーバーに送った写真の解像度を下げたファイルを作る。サムネール、スライドショーの表示などのために'''
-            subprocess.call('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
+            os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php'])
             logger.info('Kicked loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
         else:
-            subprocess.call('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
+            os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php'])
             logger.info("Kicked loadThumbPhotos.php")
 
 except Exception as e:
@@ -432,7 +433,7 @@ file_name = "field_location.log"
 src = '/var/log/' + file_name
 if os.path.isfile(src):
     try:
-        _timeStamp = sendLog_ftps(file_name, put_directory)
+        _timeStamp = sendLog_ftps(src, put_directory)
 
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
@@ -440,18 +441,16 @@ if os.path.isfile(src):
             f.write ('アップロード終了 with no error. Log cleared at: ' + _timeStamp.strftime('%Y%m%d%H%M') + '\n')
         f.close()
     except Exception as e: 
-#        print(_timeStamp)
-#        logger.info(_timeStamp)
         logger.debug("sendLog_ftps error. :" + str(e))
-'''
-#RAMディスクにしたので、これは不要になった
 
-file_name = "previous_field_location_2.log"
+#エラーが起きた場合には「前回ログ」として保存
+
+file_name = "previous_field_location.log"
 
 src = '/var/log/' + file_name
 if os.path.isfile(src):
     try:
-        _timeStamp = sendLog_ftps(file_name, put_directory)
+        _timeStamp = sendLog_ftps(src, put_directory)
 
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
@@ -461,9 +460,8 @@ if os.path.isfile(src):
     except Exception as e:
             logger.debug("sendLog_ftps error. :" + str(e))
 
-'''
 
-file_name = "boot.log"
+file_name = "/var/log/boot.log"
 try:
     _timeStamp = sendLog_ftps(file_name, put_directory)
     logger.info(_timeStamp)
@@ -507,18 +505,18 @@ try:
     logger.info("Successfully sended mail to " + to_addr)
 except Exception as e:
         logger.debug("send mail error. :" + str(e))
-'''
-#field_location.logをprevious_field_location.logとして複製を作る、RAMディスクにしたのでこの部分不要
+
+#field_location.logをprevious_field_location.logとして複製を作る
 import shutil
 try:
     src = '/var/log/boot.log'
-    copy = '/var/log/previous_boot.log'
+    copy = homeDirectory +'/log/previous_boot.log'
     shutil.copyfile(src,copy)
     logger.info("Successfully copied previous boot log")
 
 except Exception as error:
     logger.info("Can't copy boot.log file " + str(error))
-'''
+
 #Programスイッチが入っているときはパワースイッチコントロールを送らずに終了
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(GPIO_NO, GPIO.IN)
@@ -535,7 +533,7 @@ if GPIO.input(GPIO_NO) == 0:
     finally:
         logger.info('PowerControl will be enabled. Power will be off. Please check logs')
         print('SYSTEM is going down')
-        subprocess.call('sudo poweroff')
+        subprocess.call(['sudo', 'poweroff'])
         GPIO.cleanup()
 
 else:

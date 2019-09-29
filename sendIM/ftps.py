@@ -20,7 +20,7 @@ logger = get_module_logger(__name__)
 
 logger.propagate = True
 
-def sendLog_ftps(file_name, put_directory):
+def sendLog_ftps(src, put_directory):
     _timeStamp = datetime.datetime.now()
     try:
         logger.info("BOM_UTF8対応対策済みftps.py:2018/06/20")
@@ -31,9 +31,9 @@ def sendLog_ftps(file_name, put_directory):
         _ftps.prot_p() #データ接続をセキュアにするには、
         #ユーザが prot_p() メソッドを呼び出してそれを明示的に要求しなければなりません。
 
-        _file = open('/var/log/' + file_name, 'rb') #'r' means read as text mode
+        _file = open(src, 'rb') #'r' means read as text mode
         #'rb' means binarymode
-        file_name = os.path.basename(file_name)#get fileName
+        file_name = os.path.basename(src)#get fileName
         logfile_name = _timeStamp.strftime('%Y%m%d%H%M') + file_name + '.txt' #changed name space
 
         _ftps.cwd('seasonShots/' + put_directory) #アップロード先ディレクトリに移動
