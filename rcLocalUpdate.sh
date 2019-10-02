@@ -115,7 +115,7 @@ function my_shutdown2() {
 
 function keepLogAtReboot {
   logAtReboot=$(</var/log/boot.log)
-echo -e "Alert message: This is a log when reboot\r\n\r\n""${logAtReboot}" |tee -a /home/pi/log/previous_boot.log
+echo -e "\r\nAlert message: This is a log at reboot\r\n\r\n""${logAtReboot}" |tee -a /home/pi/log/previous_boot.log
 }
 
 crontab < /home/pi/crontab_off #disable crontab

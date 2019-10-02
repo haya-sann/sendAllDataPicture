@@ -393,15 +393,17 @@ try:
         logger.info("File is sended with no error. Delete " + localFile_name + " on Ras Pi")
         os.remove(localFile_name)
         logger.info("File removed: " + localFile_name + " on Ras Pi")
-        #サーバー内で圧縮プログラムを動かす
-        if (DEPLOY_SWITCH == "sandBox"):
-            '''サーバーに送った写真の解像度を下げたファイルを作る。サムネール、スライドショーの表示などのために'''
-            os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php'])
-            logger.info('Kicked loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
-        else:
-            os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php'])
-            logger.info("Kicked loadThumbPhotos.php")
-
+        try:
+            #サーバー内で圧縮プログラムを動かす
+            if (DEPLOY_SWITCH == "sandBox"):
+                '''サーバーに送った写真の解像度を下げたファイルを作る。サムネール、スライドショーの表示などのために'''
+                os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_' + DEPLOY_SWITCH + '.php'])
+                logger.info('Kicked loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
+            else:
+                os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php'])
+                logger.info("Kicked loadThumbPhotos.php")
+        except Expression as e:
+                logger.debug("Failed Kicking loadThumbPhotos" + str(e))
 except Exception as e:
     logger.debug("Failed file transfer in send_ftps。" + str(e))
 
