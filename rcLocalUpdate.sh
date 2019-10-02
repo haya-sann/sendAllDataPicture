@@ -104,18 +104,18 @@ function my_shutdown2() {
         break
         fi
     done
-[ $i = 5 ] && echo error writing I2C && log "error writing I2C, "$i" times. Reboot right away" && mailLogAtReboot && reboot
+[ $i = 5 ] && echo error writing I2C && log "error writing I2C, "$i" times. Reboot right away" && keepLogAtReboot && reboot
     echo system will poweroff after 10 seconds, and reboot
     log "network is down : sended power control command : "$powerControlCommand
 #    log "system will poweroff after 10 seconds, and reboot"
-    mailLogAtReboot
+    keepLogAtReboot
     sudo poweroff
     return 0
 }
 
-function mailLogAtReboot {
+function keepLogAtReboot {
   logAtReboot=$(</var/log/boot.log)
-echo -e "Subject: This is a log when reboot\r\n\r\n""${logAtReboot}" |msmtp --from=default -t iPhone.Concier@gmail.com
+echo -e "Alert message: This is a log when reboot\r\n\r\n""${logAtReboot}" |tee -a /home/pi/log/log/previous_boot.log
 }
 
 crontab < /home/pi/crontab_off #disable crontab
