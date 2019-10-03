@@ -397,7 +397,8 @@ try:
             #サーバー内で圧縮プログラムを動かす
             if (DEPLOY_SWITCH == "sandBox"):
                 '''サーバーに送った写真の解像度を下げたファイルを作る。サムネール、スライドショーの表示などのために'''
-                os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_', DEPLOY_SWITCH, '.php'])
+                curlCommand = 'curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_'+ DEPLOY_SWITCH+ '.php'
+                os.system(curlCommand)
                 logger.info('Kicked loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
             else:
                 os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php'])
