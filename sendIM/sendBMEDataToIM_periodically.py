@@ -402,8 +402,8 @@ try:
             else:
                 os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php'])
                 logger.info("Kicked loadThumbPhotos.php")
-        except Expression as e:
-                logger.debug("Failed Kicking loadThumbPhotos" + str(e))
+        except Exception as KickingPhotoEncode:
+                logger.debug("Failed Kicking loadThumbPhotos" + str(KickingPhotoEncode))
 except Exception as e:
     logger.debug("Failed file transfer in send_ftps。" + str(e))
 
