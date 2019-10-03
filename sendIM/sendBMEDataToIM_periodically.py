@@ -399,10 +399,10 @@ try:
                 '''サーバーに送った写真の解像度を下げたファイルを作る。サムネール、スライドショーの表示などのために'''
                 curlCommand = 'curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos_'+ DEPLOY_SWITCH+ '.php'
                 os.system(curlCommand)
-                logger.info('Kicked loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
+                logger.info('Successfully kicked loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
             else:
                 os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php'])
-                logger.info("Kicked loadThumbPhotos.php")
+                logger.info("Successfully kicked loadThumbPhotos.php")
         except Exception as KickingPhotoEncode:
                 logger.debug("Failed Kicking loadThumbPhotos" + str(KickingPhotoEncode))
 except Exception as e:
