@@ -17,6 +17,7 @@ os.system('ps -u')
 
 import ambient #ambientにデータを送込むライブラリ
 from sr04_Bluetin import sr04_read
+import configparser
 
 
 
