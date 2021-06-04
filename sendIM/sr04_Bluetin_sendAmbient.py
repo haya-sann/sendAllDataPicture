@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""File: echo_simple_once.py（sr04_Bluetin.py）
+pip install Bluetin_Echo
+rootからも呼ぶことがあるので、
+sudo pip install Bluetin_Echo としておくこと
+さらに、
+$ sudo pip install datetime
+も必要
+https://github.com/MarkAHeywood/Bluetin_Python_Echo/blob/master/examples/echo_simple_once.py
+""" 
+# 実行ユーザーが誰なのか、調べるコードを追加
+# 
+import os
+#os.seteuid(1000)
+os.system('ps -u')
+
+from __init__ import get_module_logger #log保存先は/var/log/field_location.log
+logger = get_module_logger(__name__)
+logger.propagate = True
+
+import numpy as np
+from Bluetin_Echo import Echo # Import necessary libraries.      
+import datetime, time
+import ambient #ambientにデータを送込むライブラリ
+import sr04_Bluetin import sr04_read
+
+try:
+    DEPLOY_SWITCH = os.environ['DEPLOY']
+except: #rc.localからexportされて送られるはずのDEPLOYがない場合は
+    DEPLOY_SWITCH = "sandBox"
+logger.info('DEPLOY_SWITCH :' + DEPLOY_SWITCH)
+
+
+configfile = configparser.ConfigParser() #sftpサーバーへの接続準備、Python3では名前変更された
+#configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
+configfile.read("/home/pi/Documents/field_location/config.conf")#絶対パスを使った
+
+ambiChannel = configfile.get("settings", "ambiChannel")
+ambiKey = configfile.get("settings", "ambiKey")
+ambiChannelSandbox = configfile.get("settings", "ambiChannelSandbox") #サンドボックスチャネル
+ambiKeySandbox = configfile.get("settings", "ambiKeySandbox")  #サンドボックスチャネル
+
+depth = sr04_read()
+
+print(depth)
+

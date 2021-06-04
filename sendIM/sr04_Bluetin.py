@@ -25,24 +25,36 @@ temperature = 24.18
 speed_of_sound = 331.50 + 0.606681 * temperature
 # # Initialise Sensor with pins, speed of sound.  
 samples = 5  # # Measure Distance 5 times, return average.
-try:
-    repeat =5
-    depth = np.arange(repeat, dtype=float)
-    count = 0
-    # while True:
-    while (count < repeat):
-        dt_now = datetime.datetime.now()
-        echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound) 
-        depth[count] =  102.717 - echo.read('cm', samples) #実際の水高を求める
-        print(dt_now, depth[count])  # Print result.  
-        count += 1
-        time.sleep(1)
-    else:
-         print("\nProgram is finished normally.")
-         depth = np.delete(depth,(np.argmax(depth),np.argmin(depth)),0)
-         print("\n除最大最小：",(depth))
-         print("\n平均値：",np.mean(depth))
-except KeyboardInterrupt:
-    print("\nProgram is aborted with Keyboard interrupt.")
-    pass
-echo.stop() # Reset GPIO Pins
+
+def sr04_read():
+    try:
+        repeat =5
+        depth = np.arange(repeat, dtype=float)
+        count = 0
+        # while True:
+        while (count < repeat):
+            dt_now = datetime.datetime.now()
+            echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound) 
+            depth[count] =  102.717 - echo.read('cm', samples) #実際の水高を求める
+            print(dt_now, depth[count])  # Print result.  
+            count += 1
+            time.sleep(1)
+        else:
+            print("\nProgram is finished normally.")
+            depth = np.delete(depth,(np.argmax(depth),np.argmin(depth)),0)
+            print("\n除最大最小：",(depth))
+            print("\n平均値：",np.mean(depth))
+    except KeyboardInterrupt:
+        print("\nProgram is aborted with Keyboard interrupt.")
+        pass
+    echo.stop() # Reset GPIO Pins
+
+
+
+if __name__ == '__main__':
+	try:
+		print ('')
+		depth = sr04_read()
+	except KeyboardInterrupt:
+		pass
+
