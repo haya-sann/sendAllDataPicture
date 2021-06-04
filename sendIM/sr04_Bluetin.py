@@ -44,6 +44,7 @@ def sr04_read():
             depth = np.delete(depth,(np.argmax(depth),np.argmin(depth)),0)
             print("\n除最大最小：",(depth))
             print("\n平均値：",np.mean(depth))
+            return depth
     except KeyboardInterrupt:
         print("\nProgram is aborted with Keyboard interrupt.")
         pass
