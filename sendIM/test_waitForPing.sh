@@ -1,4 +1,5 @@
 #!/bin/bash
+#gitの再利用を始めた。2021/06/04
 function waitForPing1 (){
     # Wait for Network to be available.
 for i in {1..3};
