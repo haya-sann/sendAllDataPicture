@@ -11,7 +11,7 @@ https://github.com/MarkAHeywood/Bluetin_Python_Echo/blob/master/examples/echo_si
 """ 
 # 実行ユーザーが誰なのか、調べるコードを追加
 # 
-import os
+import sys, os
 #os.seteuid(1000)
 os.system('ps -u')
 
