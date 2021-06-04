@@ -48,6 +48,9 @@ ambiKeySandbox = configfile.get("settings", "ambiKeySandbox")  #サンドボッ�
 
 depth = sr04_read()
 
-print("計測終了")
+am = ambient.Ambient(36904, "f20f7779bf52eba0")
+r = am.send({'d8':depth})
+
+print("計測＆送信終了")
 print(depth)
 
