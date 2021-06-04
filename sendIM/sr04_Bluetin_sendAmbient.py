@@ -15,6 +15,12 @@ import os
 #os.seteuid(1000)
 os.system('ps -u')
 
+if __name__ == '__main__':
+    # root権限に昇格
+    if os.geteuid():
+        args = [sys.executable] + sys.argv
+        os.execlp('sudo', 'sudo', *args)
+
 from __init__ import get_module_logger #log保存先は/var/log/field_location.log
 logger = get_module_logger(__name__)
 logger.propagate = True
