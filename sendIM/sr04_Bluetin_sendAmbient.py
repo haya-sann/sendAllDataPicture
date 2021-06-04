@@ -48,7 +48,14 @@ ambiKeySandbox = configfile.get("settings", "ambiKeySandbox")  #サンドボッ�
 
 depth = sr04_read()
 
-am = ambient.Ambient(36904, "f20f7779bf52eba0")
+if DEPLOY_SWITCH == "distribution":
+    put_directory = 'daily_timelapse' #Both Local and Remote Server has same directory
+elif DEPLOY_SWITCH == "sandBox":
+    put_directory = 'daily_timelapseSandbox' #Both Local and Remote Server has same directory
+    ambiKey = ambiKeySandbox
+    ambiChannel = ambiChannelSandbox
+
+am = ambient.Ambient(ambiChannel, ambiKey)
 r = am.send({'d8':depth})
 
 print("計測＆送信終了")
