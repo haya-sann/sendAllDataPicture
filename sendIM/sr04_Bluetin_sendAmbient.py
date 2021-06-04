@@ -58,6 +58,13 @@ elif DEPLOY_SWITCH == "sandBox":
 am = ambient.Ambient(ambiChannel, ambiKey)
 r = am.send({'d8':depth})
 
-print("計測＆送信終了")
+if r.status_code == 200:
+    logger.info(Color.GREEN + 'successfuly sended data to Ambient' + Color.END)
+    print("計測＆送信ともに正常終了")
+else:
+    logger.info('Connection to AbmiData failed')
+    print("送信失敗")
+
+
 print(depth)
 
