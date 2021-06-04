@@ -48,5 +48,6 @@ ambiKeySandbox = configfile.get("settings", "ambiKeySandbox")  #サンドボッ�
 
 depth = sr04_read()
 
+print("計測終了")
 print(depth)
 
