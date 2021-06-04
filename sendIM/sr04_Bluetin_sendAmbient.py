@@ -15,6 +15,11 @@ import sys, os
 #os.seteuid(1000)
 os.system('ps -u')
 
+import ambient #ambientにデータを送込むライブラリ
+from sr04_Bluetin import sr04_read
+
+
+
 if __name__ == '__main__':
     # root権限に昇格
     if os.geteuid():
@@ -24,10 +29,6 @@ if __name__ == '__main__':
 from __init__ import get_module_logger #log保存先は/var/log/field_location.log
 logger = get_module_logger(__name__)
 logger.propagate = True
-
-import ambient #ambientにデータを送込むライブラリ
-from sr04_Bluetin import sr04_read
-
 try:
     DEPLOY_SWITCH = os.environ['DEPLOY']
 except: #rc.localからexportされて送られるはずのDEPLOYがない場合は
