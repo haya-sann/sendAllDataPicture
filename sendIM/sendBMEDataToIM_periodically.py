@@ -485,8 +485,8 @@ body = alertMailMessage + "\n\n" + """ログデータを送ります。これは
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
 
 データのグラフは
-https://ambidata.io/bd/channel.html?id=26747 (サンドボックス)
-https://ambidata.io/ch/channel.html?id=""" + ambiChannel + """ (本番*ボード作成後､IDを記述)
+https://ambidata.io/bd/board.html?id=26747 (サンドボックス)
+https://ambidata.io/ch/board.html?id=""" + ambiChannel + """ (本番*ボード作成後､IDを記述)
 
 生データは
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/sandBox_2.html （サンドボックス）
