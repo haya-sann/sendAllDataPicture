@@ -63,6 +63,7 @@ from bme280 import bmeRead
 from retry import retry
 from readBH1750 import measureLight
 from read4chAnalog import read4ch
+from sr04_Bluetin import sr04_read
 
 from sendMail import send, create_message
 
@@ -233,7 +234,7 @@ def sendDataToAmbient():
     logger.info(Color.RED + 'Trying to send data to Ambient' + Color.END)
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
     try:
-        r = ambi.send({"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1})
+        r = ambi.send({"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1, "d8": averageDepth})
 #        r = ambi.send({"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1}, timeout = timeout)
         if r.status_code == 200:
             logger.info(Color.GREEN + 'successfuly sended data to Ambient' + Color.END)
@@ -373,6 +374,7 @@ try:
 except Exception as error_soilTemperature:
     logger.debug("Error occured in measure soil temperature" + str(error_soilTemperature))
 
+averageDepth = sr04_read()
 
 #Send atmosphere data to AmbiData
 try:
@@ -483,8 +485,8 @@ body = alertMailMessage + "\n\n" + """ログデータを送ります。これは
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
 
 データのグラフは
-https://ambidata.io/ch/channel.html?id=1454 (サンドボックス)
-https://ambidata.io/ch/channel.html?id=999 (本番)
+https://ambidata.io/ch/channel.html?""" + ambiKeySandbox + """ (サンドボックス)
+https://ambidata.io/ch/channel.html?""" + ambiKey + """ (本番)
 
 生データは
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/sandBox_2.html （サンドボックス）
