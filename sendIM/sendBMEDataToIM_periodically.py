@@ -488,7 +488,7 @@ https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
 
 データのグラフは
 https://ambidata.io/bd/board.html?id=""" + ambiBoardSandbox + """ (サンドボックス)
-https://ambidata.io/ch/board.html?id=""" + ambiBoard + """ (本番*ボード作成後､IDを記述)
+https://ambidata.io/bd/board.html?id=""" + ambiBoard + """ (本番ボード)
 
 生データは
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/sandBox_2.html （サンドボックス）
