@@ -129,8 +129,10 @@ userID = configfile.get("settings", "id")        #サーバーログインUser i
 key = configfile.get("settings", "key")#ThingSpeak Channel write key, not in service
 ambiChannel = configfile.get("settings", "ambiChannel")
 ambiKey = configfile.get("settings", "ambiKey")
+ambiBoard = configfile.get("settings", "ambiBoard")
 ambiChannelSandbox = configfile.get("settings", "ambiChannelSandbox") #サンドボックスチャネル
 ambiKeySandbox = configfile.get("settings", "ambiKeySandbox")  #サンドボックスチャネル
+ambiBoardSandbox = configfile.get("settings", "ambiBoardSandbox")
 imKey = configfile.get("settings", "imKey")
 from_addr = configfile.get("settings", "mailAddress")
 mailPass = configfile.get("settings", "mailPass")
@@ -485,8 +487,8 @@ body = alertMailMessage + "\n\n" + """ログデータを送ります。これは
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
 
 データのグラフは
-https://ambidata.io/bd/board.html?id=26747 (サンドボックス)
-https://ambidata.io/ch/board.html?id=""" + ambiChannel + """ (本番*ボード作成後､IDを記述)
+https://ambidata.io/bd/board.html?id=""" + ambiBoardSandbox + """ (サンドボックス)
+https://ambidata.io/ch/board.html?id=""" + ambiBoard + """ (本番*ボード作成後､IDを記述)
 
 生データは
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/sandBox_2.html （サンドボックス）
