@@ -540,6 +540,7 @@ if GPIO.input(GPIO_NO) == 0:
     finally:
         logger.info('PowerControl will be enabled. Power will be off. Please check logs')
         print('SYSTEM is going down')
+        subprocess.call(['sudo', 'rm', '-rf', '/var/log/*']) #volume unmountに備えて/var/logの中をクリア
         subprocess.call(['sudo', 'poweroff'])
         GPIO.cleanup()
 
