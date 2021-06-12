@@ -12,8 +12,8 @@
 
 #Soracomドングルを付けた環境下かどうかは自動判定する
 
-export DEPLOY="sandBox" #start repair survey 2019-05-29
-#export DEPLOY="distribution"
+#export DEPLOY="sandBox" #start repair survey 2019-05-29
+export DEPLOY="distribution"
 
 #pullするgitリポジトリのブランチをセット
 #gitBranch="getErrorMsgFromAmbi"
