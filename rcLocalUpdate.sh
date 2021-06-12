@@ -93,7 +93,7 @@ function my_shutdown() {
 }
 
 function my_shutdown2() { #ネットワーク接続に失敗したときなど
-    powerControlCommand="sudo /usr/sbin/i2cset -y 1 0x40 100 1 i" #100秒後に電源オフ、5分後に再Poweron
+    powerControlCommand="sudo /usr/sbin/i2cset -y 1 0x40 20 0 i" #20秒後に電源オフ、直ちに再Poweron
     for i in {1..5}
     do
         if eval $powerControlCommand |& grep "Error"; then
