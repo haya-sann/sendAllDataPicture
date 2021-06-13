@@ -32,7 +32,7 @@ case "$DEPLOY" in
 "distribution" )  DIRPATH="daily_timelapse" ;;
 esac
 
-echo "Now current directory is set : "$DIRPATH
+echo "Now current directory is set : "$DIRPATH | tee -a ${LOGFILE}
 
 function log() {
   local fname=${BASH_SOURCE[1]##*/}
