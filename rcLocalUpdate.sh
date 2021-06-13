@@ -20,6 +20,12 @@ export DEPLOY="distribution"
 #gitBranch="homeSimulator"
 export gitBranch="master"
 
+#ログを生成する
+export LOGFILE="/var/log/field_location.log"
+#LOGFILE="/home/pi/Documents/field_location/${DIRPATH}/field_location.log"
+readonly PROCNAME=${0##*/}
+
+
 #case文でsandBoxに送るか、本番環境に送るかを選択する。
 case "$DEPLOY" in
 "sandBox" )  DIRPATH="daily_timelapseSandbox" ;;
@@ -27,11 +33,6 @@ case "$DEPLOY" in
 esac
 
 echo "Now current directory is set : "$DIRPATH
-
-#ログを生成する
-export LOGFILE="/var/log/field_location.log"
-#LOGFILE="/home/pi/Documents/field_location/${DIRPATH}/field_location.log"
-readonly PROCNAME=${0##*/}
 
 function log() {
   local fname=${BASH_SOURCE[1]##*/}
