@@ -149,7 +149,7 @@ fi
 
 log "update all files in sendAllDataPicture directory with git pull"
 #su -l pi -c 'sh /home/pi/Documents/field_location/sendAllDataPicture/sendIM/gitPull.sh' || ( echo python error ; my_shutdown )
-sh '/home/pi/Documents/field_location/sendAllDataPicture/sendIM/gitPull.sh' || ( echo python error ; my_shutdown )
+sh /home/pi/Documents/field_location/sendAllDataPicture/sendIM/gitPull.sh || ( echo python error ; my_shutdown )
 
 # echo -e "\e[42;31mto stop this autorun script, set PROGRAM SWITCH on\e[m"
 # echo -e "\e[31mwithin 10 seconds\e[m"
