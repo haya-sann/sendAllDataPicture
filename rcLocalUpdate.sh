@@ -175,8 +175,8 @@ echo PROGRAM SWITCH is off. Now system start normally  | tee -a ${LOGFILE}
 
 
 #sendAll_IM.pyに環境変数DEPLOYを送るためにstart.shを踏み台にして、本体プログラム実行。rootユーザーではでは機能しない
-su -l pi -c 'sh /home/pi/Documents/field_location/sendAllDataPicture/sendIM/start.sh' || ( echo python error ; my_shutdown )
+su -m pi -c 'sh /home/pi/Documents/field_location/sendAllDataPicture/sendIM/start.sh' || ( echo python error ; my_shutdown )
 # ↑これは何？　ユーザーpiになり変わってstart.sh を起動？　
 # その後、start.sh内で本体プログラムを起動している。だったら、直接本体プログラムを起動したら？
-#環境変数を維持してユーザー：pi に移行したいなら、-lではなく-mでは？
+# 環境変数を維持してユーザー：pi に移行したいなら、-lではなく-mでは？
 exit 0
