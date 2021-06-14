@@ -405,7 +405,8 @@ try:
                 os.system(curlCommand)
                 logger.info('Successfully kicked loadThumbPhotos_' + DEPLOY_SWITCH + '.php')
             else:
-                os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php'])
+                os.system('curl https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php')
+#                os.system(['curl', 'https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/loadThumbPhotos.php'])
                 logger.info("Successfully kicked loadThumbPhotos.php")
         except Exception as KickingPhotoEncode:
                 logger.debug("Failed Kicking loadThumbPhotos" + str(KickingPhotoEncode))
