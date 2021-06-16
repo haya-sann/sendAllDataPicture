@@ -192,20 +192,14 @@ if os.path.isfile(src):
 logger.info("公開先は：" + DEPLOY_SWITCH)
 logger.info("資料の保存先は：" + put_directory)
 
-
-# try:
-#     import rcLocalUpdate 
-#     rcLocalUpdate.updateRCLocal()
-#     logger.info("Successfully copied updated rc.local file")
-# except :
-#     logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
-
 #update rc.local checked 2019/05/29 
-try:
-    subprocess.call(['sudo', 'cp', '-vu', '/home/pi/Documents/field_location/sendAllDataPicture/rcLocalUpdate.sh', '/etc/rc.local'])
-    logger.info("Successfully copied updated rc.local file")
-except :
-    logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
+rcLocalUpdate = os.environ['rcLocalUpdate']
+if rcLocalUpdate == "update"
+    try:
+        subprocess.call(['sudo', 'cp', '-vu', '/home/pi/Documents/field_location/sendAllDataPicture/rcLocalUpdate.sh', '/etc/rc.local'])
+        logger.info("Successfully copied updated rc.local file")
+    except :
+        logger.debug("failed update rc.local file. Please check location of rcLocalUpdate.py")
 
 #アップデート／アップグレードに関する自動処理を止める
 # sudo systemctl disable apt-daily-upgrade.timerは一度やれば良いので、ここは不要

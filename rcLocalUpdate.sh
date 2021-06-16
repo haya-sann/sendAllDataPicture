@@ -150,9 +150,14 @@ fi
 log "update all files in sendAllDataPicture directory with git pull"
 cd /home/pi/Documents/field_location/sendAllDataPicture
 #gitコマンドを一般ユーザーのpiで実行する必要がある。
-sudo -u pi git checkout ${gitBranch} | tee -a ${LOGFILE} #|| log ("Error occured in git. Update failed")
-sudo -u pi git status | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
-sudo -u pi git pull | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
+sudo -u pi git checkout ${gitBranch} | tee -a ${LOGFILE} 
+sudo -u pi git status | tee -a ${LOGFILE} 
+if sudo -u pi git pull | tee -a ${LOGFILE} | grep -sq "Already" ;then 
+  export rcLocalUpdate="doNothing"
+else
+  export rcLocalUpdate="update"
+fi
+echo ${rcLocalUpdate}  | tee -a ${LOGFILE}
 
 echo -e "\e[42;31mto stop this autorun script, set PROGRAM SWITCH on\e[m"
 
