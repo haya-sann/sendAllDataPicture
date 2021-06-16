@@ -417,8 +417,8 @@ if x < 0:
     x = 0 #電源モジュールは負の値は指定できない（のではないかな？）
 
 x = int(x / 5)
-timeToOff = 40 #電源オフまでの秒数を指定
-powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x20 ' + str(timeToOff) + ' ' + str(x) + ' i'
+timeToOff = 15 #電源オフまでの秒数を指定
+powerControlCommand = 'sudo /usr/sbin/i2cset -y 1 0x40 ' + str(timeToOff) + ' ' + str(x) + ' i'
 #40秒後に電源オフ、最後のパラメーター×5分後に起動
 
 logger.info('電源モジュールに送信するコマンド用意：' + powerControlCommand + '（' + str(timeToOff) + '秒後にシャットダウン、' + str(x*5) + '分後に起動）')
