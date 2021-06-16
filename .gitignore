@@ -2,3 +2,4 @@ config.conf
 *config.conf
 *.pyc
 test/
+PowerOnTest*
