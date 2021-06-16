@@ -40,7 +40,7 @@ function log() {
 }
 echo "***** above-mentioned is previous log  *****" | tee -a ${LOGFILE}
 log "Started logging to : "$LOGFILE
-echo "***** rc.local ver. 1.5 更新：2019/08/16 22:01  *****" | tee -a ${LOGFILE}
+echo "***** rc.local ver. 2.0 更新：2021/06/16 23:45  *****" | tee -a ${LOGFILE}
 #systemctl list-unit-files --state=enabled --no-pager | tee -a ${LOGFILE}
 
 #
