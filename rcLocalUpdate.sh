@@ -153,9 +153,9 @@ cd /home/pi/Documents/field_location/sendAllDataPicture
 sudo -u pi git checkout ${gitBranch} | tee -a ${LOGFILE} 
 sudo -u pi git status | tee -a ${LOGFILE} 
 if sudo -u pi git pull | tee -a ${LOGFILE} | grep -sq "Already" ;then 
-  export rcLocalUpdate="doNothing"
+  export rcLocalUpdate_switch="doNothing"
 else
-  export rcLocalUpdate="update"
+  export rcLocalUpdate_switch="update"
 fi
 echo ${rcLocalUpdate}  | tee -a ${LOGFILE}
 
