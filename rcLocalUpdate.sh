@@ -149,14 +149,12 @@ fi
 
 log "update all files in sendAllDataPicture directory with git pull"
 cd /home/pi/Documents/field_location/sendAllDataPicture
-git checkout ${gitBranch} | tee -a ${LOGFILE} #|| log ("Error occured in git. Update failed")
-git status | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
-git pull | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
+#gitコマンドを一般ユーザーのpiで実行する必要がある。
+sudo -u pi git checkout ${gitBranch} | tee -a ${LOGFILE} #|| log ("Error occured in git. Update failed")
+sudo -u pi git status | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
+sudo -u pi git pull | tee -a ${LOGFILE} # || log ("Error occured in git. Update failed")
 
-# echo -e "\e[42;31mto stop this autorun script, set PROGRAM SWITCH on\e[m"
-# echo -e "\e[31mwithin 10 seconds\e[m"
-
-# sleep 10
+echo -e "\e[42;31mto stop this autorun script, set PROGRAM SWITCH on\e[m"
 
 PORT1=23 #GPIO23=Pin16
 gpio -g mode $PORT1 in
