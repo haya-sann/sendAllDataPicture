@@ -193,7 +193,7 @@ logger.info("公開先は：" + DEPLOY_SWITCH)
 logger.info("資料の保存先は：" + put_directory)
 
 #update rc.local checked 2019/05/29 
-if os.environ['rcLocalUpdate'] == "update":
+if (os.environ['rcLocalUpdate']) == "update":
     try:
         subprocess.call(['sudo', 'cp', '-vu', '/home/pi/Documents/field_location/sendAllDataPicture/rcLocalUpdate.sh', '/etc/rc.local'])
         logger.info("Successfully copied updated rc.local file")
