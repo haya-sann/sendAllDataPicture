@@ -192,7 +192,7 @@ if os.path.isfile(src):
 logger.info("公開先は：" + DEPLOY_SWITCH)
 logger.info("資料の保存先は：" + put_directory)
 
-#update rc.local checked 2019/05/29 
+#update rc.local when needed. 2021/06/17
 updateSwitch = os.getenv('rcLocalUpdate_switch')
 if updateSwitch != "doNothing":
     try:

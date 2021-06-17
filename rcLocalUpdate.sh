@@ -40,7 +40,7 @@ function log() {
 }
 echo "***** above-mentioned is previous log  *****" | tee -a ${LOGFILE}
 log "Started logging to : "$LOGFILE
-echo "***** rc.local ver. 2.0 更新：2021/06/16 23:45  *****" | tee -a ${LOGFILE}
+echo "***** rc.local ver. 2.1 更新：2021/06/17　14:45  *****" | tee -a ${LOGFILE}
 #systemctl list-unit-files --state=enabled --no-pager | tee -a ${LOGFILE}
 
 #
@@ -178,12 +178,5 @@ fi
 
 echo PROGRAM SWITCH is off. Now system start normally  | tee -a ${LOGFILE}
 
-#sendAll_IM.pyに環境変数DEPLOYを送るためにstart.shを踏み台にして、本体プログラム実行。rootユーザーではでは機能しない
 python /home/pi/Documents/field_location/sendAllDataPicture/sendIM/sendBMEDataToIM_periodically.py || ( echo python error ; my_shutdown )
-#su pi -c 'python /home/pi/Documents/field_location/sendAllDataPicture/sendIM/sendBMEDataToIM_periodically.py' || ( echo python error ; my_shutdown )
-#su pi -c 'sh /home/pi/Documents/field_location/sendAllDataPicture/sendIM/start.sh' || ( echo python error ; my_shutdown )
-# ↑これは何？　ユーザーpiになり変わってstart.sh を起動？　
-# その後、start.sh内で本体プログラムを起動している。だったら、直接本体プログラムを起動したら？
-# 環境変数を維持してユーザー：pi に移行したいなら、-lではなく-mでは？
-# -m でもダメなので取る
 exit 0
