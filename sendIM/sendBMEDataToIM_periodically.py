@@ -228,7 +228,8 @@ def captureSensorData(i2c_address):
 
 @retry(tries=3, delay=5, backoff=2)
 def sendDataToAmbient():
-    #timeout = 5.0#deplicated
+    #timeout = 5.0 #指定市しない場合は30秒でエラーを返す。
+    # 受取れるデータ数は８個までなので、土壌温度、土壌湿度は扱わない。
     logger.info(Color.RED + 'Trying to send data to Ambient' + Color.END)
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
     try:
