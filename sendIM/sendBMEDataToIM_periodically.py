@@ -82,6 +82,7 @@ pictureContrast = 10
 # pictureBrightness =55
 # pictureContrast = 10
 pictureSharpness = 20
+pictureBanner = "テスト撮影です"
 
 v0=v1=soil1=soil2=soil_temp=0.0
 temperature = None
@@ -288,7 +289,8 @@ def takePicture():
     #標準の50よりほんの少しコントラストを強めに
     logger.info("brightness:"+str(picamera.brightness)+" ,contrast:"+str(picamera.contrast) + " , Sharpness : " + str(picamera.sharpness))
     picamera.annotate_background = True
-    # picamera.annotate_background = picamera.Color('black')
+    picamera.annotate_background = picamera.Color('black')
+    picamera.annotate_foreground = picamera.Color('yellow')
     picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S')  #+ " , Brightness : " + str(picamera.brightness) + " , Contrast : " + str(picamera.contrast) + " , Sharpness : " + str(picamera.sharpness) + " / With preview."
     picamera.rotation = 180
     picamera.capture(captureFile_name)
