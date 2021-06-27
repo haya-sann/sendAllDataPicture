@@ -288,10 +288,10 @@ def takePicture():
     picamera.stop_preview() #これを入れないといつまでも画面に写真が表示されたままになる
     #標準の50よりほんの少しコントラストを強めに
     logger.info("brightness:"+str(picamera.brightness)+" ,contrast:"+str(picamera.contrast) + " , Sharpness : " + str(picamera.sharpness))
-    # picamera.annotate_background = True
-    picamera.annotate_background = picamera.Color('black')
-    picamera.annotate_foreground = picamera.Color('yellow')
-    picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S')  #+ " , Brightness : " + str(picamera.brightness) + " , Contrast : " + str(picamera.contrast) + " , Sharpness : " + str(picamera.sharpness) + " / With preview."
+    picamera.annotate_background = True
+    # picamera.annotate_background = picamera.Color('black')
+    # picamera.annotate_foreground = picamera.Color('yellow')
+    picamera.annotate_text = now.strftime('%Y-%m-%d %H:%M:%S') + "テスト中" #+ " , Brightness : " + str(picamera.brightness) + " , Contrast : " + str(picamera.contrast) + " , Sharpness : " + str(picamera.sharpness) + " / With preview."
     picamera.rotation = 180
     picamera.capture(captureFile_name)
     return captureFile_name
