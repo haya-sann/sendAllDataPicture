@@ -9,11 +9,7 @@ $ sudo pip install datetime
 も必要
 https://github.com/MarkAHeywood/Bluetin_Python_Echo/blob/master/examples/echo_simple_once.py
 """ 
-# 実行ユーザーが誰なのか、調べるコードを追加
 # 
-import os
-#os.seteuid(1000)
-os.system('ps -u')
 from retry import retry
 
 import numpy as np
@@ -45,7 +41,7 @@ def sr04_read():
     count = 0
     # while True:
     while (count < repeat):
-        depth[count] =  depth_measure_retry_3 #実際の水高を求める
+        depth[count] =  depth_measure_retry_3() #実際の水高を求める
         count += 1
         time.sleep(1)
     else:
