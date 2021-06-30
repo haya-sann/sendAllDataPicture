@@ -14,6 +14,7 @@ https://github.com/MarkAHeywood/Bluetin_Python_Echo/blob/master/examples/echo_si
 import os
 #os.seteuid(1000)
 os.system('ps -u')
+from retrying import retry
 
 import numpy as np
 from Bluetin_Echo import Echo # Import necessary libraries.      
@@ -26,6 +27,15 @@ speed_of_sound = 331.50 + 0.606681 * temperature
 # # Initialise Sensor with pins, speed of sound.  
 samples = 5  # # Measure Distance 5 times, return average.
 
+
+@retry(stop_max_attempt_number=3)
+def depth_measure_retry_3():
+    depth_result =  102.717 - echo.read('cm', samples) #実際の水高を求める
+    print(dt_now, depth_result)  # Print result.  
+    if -5 > depth_result > 80:
+        depth_result = None
+        raise Exception()
+
 def sr04_read():
     repeat =5
     depth_result = 0 
@@ -36,12 +46,7 @@ def sr04_read():
         dt_now = datetime.datetime.now()
         echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound) 
 
-        @retry(stop_max_attempt_number=3)
-            depth_result =  102.717 - echo.read('cm', samples) #実際の水高を求める
-            print(dt_now, depth_result)  # Print result.  
-            if -5 > depth_result > 80:
-                depth_result = None
-                raise Exception()
+        depth_measure_retry_3
         depth[count] =  depth_result #実際の水高を求める
         count += 1
         time.sleep(1)
