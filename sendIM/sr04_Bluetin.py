@@ -30,7 +30,7 @@ def depth_measure_retry_3():
     echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound) 
     depth_result =  102.717 - echo.read('cm', samples) #実際の水高を求める
     print(dt_now, depth_result)  # Print result.  
-    if -5 > depth_result > 80:
+    if -5 > depth_result or depth_result > 80:
         depth_result = None
         raise Exception()
     return depth_result
