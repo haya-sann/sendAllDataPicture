@@ -14,7 +14,7 @@ https://github.com/MarkAHeywood/Bluetin_Python_Echo/blob/master/examples/echo_si
 import os
 #os.seteuid(1000)
 os.system('ps -u')
-from retrying import retry
+from retry import retry
 
 import numpy as np
 from Bluetin_Echo import Echo # Import necessary libraries.      
