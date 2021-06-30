@@ -27,28 +27,31 @@ speed_of_sound = 331.50 + 0.606681 * temperature
 samples = 5  # # Measure Distance 5 times, return average.
 
 def sr04_read():
-    try:
-        repeat =5
-        depth = np.arange(repeat, dtype=float)
-        count = 0
-        # while True:
-        while (count < repeat):
-            dt_now = datetime.datetime.now()
-            echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound) 
-            depth[count] =  102.717 - echo.read('cm', samples) #実際の水高を求める
-            print(dt_now, depth[count])  # Print result.  
-            count += 1
-            time.sleep(1)
-        else:
-            print("\nProgram is finished normally.")
-            depth = np.delete(depth,(np.argmax(depth),np.argmin(depth)),0)
-            print("\n除最大最小：",(depth))
-            average_depth = np.mean(depth)
-            print("\n平均値：",average_depth)
-            return average_depth
-    except KeyboardInterrupt:
-        print("\nProgram is aborted with Keyboard interrupt.")
-        pass
+    repeat =5
+    depth_result = 0 
+    depth = np.arange(repeat, dtype=float)
+    count = 0
+    # while True:
+    while (count < repeat):
+        dt_now = datetime.datetime.now()
+        echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound) 
+
+        @retry(stop_max_attempt_number=3)
+            depth_result =  102.717 - echo.read('cm', samples) #実際の水高を求める
+            print(dt_now, depth_result)  # Print result.  
+            if -5 > depth_result > 80:
+                depth_result = None
+                raise Exception()
+        depth[count] =  depth_result #実際の水高を求める
+        count += 1
+        time.sleep(1)
+    else:
+        print("\nDepth measurement is finished normally.")
+        depth = np.delete(depth,(np.argmax(depth),np.argmin(depth)),0)
+        print("\n除最大最小：",(depth))
+        average_depth = np.mean(depth)
+        print("\n平均値：",average_depth)
+        return average_depth
     echo.stop() # Reset GPIO Pins
 
 
