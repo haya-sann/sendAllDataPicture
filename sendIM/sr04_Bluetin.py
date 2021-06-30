@@ -45,14 +45,14 @@ def sr04_read():
         depth[count] =  depth_measure_retry_3() #実際の水高を求める
         count += 1
         time.sleep(1)
-    else:
+    else: #指定回数終わったら
         print("\nDepth measurement is finished normally.")
         depth = np.delete(depth,(np.argmax(depth),np.argmin(depth)),0)
         print("\n除最大最小：",(depth))
         average_depth = np.mean(depth)
         print("\n平均値：",average_depth)
         return average_depth
-    echo.stop() # Reset GPIO Pins
+        echo.stop() # Reset GPIO Pins
 
 
 
