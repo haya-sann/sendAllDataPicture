@@ -376,6 +376,7 @@ except Exception as error_soilTemperature:
 
 if type(outer_temp) is  None:
     outer_temp = 28.88 
+    print(outer_temp)
 averageDepth = sr04_read(outer_temp) # call depth measurment
 #Send atmosphere data to AmbiData
 try:
