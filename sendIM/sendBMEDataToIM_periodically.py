@@ -350,7 +350,7 @@ cpu_temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 # Get
 
 i2c_address = 0x76
 temperature, pressure, humid = captureSensorData(i2c_address)
-
+# 外付けの気候センサー
 i2c_address = 0x77
 outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
 
