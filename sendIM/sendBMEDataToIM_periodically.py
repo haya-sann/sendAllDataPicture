@@ -375,11 +375,9 @@ try:
 except Exception as error_soilTemperature:
     logger.debug("Error occured in measure soil temperature" + str(error_soilTemperature))
 
-# print("outer_temp:",outer_temp, "Value type:",type(outer_temp))
-# if type(outer_temp) is  None:
-#     outer_temp = 28.88 
-#     print(outer_temp)
+print("For debug",outer_temp)
 averageDepth = sr04_read(outer_temp) # call depth measurment
+
 #Send atmosphere data to AmbiData
 try:
     sendDataToAmbient()
