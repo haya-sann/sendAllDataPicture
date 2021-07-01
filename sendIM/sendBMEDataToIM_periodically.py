@@ -15,6 +15,7 @@ hourToStop = 23 #カメラを完全休止させる時刻
 everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値をセット
 
 # from _typeshed import NoneType
+from _typeshed import NoneType
 import sys, os, getpass
 import pprint
 
@@ -376,7 +377,7 @@ except Exception as error_soilTemperature:
     logger.debug("Error occured in measure soil temperature" + str(error_soilTemperature))
 
 print("outer_temp:",outer_temp, "Value type:",type(outer_temp))
-if type(outer_temp) is  None:
+if type(outer_temp) is  NoneType:
     outer_temp = 28.88 
     print(outer_temp)
 averageDepth = sr04_read(outer_temp) # call depth measurment
