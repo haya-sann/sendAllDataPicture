@@ -374,6 +374,7 @@ try:
 except Exception as error_soilTemperature:
     logger.debug("Error occured in measure soil temperature" + str(error_soilTemperature))
 
+print("outer_temp:",outer_temp, "Valu type:",type(outer_temp))
 if type(outer_temp) is  None:
     outer_temp = 28.88 
     print(outer_temp)
