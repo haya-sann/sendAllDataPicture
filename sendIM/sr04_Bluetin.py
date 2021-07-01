@@ -31,7 +31,7 @@ samples = 5  # # Measure Distance 5 times, return average.
 temperature = None
 pressure = None
 humid = None
-i2c_address = 0x76 #ケース内温度
+i2c_address = 0x77 #ケース内温度
 try:
     temperature, pressure, humid = bmeRead(i2c_address)
 except IOError as e:
