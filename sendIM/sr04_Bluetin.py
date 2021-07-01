@@ -39,7 +39,6 @@ def depth_measure_retry_3(temperature):
     if -5 > depth_result or depth_result > 80:  
         print("Out of range")  # Print exception.  
         raise Exception()
-    depth_result = None
     return depth_result
 
 def sr04_read(temperature):
@@ -48,7 +47,11 @@ def sr04_read(temperature):
     count = 0
     # while True:
     while (count < repeat):
-        depth[count] =  depth_measure_retry_3(temperature) #実際の水高を求める
+        try:
+            depth[count] =  depth_measure_retry_3(temperature) #実際の水高を求める
+        except:
+            depth[count]  = None #水深の取得に失敗
+
         count += 1
         time.sleep(1)
     else: #指定回数終わったら
