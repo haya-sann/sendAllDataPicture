@@ -28,7 +28,7 @@ samples = 5  # # Measure Distance 5 times, return average.
 
 #センサーからデータ収集するプログラムを実装
 #I2C、SPIなどを使ってデータキャプチャ
-temperature = None
+temperature = 24.18 #センサーが見つからないときは取り合えず､24.18℃にセット
 pressure = None
 humid = None
 i2c_address = 0x77 #ケース内温度
@@ -37,7 +37,6 @@ try:
 except IOError as e:
     logger.info("デバイスが見つかりません　：" + str(e))
     #sys.exit(False)
-#temperature = 24.18
 speed_of_sound = 331.50 + 0.606681 * temperature
 
 @retry(tries=3)
