@@ -55,7 +55,7 @@ def sr04_read(temperature):
         count += 1
         time.sleep(1)
     else: #指定回数終わったら
-        print("\nDepth measurement is finished normally.")
+        print("\nDepth measurement is finished.")
         depth = np.delete(depth,(np.argmax(depth),np.argmin(depth)),0)
         print("\n除最大最小：",(depth))
         average_depth = np.mean(depth)
