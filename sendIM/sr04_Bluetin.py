@@ -10,7 +10,6 @@ $ sudo pip install datetime
 https://github.com/MarkAHeywood/Bluetin_Python_Echo/blob/master/examples/echo_simple_once.py
 """ 
 # 
-from bme280 import bmeRead
 from retry import retry
 from __init__ import get_module_logger #log保存先は/var/log/field_location.log
 logger = get_module_logger(__name__)
@@ -68,7 +67,7 @@ def sr04_read(temperature):
 if __name__ == '__main__':
 	try:
 		print ('')
-		depth = sr04_read()
+		depth = sr04_read(28.55)
 	except KeyboardInterrupt:
 		pass
 
