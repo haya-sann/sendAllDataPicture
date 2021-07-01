@@ -86,10 +86,10 @@ pictureSharpness = 20
 pictureBanner = "テスト撮影です"
 
 v0=v1=soil1=soil2=soil_temp=0.0
-temperature = None
+temperature = 28.55 #川越の8月の平均温度。取得できないときはこれを使う
 pressure = None
 humid = None
-outer_temp = None
+outer_temp =  28.55 #川越の8月の平均温度。取得できないときはこれを使う
 outer_humid = None
 outer_pressure = None
 
@@ -216,7 +216,7 @@ else:
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
     #I2C、SPIなどを使ってデータキャプチャ
-    temperature = None
+    temperature = 28.55 #川越の8月の平均温度。取得できないときはこれを使う
     pressure = None
     humid = None
 
@@ -375,10 +375,10 @@ try:
 except Exception as error_soilTemperature:
     logger.debug("Error occured in measure soil temperature" + str(error_soilTemperature))
 
-print("outer_temp:",outer_temp, "Value type:",type(outer_temp))
-if type(outer_temp) is  None:
-    outer_temp = 28.88 
-    print(outer_temp)
+# print("outer_temp:",outer_temp, "Value type:",type(outer_temp))
+# if type(outer_temp) is  None:
+#     outer_temp = 28.88 
+#     print(outer_temp)
 averageDepth = sr04_read(outer_temp) # call depth measurment
 #Send atmosphere data to AmbiData
 try:
