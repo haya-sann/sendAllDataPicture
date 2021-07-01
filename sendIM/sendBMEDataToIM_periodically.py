@@ -353,6 +353,7 @@ temperature, pressure, humid = captureSensorData(i2c_address)
 # 外付けの気候センサー
 i2c_address = 0x77
 outer_temp, outer_pressure, outer_humid = captureSensorData(i2c_address)
+print(outer_temp)
 
 try:
     lightLevel = None #init light level
