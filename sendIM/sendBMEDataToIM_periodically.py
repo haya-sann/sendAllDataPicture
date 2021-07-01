@@ -375,7 +375,6 @@ try:
 except Exception as error_soilTemperature:
     logger.debug("Error occured in measure soil temperature" + str(error_soilTemperature))
 
-print("For debug",outer_temp)
 averageDepth = sr04_read(outer_temp) # call depth measurment
 
 #Send atmosphere data to AmbiData

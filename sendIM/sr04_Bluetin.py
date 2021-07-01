@@ -32,7 +32,6 @@ samples = 5  # # Measure Distance 5 times, return average.
 def depth_measure_retry_3(temperature):
     dt_now = datetime.datetime.now()
     speed_of_sound = 331.50 + 0.606681 * temperature
-    print ("気温:", temperature,"音速：", speed_of_sound)
     echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound) 
     depth_result =  102.717 - echo.read('cm', samples) #実際の水高を求める
     print(dt_now, depth_result)  # Print result.  
