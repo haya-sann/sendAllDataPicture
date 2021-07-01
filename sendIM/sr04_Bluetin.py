@@ -10,8 +10,12 @@ $ sudo pip install datetime
 https://github.com/MarkAHeywood/Bluetin_Python_Echo/blob/master/examples/echo_simple_once.py
 """ 
 # 
-from sendIM.bme280 import bmeRead
+from bme280 import bmeRead
 from retry import retry
+from __init__ import get_module_logger #log保存先は/var/log/field_location.log
+logger = get_module_logger(__name__)
+logger.propagate = True
+
 
 import numpy as np
 from Bluetin_Echo import Echo # Import necessary libraries.      
