@@ -28,20 +28,11 @@ samples = 5  # # Measure Distance 5 times, return average.
 
 #センサーからデータ収集するプログラムを実装
 #I2C、SPIなどを使ってデータキャプチャ
-temperature = 24.18 #センサーが見つからないときは取り合えず､24.18℃にセット
-pressure = None
-humid = None
-i2c_address = 0x77 #ケース内温度
-try:
-    temperature, pressure, humid = bmeRead(i2c_address)
-except IOError as e:
-    logger.info("デバイスが見つかりません　：" + str(e))
-    #sys.exit(False)
-speed_of_sound = 331.50 + 0.606681 * temperature
 
 @retry(tries=3)
-def depth_measure_retry_3():
+def depth_measure_retry_3(temperature):
     dt_now = datetime.datetime.now()
+    speed_of_sound = 331.50 + 0.606681 * temperature
     echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound) 
     depth_result =  102.717 - echo.read('cm', samples) #実際の水高を求める
     print(dt_now, depth_result)  # Print result.  
@@ -51,13 +42,13 @@ def depth_measure_retry_3():
         raise Exception()
     return depth_result
 
-def sr04_read():
+def sr04_read(temperature):
     repeat =5
     depth = np.arange(repeat, dtype=float)
     count = 0
     # while True:
     while (count < repeat):
-        depth[count] =  depth_measure_retry_3() #実際の水高を求める
+        depth[count] =  depth_measure_retry_3(temperature) #実際の水高を求める
         count += 1
         time.sleep(1)
     else: #指定回数終わったら
