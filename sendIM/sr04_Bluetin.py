@@ -10,6 +10,7 @@ $ sudo pip install datetime
 https://github.com/MarkAHeywood/Bluetin_Python_Echo/blob/master/examples/echo_simple_once.py
 """ 
 # 
+from sendIM.bme280 import bmeRead
 from retry import retry
 
 import numpy as np
@@ -18,11 +19,22 @@ import datetime, time
 
 TRIGGER_PIN = 20    # Define GPIO pin constants. 
 ECHO_PIN = 21
-temperature = 24.18
-speed_of_sound = 331.50 + 0.606681 * temperature
 # # Initialise Sensor with pins, speed of sound.  
 samples = 5  # # Measure Distance 5 times, return average.
 
+#センサーからデータ収集するプログラムを実装
+#I2C、SPIなどを使ってデータキャプチャ
+temperature = None
+pressure = None
+humid = None
+i2c_address = 0x76 #ケース内温度
+try:
+    temperature, pressure, humid = bmeRead(i2c_address)
+except IOError as e:
+    logger.info("デバイスが見つかりません　：" + str(e))
+    #sys.exit(False)
+#temperature = 24.18
+speed_of_sound = 331.50 + 0.606681 * temperature
 
 @retry(tries=3)
 def depth_measure_retry_3():
