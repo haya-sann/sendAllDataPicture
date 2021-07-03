@@ -31,10 +31,11 @@ samples = 5  # # Measure Distance 5 times, return average.
 @retry(tries=3)
 def depth_measure_retry_3(temperature):
     dt_now = datetime.datetime.now()
-    # speed_of_sound = 331.50 + 0.606681 * temperature
-    speed_of_sound = 315 #this is sample code shown in bluetin.py
+    speed_of_sound = 331.50 + 0.606681 * temperature
+    # speed_of_sound = 315 #this is sample code shown in bluetin.py
     echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound) 
     depth_result =  102.717 - echo.read('cm', samples) #実際の水高を求める
+    #ここで使う初期値を現場に合わせて修正
     print(dt_now, depth_result)  # Print result.  
     if -5 > depth_result or depth_result > 80:  
         print("Out of range")  # Print exception.  
