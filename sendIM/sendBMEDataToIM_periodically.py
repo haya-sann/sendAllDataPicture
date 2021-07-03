@@ -76,14 +76,15 @@ import picamera
 localFile_name = None
 # pictureResolution_h = 640
 # pictureResolution_v = 480
-pictureResolution_h = 1920
-pictureResolution_v = 1080
+# pictureResolution_h = 1920
+# pictureResolution_v = 1080
+pictureResolution = (1280, 720)
 pictureBrightness =55
 pictureContrast = 10
 # pictureBrightness =55
 # pictureContrast = 10
 pictureSharpness = 20
-pictureBanner = "テスト撮影です。1920"
+pictureBanner = "Test Shooting。1920"
 
 v0=v1=soil1=soil2=soil_temp=0.0
 temperature = 28.55 #川越の8月の平均温度。取得できないときはこれを使う
