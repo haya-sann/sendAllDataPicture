@@ -8,6 +8,8 @@
 #todo:マシンのIPアドレスを見て、データの送り先を本番か、サンドボックスかに切替える#これはrc.localで面倒を見るので不要
 #このプログラムはpython3系向け。2to3で書き換えた
 #$ 2to3-3.6 -w ~/sendBMEDataToIM_periodically.py --write ~/sendBMEDataToIM_periodically.py
+#テストのために画像を小さくした
+#as of 2021/07/15
 
 '''稼働時間設定'''
 hourToBegin = 7 #カメラを動作開始させる時刻
@@ -74,12 +76,12 @@ from ftps import send_ftps
 import picamera
 #カメラ撮影準備
 localFile_name = None
-# pictureResolution_h = 640
-# pictureResolution_v = 480
+pictureResolution_h = 640
+pictureResolution_v = 480
 # pictureResolution_h = 1920
 # pictureResolution_v = 1080
-pictureResolution_h = 1280
-pictureResolution_v = 720
+# pictureResolution_h = 1280
+# pictureResolution_v = 720
 pictureBrightness =55
 pictureContrast = 10
 # pictureBrightness =55
