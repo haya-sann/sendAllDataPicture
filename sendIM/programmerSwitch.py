@@ -7,5 +7,3 @@
 # 
 # 
 programmerSwitch = "on"
-
-
