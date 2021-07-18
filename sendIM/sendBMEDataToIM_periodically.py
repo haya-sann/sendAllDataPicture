@@ -20,7 +20,7 @@ everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値を
 import sys, os, getpass
 import pprint
 import fileinput
-import debugControl.py
+import debugControl
 
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
 #homeDirectory = os.environ['HOME']
