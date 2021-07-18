@@ -20,7 +20,7 @@ everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値を
 import sys, os, getpass
 import pprint
 import fileinput
-import programmerSwitch.py
+import debugControl.py
 
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
 #homeDirectory = os.environ['HOME']
@@ -536,7 +536,7 @@ except Exception as error:
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(GPIO_NO, GPIO.IN)
 
-if GPIO.input(GPIO_NO) == 0 and programmerSwitch == "off":
+if GPIO.input(GPIO_NO) == 0 and debugControl.programmerSwitch == "off":
     logger.info("Program switch is OFF")
     try:
         sendPowerCommand()
