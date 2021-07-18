@@ -167,7 +167,7 @@ gpio -g mode $PORT1 in
 PORT2=24 #GPIO24=Pin18
 gpio -g mode $PORT2 out
 
-switch=`grep programmerSwitch\ =\ \"on\"  /home/pi/Documents/field_location/sendAllDataPicture/se$
+switch=`grep programmerSwitch\ =\ \"on\"  /home/pi/Documents/field_location/sendAllDataPicture/seendIM/debugControl.py`
 
 if [ $? -eq 0 -o `gpio -g read $PORT1` -eq 1 ] ; then #シングルクオートの``が大切
 #grepコマンドを実行した後、すぐに判定しないと$?が正しく動作しない
