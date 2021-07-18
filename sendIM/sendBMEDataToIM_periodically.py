@@ -489,7 +489,8 @@ to_addr = "haya.biz@gmail.com"
 subject = "田んぼカメラから：" + specialMailSubject + DEPLOY_SWITCH
 body = alertMailMessage + "\n\n" + """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
-
+programmerSwitchは""" + programmerSwitch 
+"""
 スライドショーはこちら：
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
 
@@ -553,8 +554,3 @@ if GPIO.input(GPIO_NO) == 0 and programmerSwitch == "off":
 
 else:
     logger.info("Programmer switch is ON. Continue to proceed\n")
-    file_name = currentDirectory + "/programmerSwitch.py"
-    with fileinput.FileInput(file_name, inplace=True) as f:
-        for line in f:
-            print(line.replace("programmerSwitch = \"on\"", "programmerSwitch = \"off\""), end="")
-
