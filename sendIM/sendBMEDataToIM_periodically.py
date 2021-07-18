@@ -554,7 +554,7 @@ if GPIO.input(GPIO_NO) == 0 and programmerSwitch == "off":
 else:
     logger.info("Programmer switch is ON. Continue to proceed\n")
     file_name = currentDirectory + "/programmerSwitch.py"
-    with fileinput.FileInput(file_name, inplace=True, backup=".bak") as f:
+    with fileinput.FileInput(file_name, inplace=True) as f:
         for line in f:
             print(line.replace("programmerSwitch = \"on\"", "programmerSwitch = \"off\""), end="")
 
