@@ -489,7 +489,7 @@ to_addr = "haya.biz@gmail.com"
 subject = "田んぼカメラから：" + specialMailSubject + DEPLOY_SWITCH
 body = alertMailMessage + "\n\n" + """ログデータを送ります。これは詳細なログです。
 ログはconsoleアプリで読んでください。
-programmerSwitchは""" + programmerSwitch + """
+programmerSwitchは""" + debugControl.programmerSwitch + """
 
 スライドショーはこちら：
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
