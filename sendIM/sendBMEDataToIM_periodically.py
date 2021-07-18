@@ -19,6 +19,8 @@ everyMinutes = 60 #何分おきに撮影するのかをセット。5~60の値を
 # from _typeshed import NoneType
 import sys, os, getpass
 import pprint
+import fileinput
+import programmerSwitch
 
 currentDirectory = os.path.dirname(os.path.abspath(__file__))
 #homeDirectory = os.environ['HOME']
@@ -533,7 +535,7 @@ except Exception as error:
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(GPIO_NO, GPIO.IN)
 
-if GPIO.input(GPIO_NO) == 0:
+if GPIO.input(GPIO_NO) == 0 and programmerSwitch == "off":
     logger.info("Program switch is OFF")
     try:
         sendPowerCommand()
@@ -551,3 +553,8 @@ if GPIO.input(GPIO_NO) == 0:
 
 else:
     logger.info("Programmer switch is ON. Continue to proceed\n")
+    file_name = currentDirectory + "/programmerSwitch.py"
+    with fileinput.FileInput(file_name, inplace=True, backup=".bak") as f:
+        for line in f:
+            print(line.replace("programmerSwitch = \"on\"", "programmerSwitch = \"off\""), end="")
+
