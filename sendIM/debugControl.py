@@ -6,7 +6,7 @@
 """ 
 # 
 # 
-programmerSwitch = "off"
+programmerSwitch = "on"
 
 
 
