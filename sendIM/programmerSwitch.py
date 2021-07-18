@@ -6,4 +6,4 @@
 """ 
 # 
 # 
-programmerSwitch = "off"
+programmerSwitch = "on"
