@@ -88,7 +88,7 @@ pictureContrast = 10
 # pictureContrast = 10
 pictureSharpness = 20
 shootingMode = "Test Shooting "
-pictureBanner = shootingMode + "(" + pictureResolution_h + ")"
+pictureBanner = shootingMode + "(" + str(pictureResolution_h) + ")"
 
 v0=v1=soil1=soil2=soil_temp=0.0
 temperature = 28.55 #川越の8月の平均温度。取得できないときはこれを使う
