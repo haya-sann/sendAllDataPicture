@@ -167,10 +167,10 @@ gpio -g mode $PORT1 in
 PORT2=24 #GPIO24=Pin18
 gpio -g mode $PORT2 out
 
-switch=`grep -o on /home/pi/Documents/field_location/sendAllDataPicture/sendIM/debugControl.py` #シングルクオーテーションじゃなくてバッククオート
-switch=`echo $switch | sed -e s/^programmerSwitch\ =\ \"on\"/on/`
+switch=`grep programmerSwitch\ =\ \"on\"  /home/pi/Documents/field_location/sendAllDataPicture/se$
 
-if [ `gpio -g read $PORT1` -eq 1 || $switch = "on" ] ; then #シングルクオートの``が大切
+if [ $? -eq 0 -o `gpio -g read $PORT1` -eq 1 ] ; then #シングルクオートの``が大切
+#grepコマンドを実行した後、すぐに判定しないと$?が正しく動作しない
   echo program switch is ON  | tee -a ${LOGFILE}
   gpio -g write $PORT2 1
 #   crontab < /home/pi/crontab
