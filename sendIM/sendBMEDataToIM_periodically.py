@@ -78,10 +78,10 @@ from ftps import send_ftps
 import picamera
 #カメラ撮影準備
 localFile_name = None
-pictureResolution_h = 640
-pictureResolution_v = 480
-# pictureResolution_h = 1920
-# pictureResolution_v = 1080
+# pictureResolution_h = 640
+# pictureResolution_v = 480
+pictureResolution_h = 1920
+pictureResolution_v = 1080
 # pictureResolution_h = 1280
 # pictureResolution_v = 720
 pictureBrightness =55
