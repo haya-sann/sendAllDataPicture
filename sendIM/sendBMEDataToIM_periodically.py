@@ -369,7 +369,7 @@ try:
 except Exception as measureLightError:
     logger.debug("Error occured in measureLight: " + str(measureLightError))
 
-values = [None]*4
+#values = [None]*4
 read4ch(values)
 logger.info('| {0:>6,.2f} | {1:>6,.2f} | {2:>6,.2f} | {3:>6,.2f} |'.format(*values))
 v0=values[0]
