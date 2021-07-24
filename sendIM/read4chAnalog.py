@@ -33,7 +33,7 @@ adc = Adafruit_ADS1x15.ADS1015()
 GAIN = 1
 
 # Read all the ADC channel values in a list.
-values = [0.0]*4
+values = [None]*4
 def read4ch(values):
     try:
         for i in range(4):
