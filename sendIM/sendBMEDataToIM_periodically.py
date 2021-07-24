@@ -92,7 +92,7 @@ pictureSharpness = 20
 shootingMode = "Test Shooting "
 pictureBanner = shootingMode + "(" + str(pictureResolution_h) + ")"
 
-v0=v1=soil1=soil2=soil_temp=0.0
+v0=v1=soil1=soil2=soil_temp= None #取得できない場合はNoneをセット
 temperature = 28.55 #川越の8月の平均温度。取得できないときはこれを使う
 pressure = None
 humid = None
