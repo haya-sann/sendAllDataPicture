@@ -223,7 +223,7 @@ else:
 def captureSensorData(i2c_address):
     #センサーからデータ収集するプログラムを実装
     #I2C、SPIなどを使ってデータキャプチャ
-    temperature = 28.55 #川越の8月の平均温度。取得できないときはこれを使う
+    temperature = 28.55 #川越の8月の平均温度。取得できないときはこれを使う（超音波水深計などで温度補正が必要なため）
     pressure = None
     humid = None
 
