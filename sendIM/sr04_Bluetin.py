@@ -20,8 +20,8 @@ import numpy as np
 from Bluetin_Echo import Echo # Import necessary libraries.      
 import datetime, time
 
-TRIGGER_PIN = 20    # Define GPIO pin constants. 
-ECHO_PIN = 21
+TRIGGER_PIN = 20    # Define GPIO pin constants. Pin 38
+ECHO_PIN = 21       ## GPIO pin 21 is Pin 40
 # # Initialise Sensor with pins, speed of sound.  
 samples = 5  # # Measure Distance 5 times, return average.
 

@@ -384,7 +384,7 @@ try:
 except Exception as error_soilTemperature:
     logger.debug("Error occured in measure soil temperature" + str(error_soilTemperature))
 
-averageDepth = sr04_read(temperature) # call depth measurment
+averageDepth = sr04_read(temperature) # call depth measurment. GPIO Pins are defined in sr04_Bluetin.py
 
 #Send atmosphere data to AmbiData
 try:
