@@ -41,7 +41,7 @@ def sendLog_ftps(src, put_directory):
     #        _ftps.storlines('STOR ' + logfile_name, _file)
         _ftps.storbinary('STOR ' + logfile_name, _file)
 
-        logger.info("Upload finished:" + put_directory + "/" +logfile_name +  " from " + file_name + " with no error. Will clear log file.")
+        logger.info("Upload finished:" + put_directory + "/" +logfile_name +  " from " + file_name + " normally. Will clear log file.")
 
         _file.close()
     #        _ftps.quit() ##変なエラーが起きるので、これをコメントアウト
@@ -69,7 +69,7 @@ def send_ftps(file_name, put_directory): #エラー処理 will be raise to main(
         _ftps.storbinary('STOR ' + file_name, _file)
         _file.close()
         _ftps.quit()
-        logger.info("Upload finished without any error to: /seasonShots/" + put_directory + "/" + file_name)
+        logger.info("Upload finished normally to: /seasonShots/" + put_directory + "/" + file_name)
 
     except Exception as e:
         logger.debug("send(picture)_ftps error. :" + str(e))
