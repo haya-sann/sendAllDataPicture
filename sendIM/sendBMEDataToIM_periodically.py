@@ -89,7 +89,7 @@ pictureContrast = 10
 # pictureBrightness =55
 # pictureContrast = 10
 pictureSharpness = 20
-shootingMode = "Test Shooting "
+shootingMode = " "
 pictureBanner = shootingMode + "(" + str(pictureResolution_h) + ")"
 
 v0=v1=soil1=soil2=soil_temp= None #取得できない場合はNoneをセット
