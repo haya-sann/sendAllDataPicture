@@ -1,16 +1,15 @@
 #!/bin/bash
-#これを更新してgit commit すると自動アップデートされる
-# sandBoxへの切り替えをサポートしたrc.local
+#これを更新してgit commit すると /etc/rc.local が自動アップデートされる
+# sandBoxへの切り替えをサポートした
 #Deploy時にSandBoxか、Distributionかを指定して出荷する
 #モデムのppp接続を待つようにした。2017/06/07
 #失敗したら4分後にパワーオフ、10分後にリブートするように変更
 # This script is executed at the end of each multiuser runlevel.
-#tee -a　は追記モードのこと、今回は毎回新しくログを記録する
+#tee -a　は追記モード。毎回新しくログを記録する
 
-#結構重要な変更。一晩悩んだ。
 #次に起動するプログラムにDEPLOY情報を継承する #変数代入の＝の前後の空白を入れてはいけない#
 
-#Soracomドングルを付けた環境下かどうかは自動判定する
+#Soracomドングルを付けた環境下かLAN環境かどうかは自動判定する
 
 #export DEPLOY="sandBox" #start repair survey 2019-05-29
 export DEPLOY="distribution"
