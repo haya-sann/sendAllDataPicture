@@ -3,8 +3,10 @@ sendAllDataPictureはRaspberry Pi Python プログラム
 Raspberry Pi 側に組み込んで使うデータ送信プログラム。
 指定時間になったら起動し、写真、気象データをサーバーに送り込む。
 
-メインのプログラムは：
-sendIM/sendBMEDataToIM_periodically.py
+**メインのプログラムは：**
+
+https://github.com/haya-sann/sendAllDataPicture/blob/master/sendIM/sendBMEDataToIM_periodically.py
+
 
 かわごえ里山の「田んぼカメラ」2号機のデプロイプログラム（2021/08/01再稼働）
 
