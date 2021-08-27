@@ -24,6 +24,7 @@ TRIGGER_PIN = 20    # Define GPIO pin constants. Pin 38
 ECHO_PIN = 21       ## GPIO pin 21 is Pin 40
 # # Initialise Sensor with pins, speed of sound.  
 samples = 5  # # Measure Distance 5 times, return average.
+depth_Calibration = 9.84 #この数値の算出方法。テスト時にここを0にして一度測り、その数値を採用する
 
 #センサーからデータ収集するプログラムを実装
 #I2C、SPIなどを使ってデータキャプチャ
@@ -34,7 +35,7 @@ def depth_measure_retry_3(temperature):
     speed_of_sound = 331.50 + 0.606681 * temperature
     # speed_of_sound = 315 #this is sample code shown in bluetin.py
     echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound) 
-    depth_result =  46.50 - echo.read('cm', samples) #実際の水高を求める
+    depth_result =  46.50 - depth_Calibration -  echo.read('cm', samples) #実際の水高を求める
     #ここで使う初期値を現場に合わせて修正
     print(dt_now, depth_result)  # Print result.  
     if -5 > depth_result or depth_result > 80:  
