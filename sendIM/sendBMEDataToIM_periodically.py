@@ -14,7 +14,7 @@
 '''稼働時間設定'''
 hourToBegin = 7 #カメラを動作開始させる時刻
 hourToStop = 19 #カメラを完全休止させる時刻
-everyMinutes = 30 #何分おきに撮影するのかをセット。5~60の値をセット
+everyMinutes = 10 #何分おきに撮影するのかをセット。5~60の値をセット
 
 # from _typeshed import NoneType
 import sys, os, getpass
