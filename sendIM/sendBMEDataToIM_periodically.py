@@ -247,7 +247,7 @@ def sendDataToAmbient():
         r = ambi.send(dataToAmbi)
 #        r = ambi.send({"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1}, timeout = timeout)
         if r.status_code == 200:
-            logger.info(Color.GREEN + 'successfuly sended data to Ambient' + Color.END)
+            logger.info(Color.GREEN + 'successfully sent data to Ambient' + Color.END)
         else:
             logger.info('Connection to AbmiData failed')
     except requests.exceptions.RequestException as e:
