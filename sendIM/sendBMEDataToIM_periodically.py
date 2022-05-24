@@ -242,7 +242,7 @@ def sendDataToAmbient():
     logger.info(Color.RED + 'Trying to send data to Ambient' + Color.END)
     ambi = ambient.Ambient(ambiChannel, ambiKey) # チャネルID、ライトキー
     try:
-        dataToAmbi = {{"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1, "d8": averageDepth}}
+        dataToAmbi = {"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1, "d8": averageDepth}
         print (dataToAmbi)
         r = ambi.send(dataToAmbi)
 #        r = ambi.send({"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1}, timeout = timeout)
