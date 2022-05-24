@@ -244,7 +244,7 @@ def sendDataToAmbient():
     try:
         dataToAmbi = {"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1, "d8": averageDepth}
         print (dataToAmbi)
-        logger.info("Data for Ambient : " + dataToAmbi)
+        # logger.info("Data for Ambient : " + dataToAmbi) #ストリングスに行列は結合できない
         r = ambi.send(dataToAmbi)
 #        r = ambi.send({"d1": cpu_temp, "d2": temperature, "d3": pressure, "d4": humid, "d5": lightLevel, "d6": v0, "d7": v1}, timeout = timeout)
         if r.status_code == 200:
