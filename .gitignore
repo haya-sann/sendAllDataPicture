@@ -4,3 +4,4 @@ config.conf
 test/
 PowerOnTest*
 test*
+.DS_Store
