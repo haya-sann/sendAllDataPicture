@@ -35,7 +35,7 @@ def depth_measure_retry_3(temperature):
     speed_of_sound = 331.50 + 0.606681 * temperature
     # speed_of_sound = 315 #this is sample code shown in bluetin.py
     echo = Echo(TRIGGER_PIN, ECHO_PIN, speed_of_sound) 
-    depth_result =  46.50 - depth_Calibration -  echo.read('cm', samples) #実際の水高を求める
+    depth_result =  54.50 - depth_Calibration -  echo.read('cm', samples) #実際の水高を求める
     #ここで使う初期値を現場に合わせて修正
     print(dt_now, depth_result)  # Print result.  
     if -5 > depth_result or depth_result > 80:  
