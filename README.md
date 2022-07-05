@@ -36,3 +36,8 @@ https://ciao-kawagoesatoyama.ssl-lolipop.jp/seasonShots/dailySlideShow_v7.php
 https://ciao-kawagoesatoyama.ssl-lolipop.jp/IM/index.html
 ）
 > Written with [StackEdit](https://stackedit.io/).
+
+
+ライセンスはオープンソースのMITライセンスとします。
+「改変でも、再配布でも、商用利用でも、有料販売でも、どんなことにでも自由に無料で使うことができます」
+
