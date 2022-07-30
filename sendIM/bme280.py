@@ -196,7 +196,7 @@ if __name__ == '__main__':
 		print ('')
 		temperature, pressure,humid = bmeRead(i2c_address)
 		print ("temp : %-6.2f ℃" % (temperature) )
-		print ("from main program; pressure : %7.2f hPa" % (pressure/100))
+		print ("from main program; pressure : %7.2f hPa" % (pressure))
 		print ("hum : %6.2f ％" % (humid))
 
 	except KeyboardInterrupt:
