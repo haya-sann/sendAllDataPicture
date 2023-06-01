@@ -3,6 +3,20 @@ sendAllDataPictureはRaspberry Pi Python プログラム
 Raspberry Pi 側に組み込んで使うデータ送信プログラム。
 指定時間（毎正時：変更可）になったら起動し、写真、気象データをサーバーに送り込む。
 
+**事前準備**
+
+- pip install retry #リトライ実行のライブラリ
+	rootユーザーも使えるように $ sudo pip install retry
+- Raspberry Pi OSにはRAM Disk化などの事前準備を行う
+
+**システム概要**
+
+ - 林製作の電源コントロール基板をつかって、定時の動作起動、動作終了後には電源をオフにする。
+ 
+ 	***使い方***
+	$ sudo /usr/sbin/i2cset -y 1 0x40 30 2 i #30秒後にシャットダウン、10分後に起動
+	$ sudo poweroff
+
  - Raspberry Piにカメラ、温度・湿度・気圧（内・外）、水深、土中温度、土中湿度、日照センサーをつなぎ、データ取得
  - 専用回線（3G、LTE）を使いSoracomにデータ送信
 	 - これによりセキュリティ確保
