@@ -187,7 +187,7 @@ file_name = "previous_boot.log"
 src = homeDirectory +'/log/' + file_name
 if os.path.isfile(src):
     try:
-        _timeStamp = sendLog_ftps(src, put_directory)
+        _timeStamp = sendLog_ftps(src, put_directory + "/log")
         logger.info(_timeStamp)
 
         #log送信正常終了なので、中身をクリアする
@@ -199,7 +199,7 @@ if os.path.isfile(src):
             logger.debug("sendLog_ftps error. :" + str(e))
 
 logger.info("公開先は：" + DEPLOY_SWITCH)
-logger.info("資料の保存先は：" + put_directory)
+logger.info("資料の保存先は：" + put_directory + "/log")
 
 #update rc.local when needed. 2021/06/17
 updateSwitch = os.getenv('rcLocalUpdate_switch')
@@ -451,7 +451,7 @@ file_name = "field_location.log"
 src = '/var/log/' + file_name
 if os.path.isfile(src):
     try:
-        _timeStamp = sendLog_ftps(src, put_directory)
+        _timeStamp = sendLog_ftps(src, put_directory + "/log")
 
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
@@ -468,7 +468,7 @@ file_name = "previous_field_location.log"
 src = '/var/log/' + file_name
 if os.path.isfile(src):
     try:
-        _timeStamp = sendLog_ftps(src, put_directory)
+        _timeStamp = sendLog_ftps(src, put_directory + "/log")
 
         #log送信正常終了なので、中身をクリアする
         with codecs.open('/var/log/' + file_name, 'w', 'utf_8_sig') as f:
@@ -481,7 +481,7 @@ if os.path.isfile(src):
 
 file_name = "/var/log/boot.log"
 try:
-    _timeStamp = sendLog_ftps(file_name, put_directory)
+    _timeStamp = sendLog_ftps(file_name, put_directory + "/log")
     logger.info(_timeStamp)
 
 except Exception as e:
